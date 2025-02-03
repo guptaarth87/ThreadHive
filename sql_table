@@ -1,0 +1,124 @@
+CREATE TABLE `channel` (
+  `id` bigint PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `created_at` timestamp NOT NULL,
+  `modified_at` timestamp,
+  `deleted_at` timestamp,
+  `is_deleted` boolean NOT NULL
+);
+
+CREATE TABLE `users` (
+  `id` bigint PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(500) NOT NULL,
+  `role` ENUM ('ADMIN', 'SUPERADMIN', 'USER') NOT NULL,
+  `created_at` timestamp NOT NULL,
+  `dob` date NOT NULL,
+  `modified_at` timestamp,
+  `deleted_at` timestamp,
+  `is_deleted` boolean NOT NULL
+);
+
+CREATE TABLE `users_channel_mapping` (
+  `id` bigint PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `user_id` bigint NOT NULL,
+  `channel_id` bigint NOT NULL
+);
+
+CREATE TABLE `posts` (
+  `id` bigint PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL,
+  `description` varchar(800) NOT NULL,
+  `created_at` timestamp NOT NULL,
+  `modified_at` timestamp,
+  `deleted_at` timestamp,
+  `is_deleted` boolean NOT NULL,
+  `created_by` bigint NOT NULL,
+  `modified_by` bigint NOT NULL,
+  `channel_id` bigint NOT NULL
+);
+
+CREATE TABLE `comments` (
+  `id` bigint PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `description` varchar(800) NOT NULL,
+  `created_at` timestamp NOT NULL,
+  `modified_at` timestamp,
+  `deleted_at` timestamp,
+  `is_deleted` boolean NOT NULL,
+  `modified_by` bigint NOT NULL,
+  `created_by` bigint NOT NULL,
+  `post_id` bigint NOT NULL,
+  `channel_id` bigint NOT NULL
+);
+
+CREATE TABLE `replies` (
+  `id` bigint PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `description` varchar(800) NOT NULL,
+  `created_at` timestamp NOT NULL,
+  `modified_at` timestamp,
+  `deleted_at` timestamp,
+  `is_deleted` boolean NOT NULL,
+  `created_by` bigint NOT NULL,
+  `modified_by` bigint NOT NULL,
+  `post_id` bigint NOT NULL,
+  `comment_id` bigint NOT NULL,
+  `channel_id` bigint NOT NULL
+);
+
+CREATE TABLE `likes` (
+  `id` bigint PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `type` ENUM ('POST', 'COMMENT', 'REPLY') NOT NULL,
+  `type_id` bigint NOT NULL,
+  `liked_by` bigint NOT NULL,
+  `count` bigint NOT NULL,
+  `post_id` bigint NOT NULL,
+  `channel_id` bigint NOT NULL
+);
+
+CREATE TABLE `activities` (
+  `id` bigint PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `activity` varchar(500) NOT NULL,
+  `created_at` timestamp NOT NULL,
+  `action_by` bigint NOT NULL,
+  `additional_data` JSON,
+  `channel_id` bigint NOT NULL
+);
+
+ALTER TABLE `posts` ADD FOREIGN KEY (`channel_id`) REFERENCES `channel` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `comments` ADD FOREIGN KEY (`channel_id`) REFERENCES `channel` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `replies` ADD FOREIGN KEY (`channel_id`) REFERENCES `channel` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `users_channel_mapping` ADD FOREIGN KEY (`channel_id`) REFERENCES `channel` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `activities` ADD FOREIGN KEY (`channel_id`) REFERENCES `channel` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `posts` ADD FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `users_channel_mapping` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `comments` ADD FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `replies` ADD FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `likes` ADD FOREIGN KEY (`liked_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `posts` ADD FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `comments` ADD FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `replies` ADD FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `activities` ADD FOREIGN KEY (`action_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `comments` ADD FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `replies` ADD FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `likes` ADD FOREIGN KEY (`channel_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `likes` ADD FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `replies` ADD FOREIGN KEY (`comment_id`) REFERENCES `comments` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;

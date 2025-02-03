@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+   
+    /* Language and Environment */
+    "target": "es2021",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+   
+    /* Modules */
+    "module": "commonjs",                                /* Specify what module code is generated. */
+    
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    /* Type Checking */
+    "strict": true,                                      /* Enable all strict type-checking options. */
+    "outDir": "./dist",                  // Output directory for compiled files
+    "rootDir": "./src",                  // Root directory of source files
+    "skipLibCheck": true                 // Skip type-checking of declaration files
+  },
+  "include": ["src"],                    // Include all files in the "src" folder
+  "exclude": ["node_modules", "dist"]                              /* Skip type checking all .d.ts files. */
+  
+}

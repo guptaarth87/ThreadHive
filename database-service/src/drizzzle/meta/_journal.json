@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1738302079669,
+      "tag": "0000_lush_scream",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1738302429402,
+      "tag": "0001_wooden_robin_chapel",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1738307538701,
+      "tag": "0002_late_inhumans",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1738318844157,
+      "tag": "0003_yummy_puff_adder",
+      "breakpoints": true
+    }
+  ]
+}
