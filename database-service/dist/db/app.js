@@ -1,17 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const schema_1 = require("./schema");
+const index_1 = require("../schema/index");
 exports.default = {
-    users: schema_1.users,
-    posts: schema_1.posts,
-    comments: schema_1.comments,
-    likes: schema_1.likes,
-    channels: schema_1.channels,
-    replies: schema_1.replies,
-    activities: schema_1.activities,
-    usersChannelMapping: schema_1.usersChannelMapping,
-    usersRelations: schema_1.usersRelations,
-    postsRelations: schema_1.postsRelations,
-    commentsRelations: schema_1.commentsRelations
+    users: index_1.users,
+    posts: index_1.posts,
+    comments: index_1.comments,
+    likes: index_1.likes,
+    channels: index_1.channels,
+    replies: index_1.replies,
+    activities: index_1.activities,
+    usersChannelMapping: index_1.usersChannelMapping,
+    usersRelations: index_1.usersRelations,
+    postsRelations: index_1.postsRelations,
+    commentsRelations: index_1.commentsRelations
 };
 //# sourceMappingURL=app.js.map

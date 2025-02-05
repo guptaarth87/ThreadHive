@@ -4,7 +4,7 @@ import 'dotenv/config'
 export default defineConfig({
   dialect: "mysql",
   out: "./src/drizzzle",
-  schema:  "./src/db/schema.ts",
+  schema:  "./src/schema",
   dbCredentials: {
     host: "localhost",
     port: 3306,

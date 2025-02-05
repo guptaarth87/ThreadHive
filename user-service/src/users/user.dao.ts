@@ -1,20 +1,17 @@
 import { eq } from 'drizzle-orm';
-import { users } from 'database-service/dist'; // Ensure correct import
+import { activities, users, usersChannelMapping } from 'database-service/dist'; // Ensure correct import
 import { db } from 'database-service/dist';
 
 import * as bcrypt from 'bcryptjs';
-import { CreateUserInput } from './dtos/CreateInput.dto';
-import { UserResponseDto } from './dtos/Response.dto';
-import { DeleteUserInput } from './dtos/DeleteInput.dto';
-import { UpdateUserInput } from './dtos/UpdateInput.dto';
+import { CreateUserInput } from './dtos/createInput.dto';
+import { UserResponseDto } from './dtos/response.dto';
+import { DeleteUserInput } from './dtos/deleteInput.dto';
+import { UpdateUserInput } from './dtos/updateInput.dto';
+import { UnauthorizedException } from '@nestjs/common';
 
 
 export class UserDao {
-  formatDateForMySQL(dateStr : string): string {
-    const [day, month, year] = dateStr.split('-');
-    const date = new Date(`${year}-${month}-${day}`);
-    return date.toISOString().split('T')[0]; // Returns YYYY-MM-DD
-  }
+  
  
   async createUserDao(input: CreateUserInput) {
     console.log("in create block")
@@ -32,6 +29,7 @@ export class UserDao {
     };
     const newUser = await db.insert(users).values(dataObj); // .returning() returns inserted row(s)
     if(newUser[0].affectedRows !=0){
+     
       return "ok done with status 200";
     }else{
       throw new Error("Check your data")
@@ -65,7 +63,16 @@ export class UserDao {
     }
   }
 
-  async deleteUserDao(input: DeleteUserInput):Promise<string>{
+  async deleteUserDao(input: DeleteUserInput,role: string, channels?: [bigint]):Promise<string>{
+    
+    const {id} = input
+    const userChannel =await db.select({"channelId": usersChannelMapping.channelId}).from(usersChannelMapping).where(eq(usersChannelMapping.userId, id))
+    const userBelongsToChannel = userChannel[0].channelId
+    if(role=='ADMIN' && !channels?.includes(userBelongsToChannel)) {
+         throw new UnauthorizedException(
+                 `You dont have rights to this channel of id ${userBelongsToChannel}`
+    );
+    }else{
     try{
       const {id} = input
      const response = await db.delete(users).where(eq(users.id, id));
@@ -78,6 +85,7 @@ export class UserDao {
      }
     }catch(error){
       throw new Error(`error in db with mesage -> ${error}`)
+    }
     }
   }
  

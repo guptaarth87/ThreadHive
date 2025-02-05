@@ -15,10 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersResolver = void 0;
 const graphql_1 = require("@nestjs/graphql");
 const user_service_1 = require("./user.service");
-const Response_dto_1 = require("./dtos/Response.dto");
-const CreateInput_dto_1 = require("./dtos/CreateInput.dto");
-const DeleteInput_dto_1 = require("./dtos/DeleteInput.dto");
-const UpdateInput_dto_1 = require("./dtos/UpdateInput.dto");
+const response_dto_1 = require("./dtos/response.dto");
+const createInput_dto_1 = require("./dtos/createInput.dto");
+const deleteInput_dto_1 = require("./dtos/deleteInput.dto");
+const updateInput_dto_1 = require("./dtos/updateInput.dto");
+const statsResponse_dto_1 = require("./dtos/statsResponse.dto");
+const statsInput_dto_1 = require("./dtos/statsInput.dto");
 let UsersResolver = class UsersResolver {
     constructor(usersService) {
         this.usersService = usersService;
@@ -28,6 +30,9 @@ let UsersResolver = class UsersResolver {
     }
     async getUserByEmail(email) {
         return this.usersService.findUserByEmail(email);
+    }
+    async getUserStats(input) {
+        return this.usersService.getUserStats(input);
     }
     async createUser(input) {
         return this.usersService.createUser(input);
@@ -41,37 +46,44 @@ let UsersResolver = class UsersResolver {
 };
 exports.UsersResolver = UsersResolver;
 __decorate([
-    (0, graphql_1.Query)(() => [Response_dto_1.UserResponseDto]),
+    (0, graphql_1.Query)(() => [response_dto_1.UserResponseDto]),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UsersResolver.prototype, "getUsers", null);
 __decorate([
-    (0, graphql_1.Query)(() => [Response_dto_1.UserResponseDto]),
+    (0, graphql_1.Query)(() => [response_dto_1.UserResponseDto]),
     __param(0, (0, graphql_1.Args)('email')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UsersResolver.prototype, "getUserByEmail", null);
 __decorate([
+    (0, graphql_1.Query)(() => [statsResponse_dto_1.StatsResponseDto]),
+    __param(0, (0, graphql_1.Args)('input')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [statsInput_dto_1.StatsUserInput]),
+    __metadata("design:returntype", Promise)
+], UsersResolver.prototype, "getUserStats", null);
+__decorate([
     (0, graphql_1.Mutation)(() => String),
     __param(0, (0, graphql_1.Args)('input')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [CreateInput_dto_1.CreateUserInput]),
+    __metadata("design:paramtypes", [createInput_dto_1.CreateUserInput]),
     __metadata("design:returntype", Promise)
 ], UsersResolver.prototype, "createUser", null);
 __decorate([
     (0, graphql_1.Mutation)(() => String),
     __param(0, (0, graphql_1.Args)('input')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [DeleteInput_dto_1.DeleteUserInput]),
+    __metadata("design:paramtypes", [deleteInput_dto_1.DeleteUserInput]),
     __metadata("design:returntype", Promise)
 ], UsersResolver.prototype, "deleteUser", null);
 __decorate([
     (0, graphql_1.Mutation)(() => String),
     __param(0, (0, graphql_1.Args)('input')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [UpdateInput_dto_1.UpdateUserInput]),
+    __metadata("design:paramtypes", [updateInput_dto_1.UpdateUserInput]),
     __metadata("design:returntype", Promise)
 ], UsersResolver.prototype, "updateUser", null);
 exports.UsersResolver = UsersResolver = __decorate([

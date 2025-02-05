@@ -175,3 +175,10 @@ export declare const users: import("drizzle-orm/mysql-core").MySqlTableWithColum
     };
     dialect: "mysql";
 }>;
+export declare const usersRelations: import("drizzle-orm").Relations<"users", {
+    posts: import("drizzle-orm").Many<"posts">;
+    comments: import("drizzle-orm").Many<"comments">;
+    replies: import("drizzle-orm").Many<"replies">;
+    activities: import("drizzle-orm").Many<"activities">;
+    channels: import("drizzle-orm").Many<"users_channel_mapping">;
+}>;

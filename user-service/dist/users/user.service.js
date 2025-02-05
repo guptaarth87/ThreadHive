@@ -12,15 +12,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const user_dao_1 = require("./user.dao");
+const userStats_dao_1 = require("./userStats.dao");
 let UsersService = class UsersService {
-    constructor(userDao) {
+    constructor(userDao, userStatsDao) {
         this.userDao = userDao;
+        this.userStatsDao = userStatsDao;
     } // Inject `UserDao`
     async createUser(input) {
         return this.userDao.createUserDao(input);
     }
     async findUserByEmail(email) {
         return this.userDao.findUserByEmailDao(email);
+    }
+    async getUserStats(input) {
+        return this.userStatsDao.getUserPostStats(input);
     }
     async getUsers() {
         return this.userDao.getUsersDao();
@@ -35,5 +40,6 @@ let UsersService = class UsersService {
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [user_dao_1.UserDao])
+    __metadata("design:paramtypes", [user_dao_1.UserDao,
+        userStats_dao_1.userStatsDao])
 ], UsersService);

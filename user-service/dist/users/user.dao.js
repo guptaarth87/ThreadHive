@@ -94,6 +94,7 @@ class UserDao {
                 updated_data['role'] = role;
             if (dob !== undefined)
                 updated_data['dob'] = dob;
+            updated_data['modifiedAt'] = new Date();
             // Save the updated user
             const response = await dist_2.db.update(dist_1.users).set(updated_data).where((0, drizzle_orm_1.eq)(dist_1.users.id, id));
             if (response[0].affectedRows != 0) {

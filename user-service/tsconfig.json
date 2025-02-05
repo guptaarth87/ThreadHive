@@ -13,7 +13,9 @@
     "strict": true,                                      /* Enable all strict type-checking options. */
     "outDir": "./dist",                  // Output directory for compiled files
     "rootDir": "./src",                  // Root directory of source files
-    "skipLibCheck": true                 // Skip type-checking of declaration files
+    "skipLibCheck": true  ,               // Skip type-checking of declaration files
+    
+    
   },
   "include": ["src"],                    // Include all files in the "src" folder
   "exclude": ["node_modules", "dist"]                              /* Skip type checking all .d.ts files. */

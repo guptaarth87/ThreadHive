@@ -1,7 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.users = void 0;
+exports.usersRelations = exports.users = void 0;
 const mysql_core_1 = require("drizzle-orm/mysql-core");
+const drizzle_orm_1 = require("drizzle-orm");
+const postSchema_1 = require("./postSchema");
+const commentSchema_1 = require("./commentSchema");
+const replySchema_1 = require("./replySchema");
+const userChannelMappingSchema_1 = require("./userChannelMappingSchema");
+const activitySchema_1 = require("./activitySchema");
 exports.users = (0, mysql_core_1.mysqlTable)('users', {
     id: (0, mysql_core_1.bigint)('id', { mode: 'bigint' }).primaryKey().autoincrement(),
     name: (0, mysql_core_1.varchar)('name', { length: 100 }).notNull(),
@@ -14,4 +20,11 @@ exports.users = (0, mysql_core_1.mysqlTable)('users', {
     deleted_at: (0, mysql_core_1.timestamp)('deleted_at'),
     isDeleted: (0, mysql_core_1.boolean)('is_deleted').notNull(),
 });
+exports.usersRelations = (0, drizzle_orm_1.relations)(exports.users, ({ many }) => ({
+    posts: many(postSchema_1.posts),
+    comments: many(commentSchema_1.comments),
+    replies: many(replySchema_1.replies),
+    activities: many(activitySchema_1.activities),
+    channels: many(userChannelMappingSchema_1.usersChannelMapping),
+}));
 //# sourceMappingURL=userSchema.js.map

@@ -11,13 +11,14 @@ const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
 const user_resolver_1 = require("./user.resolver");
 const user_dao_1 = require("./user.dao");
+const userStats_dao_1 = require("./userStats.dao");
 // import { BigIntScalar } from 'database-service/dist'; // Import BigIntScalar if using it here
 let UsersModule = class UsersModule {
 };
 exports.UsersModule = UsersModule;
 exports.UsersModule = UsersModule = __decorate([
     (0, common_1.Module)({
-        providers: [user_service_1.UsersService, user_resolver_1.UsersResolver, user_dao_1.UserDao], // Register BigIntScalar here if needed
+        providers: [user_service_1.UsersService, user_resolver_1.UsersResolver, user_dao_1.UserDao, userStats_dao_1.userStatsDao], // Register BigIntScalar here if needed
         exports: [user_service_1.UsersService],
     })
 ], UsersModule);

@@ -15,7 +15,8 @@
     "rootDir": "./src",                  // Root directory of source files
     "skipLibCheck": true                 // Skip type-checking of declaration files
   },
-  "include": ["src"],                    // Include all files in the "src" folder
+  "include": ["src"],
+  // "include": ["src", "../user-service/gaurds/authgaurd.ts"],                    // Include all files in the "src" folder
   "exclude": ["node_modules", "dist"]                              /* Skip type checking all .d.ts files. */
   
 }

@@ -10,7 +10,7 @@
     "@jridgewell/gen-mapping" "^0.3.5"
     "@jridgewell/trace-mapping" "^0.3.24"
 
-"@apollo/cache-control-types@^1.0.3":
+"@apollo/cache-control-types@^1.0.2", "@apollo/cache-control-types@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@apollo/cache-control-types/-/cache-control-types-1.0.3.tgz#5da62cf64c3b4419dabfef4536b57a40c8ff0b47"
   integrity sha512-F17/vCp7QVwom9eG7ToauIKdAxpSoadsJnqIfyryLFSkLSOEqu+eC5Z3N8OXcUVStuOMcNHlyraRsA6rRICu4g==
@@ -33,6 +33,16 @@
     ts-invariant "^0.10.3"
     tslib "^2.3.0"
     zen-observable-ts "^1.2.5"
+
+"@apollo/federation-internals@^2.2.3":
+  version "2.9.3"
+  resolved "https://registry.yarnpkg.com/@apollo/federation-internals/-/federation-internals-2.9.3.tgz#c6fa913dd10c74c0e0fffd6a7b369923b2a5d665"
+  integrity sha512-r50Ykc331CZUw4TxpcqprAZOlGkbzoHEiHObUqUhQopTx8i0aXNt+0pc3nzqUAoT9OD83yJqPJV1EiZF2vCupQ==
+  dependencies:
+    "@types/uuid" "^9.0.0"
+    chalk "^4.1.0"
+    js-levenshtein "^1.1.6"
+    uuid "^9.0.0"
 
 "@apollo/protobufjs@1.2.6":
   version "1.2.6"
@@ -117,6 +127,14 @@
     node-fetch "^2.6.7"
     uuid "^9.0.0"
     whatwg-mimetype "^3.0.0"
+
+"@apollo/subgraph@2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@apollo/subgraph/-/subgraph-2.2.3.tgz#cef1fee9a705f52aac22a37a1d4f6c902c63c00e"
+  integrity sha512-y7SdZaDbRJXq6xQcwT5Xj/KR1RAV9cokKK0XcMIBGvXcUXdMVorFxX2pYGzxyiIM7y4qFsAF/L8+0G5dtrnkZw==
+  dependencies:
+    "@apollo/cache-control-types" "^1.0.2"
+    "@apollo/federation-internals" "^2.2.3"
 
 "@apollo/usage-reporting-protobuf@^4.0.0", "@apollo/usage-reporting-protobuf@^4.1.0", "@apollo/usage-reporting-protobuf@^4.1.1":
   version "4.1.1"
@@ -2089,6 +2107,11 @@
     "@types/node" "*"
     "@types/send" "*"
 
+"@types/uuid@^9.0.0":
+  version "9.0.8"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-9.0.8.tgz#7545ba4fc3c003d6c756f651f3bf163d8f0f29ba"
+  integrity sha512-jg+97EGIcY9AGHJJRaaPVgetKDsrTgbRjQ5Msgjh/DQKEFl0DtyRr/VCOyD1T2R1MNeWPK/u7JoGhlDZnKBAfA==
+
 "@types/validator@^13.11.8":
   version "13.12.2"
   resolved "https://registry.yarnpkg.com/@types/validator/-/validator-13.12.2.tgz#760329e756e18a4aab82fc502b51ebdfebbe49f5"
@@ -2740,7 +2763,7 @@ caniuse-lite@^1.0.30001687, caniuse-lite@^1.0.30001688:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001696.tgz#00c30a2fc11e3c98c25e5125418752af3ae2f49f"
   integrity sha512-pDCPkvzfa39ehJtJ+OwGT/2yvT2SbjfHhiIW2LWOAcMQ7BzwxT/XuyUp4OTOd0XFWA6BKw0JalnBHgSi5DGJBQ==
 
-chalk@^4.0.0, chalk@^4.1.2:
+chalk@^4.0.0, chalk@^4.1.0, chalk@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
   integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
@@ -3102,7 +3125,7 @@ dotenv@16.4.7, dotenv@^16.4.5, dotenv@^16.4.7:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.4.7.tgz#0e20c5b82950140aa99be360a8a5f52335f53c26"
   integrity sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==
 
-drizzle-orm@^0.38.4:
+drizzle-orm@0.38.4:
   version "0.38.4"
   resolved "https://registry.yarnpkg.com/drizzle-orm/-/drizzle-orm-0.38.4.tgz#5c2eaf8f2ea506e626ecd1971bb2751c113b3ec7"
   integrity sha512-s7/5BpLKO+WJRHspvpqTydxFob8i1vo2rEx4pY6TGY7QSMuUfWUuzaY0DIpXCkgHOo37BaFC+SJQb99dDUXT3Q==
@@ -4589,6 +4612,11 @@ jackspeak@^3.1.2:
     "@isaacs/cliui" "^8.0.2"
   optionalDependencies:
     "@pkgjs/parseargs" "^0.11.0"
+
+js-levenshtein@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/js-levenshtein/-/js-levenshtein-1.1.6.tgz#c6cee58eb3550372df8deb85fad5ce66ce01d59d"
+  integrity sha512-X2BB11YZtrRqY4EnQcLX5Rh373zbK4alC1FW7D7MBhL2gtcC17cTnr6DmfHZeS0s2rTHjUTMMHfG7gO8SSdw+g==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"

@@ -5,9 +5,11 @@ import { CreatePostInput } from './dtos/createPostInput.dto';
 import { PostResponseDto } from './dtos/postResponse.dto';
 import { DeletePostInput } from './dtos/deletePostInput.dto';
 import { UpdatePostInput } from './dtos/updatePostInput.dto';
+import { Injectable } from '@nestjs/common';
 
 
 
+@Injectable()
 export class PostDao {
  
  

@@ -87,30 +87,6 @@ export declare const activities: import("drizzle-orm/mysql-core").MySqlTableWith
             identity: undefined;
             generated: undefined;
         }, {}, {}>;
-        channelId: import("drizzle-orm/mysql-core").MySqlColumn<{
-            name: "channel_id";
-            tableName: "activities";
-            dataType: "bigint";
-            columnType: "MySqlBigInt64";
-            data: bigint;
-            driverParam: string;
-            notNull: true;
-            hasDefault: false;
-            isPrimaryKey: false;
-            isAutoincrement: false;
-            hasRuntimeDefault: false;
-            enumValues: undefined;
-            baseColumn: never;
-            identity: undefined;
-            generated: undefined;
-        }, {}, {}>;
     };
     dialect: "mysql";
-}>;
-export declare const usersRelations: import("drizzle-orm").Relations<"users", {
-    posts: import("drizzle-orm").Many<"posts">;
-    comments: import("drizzle-orm").Many<"comments">;
-    replies: import("drizzle-orm").Many<"replies">;
-    activities: import("drizzle-orm").Many<"activities">;
-    channels: import("drizzle-orm").Many<"users_channel_mapping">;
 }>;

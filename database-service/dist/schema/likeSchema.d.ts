@@ -24,14 +24,14 @@ export declare const likes: import("drizzle-orm/mysql-core").MySqlTableWithColum
             tableName: "likes";
             dataType: "string";
             columnType: "MySqlEnumColumn";
-            data: "post" | "comment" | "reply";
+            data: "POST" | "COMMENT" | "REPLY";
             driverParam: string;
             notNull: true;
             hasDefault: false;
             isPrimaryKey: false;
             isAutoincrement: false;
             hasRuntimeDefault: false;
-            enumValues: ["post", "comment", "reply"];
+            enumValues: ["POST", "COMMENT", "REPLY"];
             baseColumn: never;
             identity: undefined;
             generated: undefined;
@@ -73,10 +73,10 @@ export declare const likes: import("drizzle-orm/mysql-core").MySqlTableWithColum
         count: import("drizzle-orm/mysql-core").MySqlColumn<{
             name: "count";
             tableName: "likes";
-            dataType: "bigint";
-            columnType: "MySqlBigInt64";
-            data: bigint;
-            driverParam: string;
+            dataType: "number";
+            columnType: "MySqlInt";
+            data: number;
+            driverParam: string | number;
             notNull: true;
             hasDefault: false;
             isPrimaryKey: false;
@@ -113,6 +113,23 @@ export declare const likes: import("drizzle-orm/mysql-core").MySqlTableWithColum
             driverParam: string;
             notNull: true;
             hasDefault: false;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: undefined;
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
+        createdAt: import("drizzle-orm/mysql-core").MySqlColumn<{
+            name: "created_at";
+            tableName: "likes";
+            dataType: "date";
+            columnType: "MySqlTimestamp";
+            data: Date;
+            driverParam: string | number;
+            notNull: true;
+            hasDefault: true;
             isPrimaryKey: false;
             isAutoincrement: false;
             hasRuntimeDefault: false;

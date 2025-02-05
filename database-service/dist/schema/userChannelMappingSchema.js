@@ -8,5 +8,6 @@ exports.usersChannelMapping = (0, mysql_core_1.mysqlTable)('users_channel_mappin
     id: (0, mysql_core_1.bigint)('id', { mode: 'bigint' }).primaryKey().autoincrement(),
     userId: (0, mysql_core_1.bigint)('user_id', { mode: 'bigint' }).references(() => userSchema_1.users.id, { onDelete: 'cascade' }).notNull(),
     channelId: (0, mysql_core_1.bigint)('channel_id', { mode: 'bigint' }).references(() => channelSchema_1.channels.id, { onDelete: 'cascade' }).notNull(),
+    modifiedAt: (0, mysql_core_1.timestamp)('modified_at')
 });
 //# sourceMappingURL=userChannelMappingSchema.js.map

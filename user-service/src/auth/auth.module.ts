@@ -5,6 +5,7 @@ import { AuthResolver } from './auth.resolver';
 import { UsersModule } from '../users/user.module';
 import { AuthDao } from './auth.dao';
 
+
 @Module({
   imports: [
     UsersModule,
@@ -13,6 +14,8 @@ import { AuthDao } from './auth.dao';
       signOptions: { expiresIn: '1h' },
     }),
   ],
-  providers: [AuthService, AuthResolver, AuthDao],
+  providers: [AuthService, AuthResolver, AuthDao,
+    
+  ],
 })
 export class AuthModule {}

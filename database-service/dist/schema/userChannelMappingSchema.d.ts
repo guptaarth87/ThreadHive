@@ -53,6 +53,23 @@ export declare const usersChannelMapping: import("drizzle-orm/mysql-core").MySql
             identity: undefined;
             generated: undefined;
         }, {}, {}>;
+        modifiedAt: import("drizzle-orm/mysql-core").MySqlColumn<{
+            name: "modified_at";
+            tableName: "users_channel_mapping";
+            dataType: "date";
+            columnType: "MySqlTimestamp";
+            data: Date;
+            driverParam: string | number;
+            notNull: false;
+            hasDefault: false;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: undefined;
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
     };
     dialect: "mysql";
 }>;

@@ -16,7 +16,7 @@ exports.AuthResolver = void 0;
 const graphql_1 = require("@nestjs/graphql");
 const auth_service_1 = require("./auth.service");
 const auth_response_dto_1 = require("./auth-response.dto");
-const LoginInput_dto_1 = require("../users/dtos/LoginInput.dto");
+const loginInput_dto_1 = require("../users/dtos/loginInput.dto");
 let AuthResolver = class AuthResolver {
     constructor(authService) {
         this.authService = authService;
@@ -30,7 +30,7 @@ __decorate([
     (0, graphql_1.Mutation)(() => auth_response_dto_1.AuthResponse),
     __param(0, (0, graphql_1.Args)('input')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [LoginInput_dto_1.LoginInput]),
+    __metadata("design:paramtypes", [loginInput_dto_1.LoginInput]),
     __metadata("design:returntype", Promise)
 ], AuthResolver.prototype, "login", null);
 exports.AuthResolver = AuthResolver = __decorate([
