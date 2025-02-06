@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { AuthService } from './auth.service';
-import { AuthResolver } from './auth.resolver';
-import { UsersModule } from '../users/user.module';
 import { AuthDao } from './auth.dao';
-
+import { AuthResolver } from './auth.resolver';
+import { AuthService } from './auth.service';
+import { UsersModule } from '../users/user.module';
 
 @Module({
   imports: [
@@ -14,8 +13,6 @@ import { AuthDao } from './auth.dao';
       signOptions: { expiresIn: '1h' },
     }),
   ],
-  providers: [AuthService, AuthResolver, AuthDao,
-    
-  ],
+  providers: [AuthService, AuthResolver, AuthDao],
 })
 export class AuthModule {}

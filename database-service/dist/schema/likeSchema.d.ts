@@ -24,14 +24,14 @@ export declare const likes: import("drizzle-orm/mysql-core").MySqlTableWithColum
             tableName: "likes";
             dataType: "string";
             columnType: "MySqlEnumColumn";
-            data: "POST" | "COMMENT" | "REPLY";
+            data: string;
             driverParam: string;
             notNull: true;
             hasDefault: false;
             isPrimaryKey: false;
             isAutoincrement: false;
             hasRuntimeDefault: false;
-            enumValues: ["POST", "COMMENT", "REPLY"];
+            enumValues: [string];
             baseColumn: never;
             identity: undefined;
             generated: undefined;
@@ -141,3 +141,4 @@ export declare const likes: import("drizzle-orm/mysql-core").MySqlTableWithColum
     };
     dialect: "mysql";
 }>;
+export declare const uniqueLikeConstraint: import("drizzle-orm/mysql-core").IndexBuilder;

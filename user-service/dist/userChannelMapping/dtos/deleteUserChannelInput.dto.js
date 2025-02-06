@@ -16,7 +16,7 @@ let DeleteUserChannelInput = class DeleteUserChannelInput {
 };
 exports.DeleteUserChannelInput = DeleteUserChannelInput;
 __decorate([
-    (0, graphql_1.Field)(() => dist_1.BigIntScalar),
+    (0, graphql_1.Field)(() => { return dist_1.BigIntScalar; }),
     __metadata("design:type", BigInt)
 ], DeleteUserChannelInput.prototype, "id", void 0);
 exports.DeleteUserChannelInput = DeleteUserChannelInput = __decorate([

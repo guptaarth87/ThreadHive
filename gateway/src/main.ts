@@ -1,10 +1,13 @@
 import { NestFactory } from '@nestjs/core';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter(),
+    new FastifyAdapter()
   );
   app.enableCors({
     origin: ['https://studio.apollographql.com', 'http://localhost:5000'], // Add allowed origins
@@ -15,7 +18,6 @@ async function bootstrap() {
   await app.listen(5000, '0.0.0.0');
   console.log(`Gateway is On-> running on: ${await app.getUrl()}`);
   // Set the application to listen on port 5000
-  
 }
 
 bootstrap();

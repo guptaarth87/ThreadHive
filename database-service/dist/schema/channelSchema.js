@@ -6,8 +6,8 @@ exports.channels = (0, mysql_core_1.mysqlTable)('channels', {
     id: (0, mysql_core_1.bigint)('id', { mode: 'bigint' }).primaryKey().autoincrement(),
     name: (0, mysql_core_1.varchar)('name', { length: 100 }).notNull(),
     createdAt: (0, mysql_core_1.timestamp)('created_at').notNull(),
-    modified_at: (0, mysql_core_1.timestamp)('modified_at'),
-    deleted_at: (0, mysql_core_1.timestamp)('deleted_at'),
+    modifiedAt: (0, mysql_core_1.timestamp)('modified_at'),
+    deletedAt: (0, mysql_core_1.timestamp)('deleted_at'),
     isDeleted: (0, mysql_core_1.boolean)('is_deleted').notNull(),
 });
 //# sourceMappingURL=channelSchema.js.map

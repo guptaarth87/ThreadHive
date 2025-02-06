@@ -1,46 +1,74 @@
-import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
-import { PostsService } from './post.service';
-import { PostResponseDto } from './dtos/postResponse.dto';
+import { UnauthorizedException, UseGuards } from '@nestjs/common';
+import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { AuthGuard } from '../gaurds/authGaurd.gaurds';
+import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
 import { CreatePostInput } from './dtos/createPostInput.dto';
 import { DeletePostInput } from './dtos/deletePostInput.dto';
+import { PostResponseDto } from './dtos/postResponse.dto';
 import { UpdatePostInput } from './dtos/updatePostInput.dto';
-import { AuthGuard } from '../gaurds/authGaurd.gaurds';
-import { UnauthorizedException, UseGuards } from '@nestjs/common';
-
-
+import { PostsService } from './post.service';
 
 @Resolver()
 export class PostsResolver {
   constructor(private readonly postsService: PostsService) {}
 
- 
-
-  @Query(() => [PostResponseDto])
+  @Query(() => {
+    return [PostResponseDto];
+  })
+  @UseGuards(AuthGuard)
   async getPosts(): Promise<PostResponseDto[]> {
     return this.postsService.getPosts();
   }
 
-  
-  
-  @Mutation(() => String)
-  async createpost(@Args('input') input: CreatePostInput , @Context() context: any): Promise<string> {    
-    if (context.channelsAllowed.includes(input.channelId) && context.userId == input.createdBy){
-      return this.postsService.createPost(input);
-    } else {
-      throw new UnauthorizedException(`you dont have access to this channel -> ${input.channelId}`);
-    }
-    
-  } 
-
-  @Mutation(() => String)
+  @Mutation(() => {
+    return String;
+  })
   @UseGuards(AuthGuard)
-  async deletepost(@Args('input') input: DeletePostInput): Promise<string> {
-
-    return this.postsService.deletePost(input)  // You can access `input.id` directly
+  async createpost(
+    @Args('input') input: CreatePostInput,
+    @Context() context: AuthGaurdContextDto
+  ): Promise<string> {
+    console.log(context);
+    if (
+      context.channelsAllowed.includes(input.channelId) &&
+      context.userId === input.createdBy
+    ) {
+      return this.postsService.createPost(input);
+    }
+    throw new UnauthorizedException(
+      `you dont have access to this channel -> ${input.channelId}`
+    );
   }
 
-  @Mutation(() => String)
-  async updatepost(@Args('input') input: UpdatePostInput): Promise<string> {
-    return this.postsService.updatePost(input)  // You can access `input.id` directly
+  @Mutation(() => {
+    return String;
+  })
+  @UseGuards(AuthGuard)
+  async deletepost(
+    @Args('input') input: DeletePostInput,
+    @Context() context: AuthGaurdContextDto
+  ): Promise<string> {
+    return this.postsService.deletePost(
+      input,
+      context.channelsAllowed,
+      context.userId,
+      context.role
+    ); // You can access `input.id` directly
+  }
+
+  @Mutation(() => {
+    return String;
+  })
+  @UseGuards(AuthGuard)
+  async updatepost(
+    @Args('input') input: UpdatePostInput,
+    @Context() context: AuthGaurdContextDto
+  ): Promise<string> {
+    return this.postsService.updatePost(
+      input,
+      context.channelsAllowed,
+      context.userId,
+      context.role
+    ); // You can access `input.id` directly
   }
 }

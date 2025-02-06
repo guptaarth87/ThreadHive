@@ -13,12 +13,15 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChannelsResolver = void 0;
+const common_1 = require("@nestjs/common");
 const graphql_1 = require("@nestjs/graphql");
-const updateChannelInput_dto_1 = require("./dtos/updateChannelInput.dto");
-const deleteChannelInput_dto_1 = require("./dtos/deleteChannelInput.dto");
-const createChannelInput_dto_1 = require("./dtos/createChannelInput.dto");
-const channelResponse_dto_1 = require("./dtos/channelResponse.dto");
 const channel_service_1 = require("./channel.service");
+const authGaurd_gaurds_1 = require("../gaurds/authGaurd.gaurds");
+const authGuardContext_dto_1 = require("../gaurds/authGuardContext.dto");
+const channelResponse_dto_1 = require("./dtos/channelResponse.dto");
+const createChannelInput_dto_1 = require("./dtos/createChannelInput.dto");
+const deleteChannelInput_dto_1 = require("./dtos/deleteChannelInput.dto");
+const updateChannelInput_dto_1 = require("./dtos/updateChannelInput.dto");
 let ChannelsResolver = class ChannelsResolver {
     constructor(channelsService) {
         this.channelsService = channelsService;
@@ -26,42 +29,68 @@ let ChannelsResolver = class ChannelsResolver {
     async getChannels() {
         return this.channelsService.getChannel();
     }
-    async createChannel(input) {
-        return this.channelsService.createChannel(input);
+    async createChannel(input, context) {
+        if (context.role === 'SUPERADMIN') {
+            return this.channelsService.createChannel(input);
+        }
+        throw new common_1.UnauthorizedException('you are not allowed you are not a super admin');
     }
-    async deleteChannel(input) {
-        return this.channelsService.deleteChannel(input); // You can access `input.id` directly
+    async deleteChannel(input, context) {
+        if (context.role === 'SUPERADMIN') {
+            return this.channelsService.deleteChannel(input); // You can access `input.id` directly
+        }
+        throw new common_1.UnauthorizedException('you are not allowed you are not a super admin');
     }
-    async updateChannel(input) {
-        return this.channelsService.updateChannel(input); // You can access `input.id` directly
+    async updateChannel(input, context) {
+        if (context.role === 'SUPERADMIN') {
+            return this.channelsService.updateChannel(input); // You can access `input.id` directly
+        }
+        throw new common_1.UnauthorizedException('you are not allowed you are not a super admin');
     }
 };
 exports.ChannelsResolver = ChannelsResolver;
 __decorate([
-    (0, graphql_1.Query)(() => [channelResponse_dto_1.ChannelResponseDto]),
+    (0, graphql_1.Query)(() => {
+        return [channelResponse_dto_1.ChannelResponseDto];
+    }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], ChannelsResolver.prototype, "getChannels", null);
 __decorate([
-    (0, graphql_1.Mutation)(() => String),
+    (0, graphql_1.Mutation)(() => {
+        return String;
+    }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
     __param(0, (0, graphql_1.Args)('input')),
+    __param(1, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [createChannelInput_dto_1.CreateChannelInput]),
+    __metadata("design:paramtypes", [createChannelInput_dto_1.CreateChannelInput,
+        authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], ChannelsResolver.prototype, "createChannel", null);
 __decorate([
-    (0, graphql_1.Mutation)(() => String),
+    (0, graphql_1.Mutation)(() => {
+        return String;
+    }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
     __param(0, (0, graphql_1.Args)('input')),
+    __param(1, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [deleteChannelInput_dto_1.DeleteChannelInput]),
+    __metadata("design:paramtypes", [deleteChannelInput_dto_1.DeleteChannelInput,
+        authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], ChannelsResolver.prototype, "deleteChannel", null);
 __decorate([
-    (0, graphql_1.Mutation)(() => String),
+    (0, graphql_1.Mutation)(() => {
+        return String;
+    }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
     __param(0, (0, graphql_1.Args)('input')),
+    __param(1, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [updateChannelInput_dto_1.UpdateChannelInput]),
+    __metadata("design:paramtypes", [updateChannelInput_dto_1.UpdateChannelInput,
+        authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], ChannelsResolver.prototype, "updateChannel", null);
 exports.ChannelsResolver = ChannelsResolver = __decorate([

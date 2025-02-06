@@ -1,9 +1,9 @@
-import { ObjectType, Field } from '@nestjs/graphql';
-import { BigIntScalar } from 'database-service/dist';// Assuming you have a Post entity
+import { Field, ObjectType } from '@nestjs/graphql';
+import { BigIntScalar } from 'database-service/dist'; // Assuming you have a Post entity
 
 @ObjectType()
 export class PostDto {
-  @Field(() =>  BigIntScalar)
+  @Field(() => BigIntScalar)
   id!: bigint;
 
   @Field()
@@ -12,13 +12,13 @@ export class PostDto {
   @Field()
   description!: string;
 
-  @Field(()=> BigIntScalar)
-  modifiedBy! : bigint
+  @Field(() => BigIntScalar)
+  modifiedBy!: bigint;
 
-  @Field(()=> BigIntScalar)
+  @Field(() => BigIntScalar)
   createdBy!: bigint;
 
-  @Field(()=> BigIntScalar)
+  @Field(() => BigIntScalar)
   channelId!: bigint;
 
   @Field()
@@ -34,30 +34,29 @@ export class PostDto {
   isDeleted!: boolean;
 }
 
-
 @ObjectType()
 export class StatsResponseDto {
-  @Field(() => BigIntScalar)
+  @Field(() =>  BigIntScalar)
   id!: bigint;
 
-  @Field(() => PostDto, { nullable: true })
+  @Field(() => {return PostDto;}, { nullable: true })
   postWithMaxLikes?: PostDto | null;
 
-  @Field(() => PostDto, { nullable: true })
+  @Field(() => {return PostDto;}, { nullable: true })
   postWithMinLikes?: PostDto | null;
 
   @Field()
-  total_comments!: number;
+  totalComments!: number;
 
   @Field()
-  total_replies!: number;
+  totalReplies!: number;
 
   @Field()
-  total_likes_on_posts!: number;
+  totalLikesOnPosts!: number;
 
   @Field()
-  total_likes_on_comments!: number;
+  totalLikesOnComments!: number;
 
   @Field()
-  total_likes_on_replies!: number;
+  totalLikesOnReplies!: number;
 }

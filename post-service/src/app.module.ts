@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { BigIntScalar} from 'database-service/dist'
-import { PostsModule } from './post/post.module';
+import { BigIntScalar } from 'database-service/dist';
 import { CommentsModule } from './comment/comment.module';
-import { RepliesModule } from './reply/reply.module';
 import { LikesModule } from './like/like.module';
+import { PostsModule } from './post/post.module';
+import { RepliesModule } from './reply/reply.module';
 // import { db } from 'database-service/dist'; // Adjust the import path
-import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
-
+import {
+  ApolloFederationDriver,
+  ApolloFederationDriverConfig,
+} from '@nestjs/apollo';
 
 @Module({
   imports: [
@@ -16,15 +17,15 @@ import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/ap
       driver: ApolloFederationDriver,
       autoSchemaFile: true,
       // path: '/graphql'
-    }), 
+    }),
     LikesModule,
     PostsModule,
     CommentsModule,
-    RepliesModule
+    RepliesModule,
   ], // Export the db object so it can be used in other modules
   providers: [BigIntScalar],
 })
-export class AppModule {} 
+export class AppModule {}
 
 // import { Module } from '@nestjs/common';
 // import { GraphQLModule } from '@nestjs/graphql';
@@ -41,7 +42,7 @@ export class AppModule {}
 //     GraphQLModule.forRoot<ApolloDriverConfig>({
 //       driver: ApolloDriver,
 //       autoSchemaFile: true,
-      
+
 //     }),
 //     LikesModule,
 //     PostsModule,
@@ -50,4 +51,4 @@ export class AppModule {}
 //   ], // Export the db object so it can be used in other modules
 //   providers: [BigIntScalar],
 // })
-// export class AppModule {} 
+// export class AppModule {}

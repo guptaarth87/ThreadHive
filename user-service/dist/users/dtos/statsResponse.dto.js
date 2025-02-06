@@ -66,33 +66,33 @@ __decorate([
     __metadata("design:type", BigInt)
 ], StatsResponseDto.prototype, "id", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => PostDto, { nullable: true }),
+    (0, graphql_1.Field)(() => { return PostDto; }, { nullable: true }),
     __metadata("design:type", Object)
 ], StatsResponseDto.prototype, "postWithMaxLikes", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => PostDto, { nullable: true }),
+    (0, graphql_1.Field)(() => { return PostDto; }, { nullable: true }),
     __metadata("design:type", Object)
 ], StatsResponseDto.prototype, "postWithMinLikes", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", Number)
-], StatsResponseDto.prototype, "total_comments", void 0);
+], StatsResponseDto.prototype, "totalComments", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", Number)
-], StatsResponseDto.prototype, "total_replies", void 0);
+], StatsResponseDto.prototype, "totalReplies", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", Number)
-], StatsResponseDto.prototype, "total_likes_on_posts", void 0);
+], StatsResponseDto.prototype, "totalLikesOnPosts", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", Number)
-], StatsResponseDto.prototype, "total_likes_on_comments", void 0);
+], StatsResponseDto.prototype, "totalLikesOnComments", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", Number)
-], StatsResponseDto.prototype, "total_likes_on_replies", void 0);
+], StatsResponseDto.prototype, "totalLikesOnReplies", void 0);
 exports.StatsResponseDto = StatsResponseDto = __decorate([
     (0, graphql_1.ObjectType)()
 ], StatsResponseDto);

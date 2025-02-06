@@ -1,15 +1,15 @@
-import { InputType, Field } from '@nestjs/graphql';
-import  {BigIntScalar} from 'database-service/dist'
+import { Field, InputType, Int } from '@nestjs/graphql';
+import { BigIntScalar } from 'database-service/dist';
 
 @InputType()
 export class UpdateUserChannelInput {
   @Field(() => BigIntScalar)
-   id!: bigint;
+  id!: bigint;
 
-  @Field(()=>BigIntScalar)
+  @Field(() =>  BigIntScalar)
   userId?: bigint;
 
-  @Field(()=>BigIntScalar)
+  @Field(() =>  BigIntScalar)
   channelId?: bigint;
 
   @Field()

@@ -1,13 +1,13 @@
-import { InputType, Field } from '@nestjs/graphql';
-import  {BigIntScalar} from 'database-service/dist'
+import { Field, InputType } from '@nestjs/graphql';
+import { BigIntScalar } from 'database-service/dist';
 
 @InputType()
 export class UpdateReplyInput {
   @Field(() => BigIntScalar) // Assuming BigIntScalar is properly imported
   id!: bigint;
-  
-  @Field(()=>BigIntScalar)
-  modifiedBy!: bigint 
+
+  @Field(() => BigIntScalar)
+  modifiedBy!: bigint;
 
   @Field()
   description!: string;

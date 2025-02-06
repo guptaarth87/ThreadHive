@@ -1,9 +1,14 @@
-import { bigint, mysqlTable, varchar, timestamp, boolean, json, date, mysqlEnum } from 'drizzle-orm/mysql-core';
-import { relations } from 'drizzle-orm';
-import { users } from './userSchema';
-import { posts } from './postSchema';
-import { comments } from './commentSchema';
+import {
+  bigint,
+  boolean,
+  mysqlTable,
+  timestamp,
+  varchar,
+} from 'drizzle-orm/mysql-core';
 import { channels } from './channelSchema';
+import { comments } from './commentSchema';
+import { posts } from './postSchema';
+import { users } from './userSchema';
 
 export const replies = mysqlTable('replies', {
   id: bigint('id', { mode: 'bigint' }).primaryKey().autoincrement(),
@@ -12,9 +17,44 @@ export const replies = mysqlTable('replies', {
   modifiedAt: timestamp('modified_at'),
   deletedAt: timestamp('deleted_at'),
   isDeleted: boolean('is_deleted').notNull(),
-  createdBy: bigint('created_by', { mode: 'bigint' }).references(() => users.id, { onDelete: 'cascade' }).notNull(),
-  modifiedBy: bigint('modified_by', { mode: 'bigint' }).references(() => users.id, { onDelete: 'cascade' }).notNull(),
-  postId: bigint('post_id', { mode: 'bigint' }).references(() => posts.id, { onDelete: 'cascade' }).notNull(),
-  commentId: bigint('comment_id', { mode: 'bigint' }).references(() => comments.id, { onDelete: 'cascade' }).notNull(),
-  channelId: bigint('channel_id', { mode: 'bigint' }).references(() => channels.id, { onDelete: 'cascade' }).notNull(),
+  createdBy: bigint('created_by', { mode: 'bigint' })
+    .references(
+      () => {
+        return users.id;
+      },
+      { onDelete: 'cascade' }
+    )
+    .notNull(),
+  modifiedBy: bigint('modified_by', { mode: 'bigint' })
+    .references(
+      () => {
+        return users.id;
+      },
+      { onDelete: 'cascade' }
+    )
+    .notNull(),
+  postId: bigint('post_id', { mode: 'bigint' })
+    .references(
+      () => {
+        return posts.id;
+      },
+      { onDelete: 'cascade' }
+    )
+    .notNull(),
+  commentId: bigint('comment_id', { mode: 'bigint' })
+    .references(
+      () => {
+        return comments.id;
+      },
+      { onDelete: 'cascade' }
+    )
+    .notNull(),
+  channelId: bigint('channel_id', { mode: 'bigint' })
+    .references(
+      () => {
+        return channels.id;
+      },
+      { onDelete: 'cascade' }
+    )
+    .notNull(),
 });

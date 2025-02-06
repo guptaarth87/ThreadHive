@@ -1,3 +1,3 @@
-export  * from './commonHelpers';
+export * from './commonHelpers';
 
-export * from './db'
+export * from './db';

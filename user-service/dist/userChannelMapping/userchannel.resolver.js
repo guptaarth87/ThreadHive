@@ -14,11 +14,11 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserChannelResolver = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const userChannel_service_1 = require("./userChannel.service");
-const responseUserChannel_dto_1 = require("./dtos/responseUserChannel.dto");
 const createUserChannelInput_dto_1 = require("./dtos/createUserChannelInput.dto");
 const deleteUserChannelInput_dto_1 = require("./dtos/deleteUserChannelInput.dto");
+const responseUserChannel_dto_1 = require("./dtos/responseUserChannel.dto");
 const updateUserChannelInput_dto_1 = require("./dtos/updateUserChannelInput.dto");
+const userChannel_service_1 = require("./userChannel.service");
 let UserChannelResolver = class UserChannelResolver {
     constructor(userChannelService) {
         this.userChannelService = userChannelService;
@@ -38,27 +38,35 @@ let UserChannelResolver = class UserChannelResolver {
 };
 exports.UserChannelResolver = UserChannelResolver;
 __decorate([
-    (0, graphql_1.Query)(() => [responseUserChannel_dto_1.UserChannelResponseDto]),
+    (0, graphql_1.Query)(() => {
+        return [responseUserChannel_dto_1.UserChannelResponseDto];
+    }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UserChannelResolver.prototype, "getUserChannelMapping", null);
 __decorate([
-    (0, graphql_1.Mutation)(() => String),
+    (0, graphql_1.Mutation)(() => {
+        return String;
+    }),
     __param(0, (0, graphql_1.Args)('input')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [createUserChannelInput_dto_1.CreateUserChannelInput]),
     __metadata("design:returntype", Promise)
 ], UserChannelResolver.prototype, "createUserChannelMapping", null);
 __decorate([
-    (0, graphql_1.Mutation)(() => String),
+    (0, graphql_1.Mutation)(() => {
+        return String;
+    }),
     __param(0, (0, graphql_1.Args)('input')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [deleteUserChannelInput_dto_1.DeleteUserChannelInput]),
     __metadata("design:returntype", Promise)
 ], UserChannelResolver.prototype, "deleteUserChannelMapping", null);
 __decorate([
-    (0, graphql_1.Mutation)(() => String),
+    (0, graphql_1.Mutation)(() => {
+        return String;
+    }),
     __param(0, (0, graphql_1.Args)('input')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [updateUserChannelInput_dto_1.UpdateUserChannelInput]),

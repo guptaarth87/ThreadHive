@@ -8,9 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserChannelMappingModule = void 0;
 const common_1 = require("@nestjs/common");
-const userChannel_service_1 = require("./userChannel.service");
-const userchannel_resolver_1 = require("./userchannel.resolver");
 const userChannel_dao_1 = require("./userChannel.dao");
+const userchannel_resolver_1 = require("./userchannel.resolver");
+const userChannel_service_1 = require("./userChannel.service");
 // import { BigIntScalar } from 'database-service/dist'; // Import BigIntScalar if using it here
 let UserChannelMappingModule = class UserChannelMappingModule {
 };

@@ -75,14 +75,14 @@ export declare const users: import("drizzle-orm/mysql-core").MySqlTableWithColum
             tableName: "users";
             dataType: "string";
             columnType: "MySqlEnumColumn";
-            data: "ADMIN" | "USER" | "SUPERADMIN";
+            data: string;
             driverParam: string;
             notNull: true;
             hasDefault: false;
             isPrimaryKey: false;
             isAutoincrement: false;
             hasRuntimeDefault: false;
-            enumValues: ["ADMIN", "USER", "SUPERADMIN"];
+            enumValues: [string];
             baseColumn: never;
             identity: undefined;
             generated: undefined;
@@ -121,7 +121,7 @@ export declare const users: import("drizzle-orm/mysql-core").MySqlTableWithColum
             identity: undefined;
             generated: undefined;
         }, {}, {}>;
-        modified_at: import("drizzle-orm/mysql-core").MySqlColumn<{
+        modifiedAt: import("drizzle-orm/mysql-core").MySqlColumn<{
             name: "modified_at";
             tableName: "users";
             dataType: "date";
@@ -138,7 +138,7 @@ export declare const users: import("drizzle-orm/mysql-core").MySqlTableWithColum
             identity: undefined;
             generated: undefined;
         }, {}, {}>;
-        deleted_at: import("drizzle-orm/mysql-core").MySqlColumn<{
+        deletedAt: import("drizzle-orm/mysql-core").MySqlColumn<{
             name: "deleted_at";
             tableName: "users";
             dataType: "date";

@@ -45,16 +45,16 @@ __decorate([
     __metadata("design:type", Date)
 ], UserResponseDto.prototype, "createdAt", void 0);
 __decorate([
-    (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", Date)
+    (0, graphql_1.Field)(() => Date, { nullable: true }),
+    __metadata("design:type", Object)
 ], UserResponseDto.prototype, "modifiedAt", void 0);
 __decorate([
-    (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", Date)
+    (0, graphql_1.Field)(() => Date, { nullable: true }),
+    __metadata("design:type", Object)
 ], UserResponseDto.prototype, "deletedAt", void 0);
 __decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", Boolean)
+    (0, graphql_1.Field)(() => Boolean, { nullable: true }),
+    __metadata("design:type", Object)
 ], UserResponseDto.prototype, "isDeleted", void 0);
 exports.UserResponseDto = UserResponseDto = __decorate([
     (0, graphql_1.ObjectType)()

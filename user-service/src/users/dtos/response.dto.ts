@@ -1,10 +1,10 @@
-import { ObjectType, Field, ID, InputType, Directive } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { BigIntScalar } from 'database-service/dist';
 
 // @Directive('@key(fields: "id")')
 @ObjectType()
 export class UserResponseDto {
-  @Field(() =>  BigIntScalar)
+  @Field(() => BigIntScalar)
   id!: bigint;
 
   @Field()
@@ -14,7 +14,7 @@ export class UserResponseDto {
   email!: string;
 
   @Field()
-  password!: string;
+  password?: string;
 
   @Field()
   role!: string;
@@ -25,12 +25,12 @@ export class UserResponseDto {
   @Field()
   createdAt!: Date;
 
-  @Field({ nullable: true })
-  modifiedAt?: Date;
+  @Field(()=> Date,{ nullable: true })
+  modifiedAt?: Date | null;
 
-  @Field({ nullable: true })
-  deletedAt?: Date;
+  @Field(()=> Date,{ nullable: true })
+  deletedAt?: Date | null ;
 
-  @Field()
-  isDeleted!: boolean;
+  @Field(()=> Boolean,{ nullable: true })
+  isDeleted!: boolean | null;
 }

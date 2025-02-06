@@ -1,10 +1,9 @@
-import { InputType, Field , registerEnumType} from '@nestjs/graphql';
+import { Field, InputType , registerEnumType } from '@nestjs/graphql';
 import { BigIntScalar } from 'database-service/dist';
-
 
 @InputType()
 export class UpdateChannelInput {
-  @Field(() => BigIntScalar) // Assuming BigIntScalar is properly imported
+  @Field(() => {return BigIntScalar;}) // Assuming BigIntScalar is properly imported
   id!: bigint;
 
   @Field({ nullable: true })

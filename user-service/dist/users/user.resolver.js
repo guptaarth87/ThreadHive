@@ -13,77 +13,151 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersResolver = void 0;
+const common_1 = require("@nestjs/common");
 const graphql_1 = require("@nestjs/graphql");
-const user_service_1 = require("./user.service");
-const response_dto_1 = require("./dtos/response.dto");
+const authGaurd_gaurds_1 = require("../gaurds/authGaurd.gaurds");
+const authGuardContext_dto_1 = require("../gaurds/authGuardContext.dto");
 const createInput_dto_1 = require("./dtos/createInput.dto");
 const deleteInput_dto_1 = require("./dtos/deleteInput.dto");
-const updateInput_dto_1 = require("./dtos/updateInput.dto");
-const statsResponse_dto_1 = require("./dtos/statsResponse.dto");
+const response_dto_1 = require("./dtos/response.dto");
 const statsInput_dto_1 = require("./dtos/statsInput.dto");
+const statsResponse_dto_1 = require("./dtos/statsResponse.dto");
+const updateInput_dto_1 = require("./dtos/updateInput.dto");
+const user_service_1 = require("./user.service");
+const activityResponse_dto_1 = require("database-service/dist/commonHelpers/activityResponse.dto");
+const dist_1 = require("database-service/dist");
 let UsersResolver = class UsersResolver {
     constructor(usersService) {
         this.usersService = usersService;
     }
-    async getUsers() {
-        return this.usersService.getUsers();
+    async getUsers(context) {
+        if (context.role === 'ADMIN' || context.role === 'SUPERADMIN') {
+            return this.usersService.getUsers(context);
+        }
+        throw new common_1.UnauthorizedException('You dont have access to this request with role of user}');
     }
-    async getUserByEmail(email) {
-        return this.usersService.findUserByEmail(email);
+    async getUserActivity(userId, context) {
+        if (context.role === 'ADMIN' || context.role === 'SUPERADMIN') {
+            return this.usersService.getUserActivity(userId);
+        }
+        throw new common_1.UnauthorizedException('You dont have access to this request with role of user}');
     }
-    async getUserStats(input) {
-        return this.usersService.getUserStats(input);
+    async getUserByEmail(email, context) {
+        // console.log("resolver access",cont)
+        if (email === context.email) {
+            return this.usersService.findUserByEmail(email, context);
+        }
+        throw new common_1.UnauthorizedException(`You dont have access to this request of email ${email}`);
     }
-    async createUser(input) {
-        return this.usersService.createUser(input);
+    async getUserStats(input, context) {
+        return this.usersService.getUserStats(input, context);
     }
-    async deleteUser(input) {
-        return this.usersService.deleteUser(input); // You can access `input.id` directly
+    async createUser(input, context) {
+        if (input.role === 'SUPERADMIN') {
+            throw new common_1.UnauthorizedException(`You dont have access to this request of creating user of role ${context.role}`);
+        }
+        else if (input.role === 'ADMIN' && context.role !== 'SUPERADMIN') {
+            throw new common_1.UnauthorizedException(`You dont have access to this request of creating user of role ${context.role}`);
+        }
+        else {
+            return this.usersService.createUser(input, context);
+        }
     }
-    async updateUser(input) {
-        return this.usersService.updateUser(input); // You can access `input.id` directly
+    async deleteUser(input, context) {
+        const { id } = input;
+        if (id === context.userId && context.role === 'USER') {
+            return this.usersService.deleteUser(input, context.role, context); // You can access `input.id` directly
+        }
+        else if (context.role === 'ADMIN') {
+            return this.usersService.deleteUser(input, context.role, context, context.channels);
+        }
+        throw new common_1.UnauthorizedException(`You dont have rights to this to delete user of id ${id}`);
+    }
+    async updateUser(input, context) {
+        const { id } = input;
+        if (id === context.id) {
+            return this.usersService.updateUser(input, context); // You can access `input.id` directly
+        }
+        throw new common_1.UnauthorizedException(`You dont have rights to this to update user of id ${id}`);
     }
 };
 exports.UsersResolver = UsersResolver;
 __decorate([
-    (0, graphql_1.Query)(() => [response_dto_1.UserResponseDto]),
+    (0, graphql_1.Query)(() => {
+        return [response_dto_1.UserResponseDto];
+    }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
+    __param(0, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], UsersResolver.prototype, "getUsers", null);
 __decorate([
-    (0, graphql_1.Query)(() => [response_dto_1.UserResponseDto]),
-    __param(0, (0, graphql_1.Args)('email')),
+    (0, graphql_1.Query)(() => {
+        return [activityResponse_dto_1.UserActivityResponseDto];
+    }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
+    __param(0, (0, graphql_1.Args)('userId', { type: () => dist_1.BigIntScalar })),
+    __param(1, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [BigInt, authGuardContext_dto_1.AuthGaurdContextDto]),
+    __metadata("design:returntype", Promise)
+], UsersResolver.prototype, "getUserActivity", null);
+__decorate([
+    (0, graphql_1.Query)(() => {
+        return [response_dto_1.UserResponseDto];
+    }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
+    __param(0, (0, graphql_1.Args)('email')),
+    __param(1, (0, graphql_1.Context)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], UsersResolver.prototype, "getUserByEmail", null);
 __decorate([
-    (0, graphql_1.Query)(() => [statsResponse_dto_1.StatsResponseDto]),
+    (0, graphql_1.Query)(() => {
+        return [statsResponse_dto_1.StatsResponseDto];
+    }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
     __param(0, (0, graphql_1.Args)('input')),
+    __param(1, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [statsInput_dto_1.StatsUserInput]),
+    __metadata("design:paramtypes", [statsInput_dto_1.StatsUserInput,
+        authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], UsersResolver.prototype, "getUserStats", null);
 __decorate([
-    (0, graphql_1.Mutation)(() => String),
+    (0, graphql_1.Mutation)(() => {
+        return String;
+    }),
     __param(0, (0, graphql_1.Args)('input')),
+    __param(1, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [createInput_dto_1.CreateUserInput]),
+    __metadata("design:paramtypes", [createInput_dto_1.CreateUserInput,
+        authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], UsersResolver.prototype, "createUser", null);
 __decorate([
-    (0, graphql_1.Mutation)(() => String),
+    (0, graphql_1.Mutation)(() => {
+        return String;
+    }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
     __param(0, (0, graphql_1.Args)('input')),
+    __param(1, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [deleteInput_dto_1.DeleteUserInput]),
+    __metadata("design:paramtypes", [deleteInput_dto_1.DeleteUserInput,
+        authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], UsersResolver.prototype, "deleteUser", null);
 __decorate([
-    (0, graphql_1.Mutation)(() => String),
+    (0, graphql_1.Mutation)(() => {
+        return String;
+    }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
     __param(0, (0, graphql_1.Args)('input')),
+    __param(1, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [updateInput_dto_1.UpdateUserInput]),
+    __metadata("design:paramtypes", [updateInput_dto_1.UpdateUserInput, Object]),
     __metadata("design:returntype", Promise)
 ], UsersResolver.prototype, "updateUser", null);
 exports.UsersResolver = UsersResolver = __decorate([

@@ -1,4 +1,4 @@
-import { InputType, Field , registerEnumType} from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import { BigIntScalar } from 'database-service/dist';
 import { UserRole } from '../enums/user-roles.enum';
 
@@ -21,7 +21,6 @@ export class UpdateUserInput {
 
   @Field({ nullable: true })
   dob?: Date;
-
 
   @Field()
   modifiedAt?: Date;

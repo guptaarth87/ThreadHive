@@ -8,16 +8,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChannelsModule = void 0;
 const common_1 = require("@nestjs/common");
-const channel_service_1 = require("./channel.service");
-const channel_resolver_1 = require("./channel.resolver");
+const jwt_1 = require("@nestjs/jwt");
 const channel_dao_1 = require("./channel.dao");
+const channel_resolver_1 = require("./channel.resolver");
+const channel_service_1 = require("./channel.service");
+const authGaurd_gaurds_1 = require("../gaurds/authGaurd.gaurds");
 // import { BigIntScalar } from 'database-service/dist'; // Import BigIntScalar if using it here
 let ChannelsModule = class ChannelsModule {
 };
 exports.ChannelsModule = ChannelsModule;
 exports.ChannelsModule = ChannelsModule = __decorate([
     (0, common_1.Module)({
-        providers: [channel_service_1.ChannelsService, channel_resolver_1.ChannelsResolver, channel_dao_1.ChannelDao], // Register BigIntScalar here if needed
+        imports: [
+            jwt_1.JwtModule.register({
+                secret: 'ufdeuwdhiu',
+                signOptions: { expiresIn: '1h' },
+            }),
+        ],
+        providers: [channel_service_1.ChannelsService, channel_resolver_1.ChannelsResolver, channel_dao_1.ChannelDao, authGaurd_gaurds_1.AuthGuard], // Register BigIntScalar here if needed
         exports: [channel_service_1.ChannelsService],
     })
 ], ChannelsModule);

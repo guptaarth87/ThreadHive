@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { UserChannelService } from './userChannel.service';
-import { UserChannelResolver } from './userchannel.resolver';
 import { UserChannelDao } from './userChannel.dao';
+import { UserChannelResolver } from './userchannel.resolver';
+import { UserChannelService } from './userChannel.service';
 
 // import { BigIntScalar } from 'database-service/dist'; // Import BigIntScalar if using it here
 

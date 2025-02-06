@@ -10,31 +10,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthDao = void 0;
-const bcrypt = require("bcryptjs");
-const jwt_1 = require("@nestjs/jwt");
-const user_service_1 = require("../users/user.service");
-const drizzle_orm_1 = require("drizzle-orm");
-const dist_1 = require("database-service/dist"); // Ensure correct import
-const dist_2 = require("database-service/dist");
 const common_1 = require("@nestjs/common");
+const jwt_1 = require("@nestjs/jwt");
+const bcrypt = require("bcryptjs");
+const dist_1 = require("database-service/dist");
+const drizzle_orm_1 = require("drizzle-orm");
 let AuthDao = class AuthDao {
-    constructor(usersService, jwtService) {
-        this.usersService = usersService;
+    constructor(jwtService) {
         this.jwtService = jwtService;
     }
     async validateUser(email, password) {
-        const user = await dist_2.db.select().from(dist_1.users).where((0, drizzle_orm_1.eq)(dist_1.users.email, email)).limit(1);
+        const user = await dist_1.db
+            .select()
+            .from(dist_1.users)
+            .where((0, drizzle_orm_1.eq)(dist_1.users.email, email))
+            .limit(1);
         if (user && (await bcrypt.compare(password, user[0].password))) {
-            const { password, ...result } = user[0];
+            const { ...result } = user[0];
             return result;
         }
-        return null;
+        return undefined;
     }
     async login(user) {
-        const payload = { email: user.email, role: user.role, sub: user.id.toString() };
+        const payload = {
+            email: user.email,
+            role: user.role,
+            sub: user.id.toString(),
+        };
         return {
-            access_token: this.jwtService.sign(payload),
-            payload: payload
+            accessToken: this.jwtService.sign(payload),
+            payload,
         };
     }
     async logUserIn(email, password) {
@@ -43,12 +48,12 @@ let AuthDao = class AuthDao {
             if (!user) {
                 throw new Error('Invalid credentials');
             }
-            const response = (await this.login(user));
+            const response = await this.login(user);
             console.log(response);
             return response;
         }
         catch (error) {
-            console.log("error->", error);
+            console.log('error->', error);
             throw new Error('Loginn failed !');
         }
     }
@@ -56,6 +61,5 @@ let AuthDao = class AuthDao {
 exports.AuthDao = AuthDao;
 exports.AuthDao = AuthDao = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [user_service_1.UsersService,
-        jwt_1.JwtService])
+    __metadata("design:paramtypes", [jwt_1.JwtService])
 ], AuthDao);

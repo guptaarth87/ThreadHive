@@ -8,17 +8,33 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersModule = void 0;
 const common_1 = require("@nestjs/common");
-const user_service_1 = require("./user.service");
-const user_resolver_1 = require("./user.resolver");
+const jwt_1 = require("@nestjs/jwt");
 const user_dao_1 = require("./user.dao");
+const user_resolver_1 = require("./user.resolver");
+const user_service_1 = require("./user.service");
 const userStats_dao_1 = require("./userStats.dao");
+const authGaurd_gaurds_1 = require("../gaurds/authGaurd.gaurds");
+const dist_1 = require("database-service/dist");
 // import { BigIntScalar } from 'database-service/dist'; // Import BigIntScalar if using it here
 let UsersModule = class UsersModule {
 };
 exports.UsersModule = UsersModule;
 exports.UsersModule = UsersModule = __decorate([
     (0, common_1.Module)({
-        providers: [user_service_1.UsersService, user_resolver_1.UsersResolver, user_dao_1.UserDao, userStats_dao_1.userStatsDao], // Register BigIntScalar here if needed
+        imports: [
+            jwt_1.JwtModule.register({
+                secret: 'ufdeuwdhiu',
+                signOptions: { expiresIn: '1h' },
+            }),
+        ],
+        providers: [
+            user_service_1.UsersService,
+            user_resolver_1.UsersResolver,
+            user_dao_1.UserDao,
+            userStats_dao_1.userStatsDao,
+            dist_1.UserActivityDao,
+            authGaurd_gaurds_1.AuthGuard, // Apply the guard to only users
+        ], // Register BigIntScalar here if needed
         exports: [user_service_1.UsersService],
     })
 ], UsersModule);

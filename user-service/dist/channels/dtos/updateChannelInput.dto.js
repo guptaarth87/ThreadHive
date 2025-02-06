@@ -16,7 +16,7 @@ let UpdateChannelInput = class UpdateChannelInput {
 };
 exports.UpdateChannelInput = UpdateChannelInput;
 __decorate([
-    (0, graphql_1.Field)(() => dist_1.BigIntScalar) // Assuming BigIntScalar is properly imported
+    (0, graphql_1.Field)(() => { return dist_1.BigIntScalar; }) // Assuming BigIntScalar is properly imported
     ,
     __metadata("design:type", BigInt)
 ], UpdateChannelInput.prototype, "id", void 0);

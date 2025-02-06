@@ -28,7 +28,9 @@ __decorate([
     __metadata("design:type", String)
 ], CreateUserInput.prototype, "password", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => user_roles_enum_1.UserRole) // Referencing the UserRole enum
+    (0, graphql_1.Field)(() => {
+        return user_roles_enum_1.UserRole;
+    }) // Referencing the UserRole enum
     ,
     __metadata("design:type", String)
 ], CreateUserInput.prototype, "role", void 0);

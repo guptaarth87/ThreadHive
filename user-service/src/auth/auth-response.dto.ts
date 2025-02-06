@@ -1,4 +1,5 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { BigIntScalar } from 'database-service/dist';
 
 @ObjectType()
 export class Payload {
@@ -9,16 +10,16 @@ export class Payload {
   role!: string;
 
   @Field()
-  sub!: string; // Ensure BigInt is converted to a string before use
+  sub!: string; // Ensure Bigint is converted to a string before use
 }
-
 
 @ObjectType()
 export class AuthResponse {
   @Field()
-  access_token!: string;
+  accessToken!: string;
 
-  @Field(() => Payload) // ✅ Correctly linking Payload type
+  @Field(() => {
+    return Payload;
+  }) // ✅ Correctly linking Payload type
   payload!: Payload;
 }
-

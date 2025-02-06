@@ -70,7 +70,7 @@ export declare const activities: import("drizzle-orm/mysql-core").MySqlTableWith
             identity: undefined;
             generated: undefined;
         }, {}, {}>;
-        additional_data: import("drizzle-orm/mysql-core").MySqlColumn<{
+        additionalData: import("drizzle-orm/mysql-core").MySqlColumn<{
             name: "additional_data";
             tableName: "activities";
             dataType: "json";

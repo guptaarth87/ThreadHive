@@ -1,9 +1,9 @@
-import { ObjectType, Field, ID, InputType } from '@nestjs/graphql';
+import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
 import { BigIntScalar } from 'database-service/dist';
 
 @ObjectType()
 export class ChannelResponseDto {
-  @Field(() =>  BigIntScalar)
+  @Field(() => {return BigIntScalar;})
   id!: bigint;
 
   @Field()

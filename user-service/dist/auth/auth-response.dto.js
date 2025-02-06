@@ -35,9 +35,11 @@ exports.AuthResponse = AuthResponse;
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], AuthResponse.prototype, "access_token", void 0);
+], AuthResponse.prototype, "accessToken", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => Payload) // ✅ Correctly linking Payload type
+    (0, graphql_1.Field)(() => {
+        return Payload;
+    }) // ✅ Correctly linking Payload type
     ,
     __metadata("design:type", Payload)
 ], AuthResponse.prototype, "payload", void 0);

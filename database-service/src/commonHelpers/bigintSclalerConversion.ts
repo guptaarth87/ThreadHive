@@ -1,4 +1,4 @@
-import { Scalar, CustomScalar } from '@nestjs/graphql';
+import { CustomScalar, Scalar } from '@nestjs/graphql';
 import { Kind } from 'graphql';
 
 @Scalar('BigInt')

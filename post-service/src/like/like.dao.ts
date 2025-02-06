@@ -1,23 +1,16 @@
-import { eq ,and} from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 
-import { db, likes} from 'database-service/dist';
-import { LikeResponseDto } from './dtos/likeResponse.dto';
-import { LikeEventInput } from './dtos/likeEventInput.dto';
 import { Injectable } from '@nestjs/common';
-
-
-
-
+import { db, likes } from 'database-service/dist';
+import { LikeEventInput } from './dtos/likeEventInput.dto';
+import { LikeResponseDto } from './dtos/likeResponse.dto';
 
 @Injectable()
 export class LikesDao {
- 
- 
-  async likeToggleDao(input: LikeEventInput): Promise<string> {
-    console.log("in create block")
-    try{
-
-    const inputObj = {   
+  async likeToggleDao (input: LikeEventInput): Promise<string> {
+    console.log('in create block');
+    try {
+      const inputObject = {
         type: input.type,
         typeId: input.typeId,
         likedBy: input.likedBy,
@@ -26,55 +19,50 @@ export class LikesDao {
         channelId: input.channelId,
         createdAt: new Date(),
       };
-    const response = await db.select()
-                     .from(likes)
-                     .where(
-                      and(
-                        eq(likes.type, inputObj.type),
-                        eq(likes.typeId, inputObj.typeId), 
-                        eq(likes.likedBy, inputObj.likedBy),
-                        eq(likes.postId, inputObj.postId),
-                        eq(likes.channelId, inputObj.channelId)
-                      )
-                    )
-    if (response.length > 0){
-     const delete_status = await db.delete(likes)
-      .where(
-       and(
-         eq(likes.type, inputObj.type),
-         eq(likes.typeId, inputObj.typeId), 
-         eq(likes.likedBy, inputObj.likedBy),
-         eq(likes.postId, inputObj.postId),
-         eq(likes.channelId, inputObj.channelId)
-       )
-     )
-     console.log(delete_status)
-     return `${inputObj.type} of id -> ${inputObj.typeId} unliked`
-    }else{
-      const liked_status = await db.insert(likes).values(inputObj)
-      console.log(liked_status)
-       return `liked ${inputObj.type}`
-    }
-   }catch(error){
-    console.log(error)
-    throw new Error('Database error !');
-   }
-   }
-
-
-
-  async getLikesDao():Promise<LikeResponseDto[]> {
-    try{
-        const res = await db
+      const response = await db
         .select()
-        .from(likes) as LikeResponseDto[];
-
-        return res  ;
-    }catch(error){
-        console.log("error-->",error)
-        throw new Error('Database error !');
+        .from(likes)
+        .where(
+          and(
+            eq(likes.type, inputObject.type),
+            eq(likes.typeId, inputObject.typeId),
+            eq(likes.likedBy, inputObject.likedBy),
+            eq(likes.postId, inputObject.postId),
+            eq(likes.channelId, inputObject.channelId)
+          )
+        );
+      if (response.length > 0) {
+        const deleteStatus = await db
+          .delete(likes)
+          .where(
+            and(
+              eq(likes.type, inputObject.type),
+              eq(likes.typeId, inputObject.typeId),
+              eq(likes.likedBy, inputObject.likedBy),
+              eq(likes.postId, inputObject.postId),
+              eq(likes.channelId, inputObject.channelId)
+            )
+          );
+        console.log(deleteStatus);
+        return `${inputObject.type} of id -> ${inputObject.typeId} unliked`;
+      }
+      const likedStatus = await db.insert(likes).values(inputObject);
+      console.log(likedStatus);
+      return `liked ${inputObject.type}`;
+    } catch (error) {
+      console.log(error);
+      throw new Error('Database error !');
     }
   }
 
- 
+  async getLikesDao (): Promise<LikeResponseDto[]> {
+    try {
+      const response = (await db.select().from(likes)) as LikeResponseDto[];
+
+      return response;
+    } catch (error) {
+      console.log('error-->', error);
+      throw new Error('Database error !');
+    }
+  }
 }

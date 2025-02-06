@@ -53,7 +53,7 @@ export declare const channels: import("drizzle-orm/mysql-core").MySqlTableWithCo
             identity: undefined;
             generated: undefined;
         }, {}, {}>;
-        modified_at: import("drizzle-orm/mysql-core").MySqlColumn<{
+        modifiedAt: import("drizzle-orm/mysql-core").MySqlColumn<{
             name: "modified_at";
             tableName: "channels";
             dataType: "date";
@@ -70,7 +70,7 @@ export declare const channels: import("drizzle-orm/mysql-core").MySqlTableWithCo
             identity: undefined;
             generated: undefined;
         }, {}, {}>;
-        deleted_at: import("drizzle-orm/mysql-core").MySqlColumn<{
+        deletedAt: import("drizzle-orm/mysql-core").MySqlColumn<{
             name: "deleted_at";
             tableName: "channels";
             dataType: "date";

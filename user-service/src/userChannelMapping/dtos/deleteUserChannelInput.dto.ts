@@ -1,8 +1,8 @@
-import { InputType, Field } from '@nestjs/graphql';
-import  {BigIntScalar} from 'database-service/dist'
+import { Field, InputType } from '@nestjs/graphql';
+import { BigIntScalar } from 'database-service/dist';
 
 @InputType()
 export class DeleteUserChannelInput {
-  @Field(() => BigIntScalar)
-   id!: bigint;
+  @Field(() => {return BigIntScalar;})
+  id!: bigint;
 }

@@ -1,29 +1,29 @@
-import { ObjectType, Field, ID, InputType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { BigIntScalar } from 'database-service/dist';
 
 @ObjectType()
 export class ReplyResponseDto {
-  @Field(() =>  BigIntScalar)
+  @Field(() => BigIntScalar)
   id!: bigint;
 
   @Field()
   description!: string;
 
-  @Field(()=> BigIntScalar)
-  modifiedBy! : bigint
+  @Field(() => BigIntScalar)
+  modifiedBy!: bigint;
 
-  @Field(()=> BigIntScalar)
+  @Field(() => BigIntScalar)
   createdBy!: bigint;
 
-  @Field(()=> BigIntScalar)
+  @Field(() => BigIntScalar)
   channelId!: bigint;
 
-  @Field(()=> BigIntScalar)
+  @Field(() => BigIntScalar)
   commentId!: bigint;
 
   @Field(() => BigIntScalar)
   postId!: bigint;
-  
+
   @Field()
   createdAt!: Date;
 

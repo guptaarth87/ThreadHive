@@ -1,14 +1,14 @@
-import { InputType, Field, ObjectType } from '@nestjs/graphql';
-import  {BigIntScalar} from 'database-service/dist'
+import { Field, ObjectType } from '@nestjs/graphql';
+import { BigIntScalar } from 'database-service/dist';
 
 @ObjectType()
 export class UserChannelResponseDto {
   @Field(() => BigIntScalar)
-   id!: bigint;
+  id!: bigint;
 
-  @Field(()=>BigIntScalar)
+  @Field(() => BigIntScalar)
   userId!: bigint;
 
-  @Field(()=>BigIntScalar)
+  @Field(() => BigIntScalar)
   channelId!: bigint;
 }

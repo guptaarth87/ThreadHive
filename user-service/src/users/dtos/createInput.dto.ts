@@ -1,4 +1,4 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import { UserRole } from '../enums/user-roles.enum'; // Assuming this is imported from a shared module
 
 @InputType()
@@ -12,9 +12,12 @@ export class CreateUserInput {
   @Field()
   password!: string;
 
-  @Field(() => UserRole) // Referencing the UserRole enum
+  @Field(() => {
+    return UserRole;
+  }) // Referencing the UserRole enum
   role!: UserRole;
 
   @Field()
   dob!: Date;
 }
+ 

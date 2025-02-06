@@ -1,4 +1,4 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 // Assuming this is imported from a shared module
 
 @InputType()
