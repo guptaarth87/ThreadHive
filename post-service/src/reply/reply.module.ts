@@ -11,7 +11,7 @@ import { RepliesService } from './reply.service';
   imports: [
     JwtModule.register({
       secret: process.env.JWTSECRET,
-      signOptions: { expiresIn: '1h' },
+      signOptions: { expiresIn: '24h' },
     }),
   ],
   providers: [RepliesService, RepliesResolver, ReplyDao, AuthGuard], // Register BigIntScalar here if needed

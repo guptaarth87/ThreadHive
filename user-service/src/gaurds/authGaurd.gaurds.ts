@@ -25,6 +25,10 @@ export class AuthGuard implements CanActivate {
     const token = request.req.raw?.headers.authorization;
     const fieldName = context.getArgs()[3].fieldName
     // Check if the token is provided
+    if (fieldName === 'login'){
+      request.activityDone = fieldName
+      return true
+    }
     if (!token) {
       throw new UnauthorizedException('No token provided');
     }

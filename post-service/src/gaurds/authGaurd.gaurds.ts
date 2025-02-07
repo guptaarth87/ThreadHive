@@ -22,7 +22,8 @@ export class AuthGuard implements CanActivate {
     const request: AuthGaurdContextDto = context.getArgs()[2];
 
     const token = request.req.raw?.headers.authorization;
-
+    const fieldName = context.getArgs()[3].fieldName
+    
     // Check if the token is provided
     if (!token) {
       throw new UnauthorizedException('No token provided');
@@ -51,6 +52,7 @@ export class AuthGuard implements CanActivate {
       request.email = email;
       request.role = role;
       request.userId = id;
+      request.activityDone = fieldName
 
       const getChannelIds = (data: { channelId: bigint }[]) => {
         return data.map(({ channelId }) => {

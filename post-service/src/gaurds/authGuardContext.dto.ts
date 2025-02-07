@@ -15,6 +15,9 @@ export class AuthGaurdContextDto {
   };
 
   @Field({ nullable: true })
+  activityDone!: string;
+  
+  @Field({ nullable: true })
   email!: string;
 
   @Field({ nullable: true })

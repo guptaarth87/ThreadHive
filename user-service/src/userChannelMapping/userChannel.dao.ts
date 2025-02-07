@@ -1,13 +1,18 @@
-import { db, usersChannelMapping } from 'database-service/dist';
+import { db, UserActivityDao, usersChannelMapping } from 'database-service/dist';
 import { eq } from 'drizzle-orm';
 // Ensure correct import
 import { CreateUserChannelInput } from './dtos/createUserChannelInput.dto';
 import { DeleteUserChannelInput } from './dtos/deleteUserChannelInput.dto';
 import { UserChannelResponseDto } from './dtos/responseUserChannel.dto';
 import { UpdateUserChannelInput } from './dtos/updateUserChannelInput.dto';
+import { Injectable } from '@nestjs/common';
+import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
 
+@Injectable()
 export class UserChannelDao {
-  async createUserChannelMapppingDao (input: CreateUserChannelInput) {
+
+  constructor (private readonly userActivityDao: UserActivityDao){};
+  async createUserChannelMapppingDao (input: CreateUserChannelInput,context : AuthGaurdContextDto ) {
     try {
       const dataObject = {
         userId: input.userId,
@@ -15,6 +20,7 @@ export class UserChannelDao {
       };
       const newUser = await db.insert(usersChannelMapping).values(dataObject); // .returning() returns inserted row(s)
       if (newUser[0].affectedRows !== 0) {
+         await this.userActivityDao.addUserActivity(context.activityDone, context.userId,dataObject)
         return 'ok done with status 200';
       }
       throw new Error('Check your data');
@@ -26,7 +32,7 @@ export class UserChannelDao {
     }
   }
 
-  async getUsersChannelDao (): Promise<UserChannelResponseDto[]> {
+  async getUsersChannelDao (context : AuthGaurdContextDto): Promise<UserChannelResponseDto[]> {
     try {
       const response = (await db
         .select()
@@ -38,7 +44,7 @@ export class UserChannelDao {
     }
   }
 
-  async deleteUserChannelDao (input: DeleteUserChannelInput): Promise<string> {
+  async deleteUserChannelDao (input: DeleteUserChannelInput,context : AuthGaurdContextDto): Promise<string> {
     try {
       const { id } = input;
       const response = await db
@@ -55,7 +61,7 @@ export class UserChannelDao {
     }
   }
 
-  async updateUserChannel (input: UpdateUserChannelInput): Promise<string> {
+  async updateUserChannel (input: UpdateUserChannelInput,context : AuthGaurdContextDto): Promise<string> {
     try {
       const { id, userId, channelId } = input;
       const user = await db

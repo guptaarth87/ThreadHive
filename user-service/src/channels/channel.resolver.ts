@@ -15,8 +15,8 @@ export class ChannelsResolver {
   @Query(() => {
     return [ChannelResponseDto];
   })
-  async getChannels (): Promise<ChannelResponseDto[]> {
-    return this.channelsService.getChannel();
+  async getChannels (context : AuthGaurdContextDto): Promise<ChannelResponseDto[]> {
+    return this.channelsService.getChannel(context);
   }
 
   @Mutation(() => {
@@ -28,7 +28,7 @@ export class ChannelsResolver {
     @Context() context: AuthGaurdContextDto
   ): Promise<string> {
     if (context.role === 'SUPERADMIN') {
-      return this.channelsService.createChannel(input);
+      return this.channelsService.createChannel(input, context);
     }
     throw new UnauthorizedException(
       'you are not allowed you are not a super admin'
@@ -44,7 +44,7 @@ export class ChannelsResolver {
     @Context() context: AuthGaurdContextDto
   ): Promise<string> {
     if (context.role === 'SUPERADMIN') {
-      return this.channelsService.deleteChannel(input); // You can access `input.id` directly
+      return this.channelsService.deleteChannel(input, context); // You can access `input.id` directly
     }
     throw new UnauthorizedException(
       'you are not allowed you are not a super admin'
@@ -60,7 +60,7 @@ export class ChannelsResolver {
     @Context() context: AuthGaurdContextDto
   ): Promise<string> {
     if (context.role === 'SUPERADMIN') {
-      return this.channelsService.updateChannel(input); // You can access `input.id` directly
+      return this.channelsService.updateChannel(input, context); // You can access `input.id` directly
     }
     throw new UnauthorizedException(
       'you are not allowed you are not a super admin'

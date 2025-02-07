@@ -12,7 +12,7 @@ import { CommentsService } from './comment.service';
   imports: [
     JwtModule.register({
       secret: process.env.JWTSECRET,
-      signOptions: { expiresIn: '1h' },
+      signOptions: { expiresIn: '24h' },
     }),
   ],
   providers: [CommentsService, CommentsResolver, CommentDao, AuthGuard], // Register BigIntScalar here if needed

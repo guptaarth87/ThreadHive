@@ -7,12 +7,13 @@ import { userStatsDao } from './userStats.dao';
 import { AuthGuard } from '../gaurds/authGaurd.gaurds';
 import { UserActivityDao } from 'database-service/dist';
 // import { BigIntScalar } from 'database-service/dist'; // Import BigIntScalar if using it here
+import 'dotenv/config';
 
 @Module({
   imports: [
     JwtModule.register({
-      secret: 'ufdeuwdhiu',
-      signOptions: { expiresIn: '1h' },
+      secret: process.env.JWTSECRET,
+      signOptions: { expiresIn: '24h' },
     }),
   ],
   providers: [

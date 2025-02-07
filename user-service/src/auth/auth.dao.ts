@@ -1,14 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
-import { db, users } from 'database-service/dist';
+import { db, UserActivityDao, users } from 'database-service/dist';
 import { eq } from 'drizzle-orm';
 import { AuthResponse, Payload } from './auth-response.dto';
 import { UserResponseDto } from '../users/dtos/response.dto';
+import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
 
 @Injectable()
 export class AuthDao {
-  constructor (private readonly jwtService: JwtService) {}
+  constructor (
+    private readonly jwtService: JwtService,
+    private readonly userActivityDao : UserActivityDao
+  ) {}
 
   async validateUser (
     email: string,
@@ -40,7 +44,7 @@ export class AuthDao {
     };
   }
 
-  async logUserIn (email: string, password: string): Promise<AuthResponse> {
+  async logUserIn (email: string, password: string, context: AuthGaurdContextDto): Promise<AuthResponse> {
     try {
       const user = await this.validateUser(email, password);
       if (!user) {
@@ -48,6 +52,9 @@ export class AuthDao {
       }
       const response = await this.login(user);
       console.log(response);
+      console.log(context)
+      await this.userActivityDao.addUserActivity(context.activityDone, user.id , response)
+
       return response;
     } catch (error) {
       console.log('error->', error);

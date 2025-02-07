@@ -22,6 +22,6 @@ export class UpdateUserInput {
   @Field({ nullable: true })
   dob?: Date;
 
-  @Field()
+  @Field({ nullable: true })
   modifiedAt?: Date;
 }

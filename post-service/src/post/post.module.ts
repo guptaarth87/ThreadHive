@@ -10,7 +10,7 @@ import 'dotenv/config';
   imports: [
     JwtModule.register({
       secret: process.env.JWTSECRET,
-      signOptions: { expiresIn: '1h' },
+      signOptions: { expiresIn: '24h' },
     }),
   ],
   providers: [PostsService, PostsResolver, PostDao, AuthGuard], // Register BigIntScalar here if needed

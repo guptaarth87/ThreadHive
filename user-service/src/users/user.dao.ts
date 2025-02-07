@@ -29,6 +29,7 @@ export class UserDao {
       };
       const newUser = await db.insert(users).values(dataObject); // .returning() returns inserted row(s)
       if (newUser[0].affectedRows !== 0) {
+        console.log(context.activityDone)
         this.userActivityDao.addUserActivity(context.activityDone,context.userId,dataObject)
         return 'ok done with status 200';
       }
@@ -141,7 +142,7 @@ export class UserDao {
         .set(updatedData)
         .where(eq(users.id, id));
       if (response[0].affectedRows !== 0) {
-        await this.userActivityDao.addUserActivity(context.activityDone,context.userId,input)
+        await this.userActivityDao.addUserActivity(context.activityDone,context.userId,{...input,id: id.toString()})
         return `user of id  ${input.id} updated successfully`;
       }
       throw new Error(`user of id ${id} not updated`);

@@ -5,28 +5,31 @@ import { DeleteUserChannelInput } from './dtos/deleteUserChannelInput.dto';
 import { UserChannelResponseDto } from './dtos/responseUserChannel.dto';
 import { UpdateUserChannelInput } from './dtos/updateUserChannelInput.dto';
 import { UserChannelDao } from './userChannel.dao';
+import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
 
 @Injectable()
 export class UserChannelService {
   constructor (private readonly userChannelDao: UserChannelDao) {} // Inject `UserChannelDao`
 
-  async createUserChannelMapping (input: CreateUserChannelInput) {
-    return this.userChannelDao.createUserChannelMapppingDao(input);
+  async createUserChannelMapping (input: CreateUserChannelInput, context : AuthGaurdContextDto) {
+    return this.userChannelDao.createUserChannelMapppingDao(input, context);
   }
 
-  async getUserChannelMapping (): Promise<UserChannelResponseDto[]> {
-    return this.userChannelDao.getUsersChannelDao();
+  async getUserChannelMapping (context : AuthGaurdContextDto): Promise<UserChannelResponseDto[]> {
+    return this.userChannelDao.getUsersChannelDao(context);
   }
 
   async deleteUserChannelMapping (
-    input: DeleteUserChannelInput
+    input: DeleteUserChannelInput,
+    context : AuthGaurdContextDto
   ): Promise<string> {
-    return this.userChannelDao.deleteUserChannelDao(input);
+    return this.userChannelDao.deleteUserChannelDao(input,context);
   }
 
   async updateUserChannelMapping (
-    input: UpdateUserChannelInput
+    input: UpdateUserChannelInput,
+    context : AuthGaurdContextDto
   ): Promise<string> {
-    return this.userChannelDao.updateUserChannel(input);
+    return this.userChannelDao.updateUserChannel(input,context);
   }
 }

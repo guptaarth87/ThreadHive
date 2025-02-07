@@ -35,7 +35,5 @@ export class AuthGaurdContextDto {
   )
   channels?: bigint[] ;
 
-  // constructor(request: Request) {
-  //   this.req = request;
-  // }
+
 }

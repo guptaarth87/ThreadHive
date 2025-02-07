@@ -129,7 +129,7 @@ export class UsersResolver {
     @Context() context: any
   ): Promise<string> {
     const { id } = input;
-    if (id === context.id) {
+    if (id === context.id || context.role === 'SUPERADMIN') {
       return this.usersService.updateUser(input, context); // You can access `input.id` directly
     }
     throw new UnauthorizedException(
