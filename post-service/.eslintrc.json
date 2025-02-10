@@ -6,14 +6,15 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier"
+    "prettier",
+    "plugin:import/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2021,
-
     "sourceType": "module",
-    "project": "./tsconfig.json"
+    "tsconfigRootDir": ".",
+    "project": ["./tsconfig.json"]
   },
 
   "plugins": [
@@ -23,11 +24,16 @@
     "unicorn",
     "sonarjs",
     "promise",
+    "simple-import-sort",
     "canonical"
   ],
   "root": true,
   "rules": {
-    "sort-imports": "error",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
     "@typescript-eslint/explicit-module-boundary-types": "warn",
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
@@ -185,7 +191,7 @@
 
     // // 70. Requires the use of `import` statements for module loading.
     "import/no-commonjs": "error",
-
+    "import/no-unresolved": "off",
     // // 71. Requires an explicit return type for functions and methods.
     // "@typescript-eslint/explicit-function-return-type": "error",
 

@@ -9,6 +9,11 @@ export class StatsUserInput {
   @Field({ nullable: true })
   endDate?: Date;
 
-  @Field(() => BigIntScalar, { nullable: true }) // Assuming BigIntScalar is properly imported
+  @Field(
+    () => {
+      return BigIntScalar;
+    },
+    { nullable: true }
+  ) // Assuming BigIntScalar is properly imported
   userId?: bigint;
 }

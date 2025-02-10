@@ -16,17 +16,17 @@ let ChannelsService = class ChannelsService {
     constructor(channelDao) {
         this.channelDao = channelDao;
     } // Inject `ChannelDao`
-    async createChannel(input) {
-        return this.channelDao.createChannelDao(input);
+    async createChannel(input, context) {
+        return this.channelDao.createChannelDao(input, context);
     }
-    async getChannel() {
-        return this.channelDao.getChannelsDao();
+    async getChannel(context) {
+        return this.channelDao.getChannelsDao(context);
     }
-    async deleteChannel(input) {
-        return this.channelDao.deleteChannelDao(input);
+    async deleteChannel(input, context) {
+        return this.channelDao.deleteChannelDao(input, context);
     }
-    async updateChannel(input) {
-        return this.channelDao.updateChannel(input);
+    async updateChannel(input, context) {
+        return this.channelDao.updateChannel(input, context);
     }
 };
 exports.ChannelsService = ChannelsService;

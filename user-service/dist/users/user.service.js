@@ -32,8 +32,8 @@ let UsersService = class UsersService {
     async getUsers(context) {
         return this.userDao.getUsersDao(context);
     }
-    async getUserActivity(userId) {
-        return this.userActivityDao.getUserActivity(userId);
+    async getUserActivity() {
+        return this.userActivityDao.getUserActivity();
     }
     async addUserActivity(activity, actionBy, additionalData) {
         return this.userActivityDao.addUserActivity(activity, actionBy, additionalData);

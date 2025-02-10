@@ -1,8 +1,9 @@
 import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { ChannelsService } from './channel.service';
+
 import { AuthGuard } from '../gaurds/authGaurd.gaurds';
 import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
+import { ChannelsService } from './channel.service';
 import { ChannelResponseDto } from './dtos/channelResponse.dto';
 import { CreateChannelInput } from './dtos/createChannelInput.dto';
 import { DeleteChannelInput } from './dtos/deleteChannelInput.dto';
@@ -15,7 +16,9 @@ export class ChannelsResolver {
   @Query(() => {
     return [ChannelResponseDto];
   })
-  async getChannels (context : AuthGaurdContextDto): Promise<ChannelResponseDto[]> {
+  async getChannels (
+    context: AuthGaurdContextDto
+  ): Promise<ChannelResponseDto[]> {
     return this.channelsService.getChannel(context);
   }
 
@@ -31,7 +34,7 @@ export class ChannelsResolver {
       return this.channelsService.createChannel(input, context);
     }
     throw new UnauthorizedException(
-      'you are not allowed you are not a super admin'
+      'you are not allowed only super admin can access'
     );
   }
 

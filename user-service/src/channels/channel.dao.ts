@@ -1,23 +1,26 @@
-import { channels, db, UserActivityDao } from 'database-service/dist';
+import { Injectable } from '@nestjs/common';
+import { channels, db,UserActivityDao } from 'database-service/dist';
 import { eq } from 'drizzle-orm';
+
+import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
 import { ChannelResponseDto } from './dtos/channelResponse.dto';
 import { CreateChannelInput } from './dtos/createChannelInput.dto';
 import { DeleteChannelInput } from './dtos/deleteChannelInput.dto';
 import { UpdateChannelInput } from './dtos/updateChannelInput.dto';
-import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
-import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ChannelDao {
-
-  constructor (private readonly userActivityDao: UserActivityDao){}
+  constructor (private readonly userActivityDao: UserActivityDao) {}
   formatDateForMySQL (dateString: string): string {
     const [day, month, year] = dateString.split('-');
     const date = new Date(`${year}-${month}-${day}`);
     return date.toISOString().split('T')[0]; // Returns YYYY-MM-DD
   }
 
-  async createChannelDao (input: CreateChannelInput,context: AuthGaurdContextDto) {
+  async createChannelDao (
+    input: CreateChannelInput,
+    context: AuthGaurdContextDto
+  ) {
     console.log('in create block');
     try {
       const dataObject = {
@@ -27,7 +30,11 @@ export class ChannelDao {
       };
       const newChannel = await db.insert(channels).values(dataObject); // .returning() returns inserted row(s)
       if (newChannel[0].affectedRows !== 0) {
-        await this.userActivityDao.addUserActivity(context.activityDone, context.userId,dataObject)
+        await this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          dataObject
+        );
         return 'ok done with status 200';
       }
       throw new Error('Check your data');
@@ -39,12 +46,18 @@ export class ChannelDao {
     }
   }
 
-  async getChannelsDao (context: AuthGaurdContextDto): Promise<ChannelResponseDto[]> {
+  async getChannelsDao (
+    context: AuthGaurdContextDto
+  ): Promise<ChannelResponseDto[]> {
     try {
       const response = (await db
         .select()
         .from(channels)) as ChannelResponseDto[];
-      await this.userActivityDao.addUserActivity(context.activityDone, context.userId,response)
+      await this.userActivityDao.addUserActivity(
+        context.activityDone,
+        context.userId,
+        { request: 'success' }
+      );
       return response;
     } catch (error) {
       console.log('error-->', error);
@@ -52,15 +65,22 @@ export class ChannelDao {
     }
   }
 
-  async deleteChannelDao (input: DeleteChannelInput,context: AuthGaurdContextDto): Promise<string> {
+  async deleteChannelDao (
+    input: DeleteChannelInput,
+    context: AuthGaurdContextDto
+  ): Promise<string> {
     try {
       const { id } = input;
       const response = await db.delete(channels).where(eq(channels.id, id));
       console.log(response);
 
       if (response[0].affectedRows !== 0) {
-        await this.userActivityDao.addUserActivity(context.activityDone, context.userId,{'id':id.toString()})
-        return `channel with if ${id} deleted successfully`;
+        await this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          { id: id.toString() }
+        );
+        return `channel with id ${id} deleted successfully`;
       }
       throw new Error(`channel id not found -> ${id}`);
     } catch (error) {
@@ -68,7 +88,10 @@ export class ChannelDao {
     }
   }
 
-  async updateChannel (input: UpdateChannelInput,context: AuthGaurdContextDto): Promise<string> {
+  async updateChannel (
+    input: UpdateChannelInput,
+    context: AuthGaurdContextDto
+  ): Promise<string> {
     try {
       const { id, name } = input;
       const channel = await db
@@ -93,7 +116,11 @@ export class ChannelDao {
         .set(updatedData)
         .where(eq(channels.id, id));
       if (response[0].affectedRows !== 0) {
-        await this.userActivityDao.addUserActivity(context.activityDone, context.userId,{...input,id: id.toString()})
+        await this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          { ...input, id: id.toString() }
+        );
         return `channel of id  ${input.id} updated successfully`;
       }
       throw new Error(`channel of id ${id} not updated`);

@@ -16,8 +16,9 @@ const bcrypt = require("bcryptjs");
 const dist_1 = require("database-service/dist");
 const drizzle_orm_1 = require("drizzle-orm");
 let AuthDao = class AuthDao {
-    constructor(jwtService) {
+    constructor(jwtService, userActivityDao) {
         this.jwtService = jwtService;
+        this.userActivityDao = userActivityDao;
     }
     async validateUser(email, password) {
         const user = await dist_1.db
@@ -42,7 +43,7 @@ let AuthDao = class AuthDao {
             payload,
         };
     }
-    async logUserIn(email, password) {
+    async logUserIn(email, password, context) {
         try {
             const user = await this.validateUser(email, password);
             if (!user) {
@@ -50,6 +51,8 @@ let AuthDao = class AuthDao {
             }
             const response = await this.login(user);
             console.log(response);
+            console.log(context);
+            await this.userActivityDao.addUserActivity(context.activityDone, user.id, response);
             return response;
         }
         catch (error) {
@@ -61,5 +64,6 @@ let AuthDao = class AuthDao {
 exports.AuthDao = AuthDao;
 exports.AuthDao = AuthDao = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [jwt_1.JwtService])
+    __metadata("design:paramtypes", [jwt_1.JwtService,
+        dist_1.UserActivityDao])
 ], AuthDao);

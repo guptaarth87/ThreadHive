@@ -1,5 +1,4 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { BigIntScalar } from 'database-service/dist';
 
 @ObjectType()
 export class Payload {

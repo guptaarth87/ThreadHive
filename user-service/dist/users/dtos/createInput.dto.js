@@ -12,19 +12,30 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateUserInput = void 0;
 const graphql_1 = require("@nestjs/graphql");
 const user_roles_enum_1 = require("../enums/user-roles.enum"); // Assuming this is imported from a shared module
+const class_validator_1 = require("class-validator");
 let CreateUserInput = class CreateUserInput {
 };
 exports.CreateUserInput = CreateUserInput;
 __decorate([
     (0, graphql_1.Field)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(3),
     __metadata("design:type", String)
 ], CreateUserInput.prototype, "name", void 0);
 __decorate([
     (0, graphql_1.Field)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(6),
+    (0, class_validator_1.Matches)(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,3}$/g),
     __metadata("design:type", String)
 ], CreateUserInput.prototype, "email", void 0);
 __decorate([
     (0, graphql_1.Field)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(4),
     __metadata("design:type", String)
 ], CreateUserInput.prototype, "password", void 0);
 __decorate([
@@ -32,10 +43,12 @@ __decorate([
         return user_roles_enum_1.UserRole;
     }) // Referencing the UserRole enum
     ,
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateUserInput.prototype, "role", void 0);
 __decorate([
     (0, graphql_1.Field)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", Date)
 ], CreateUserInput.prototype, "dob", void 0);
 exports.CreateUserInput = CreateUserInput = __decorate([

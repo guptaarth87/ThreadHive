@@ -17,12 +17,15 @@ const graphql_1 = require("@nestjs/graphql");
 const auth_response_dto_1 = require("./auth-response.dto");
 const auth_service_1 = require("./auth.service");
 const loginInput_dto_1 = require("../users/dtos/loginInput.dto");
+const authGuardContext_dto_1 = require("../gaurds/authGuardContext.dto");
+const common_1 = require("@nestjs/common");
+const authGaurd_gaurds_1 = require("../gaurds/authGaurd.gaurds");
 let AuthResolver = class AuthResolver {
     constructor(authService) {
         this.authService = authService;
     }
-    async login(input) {
-        return this.authService.userAuthService(input.email, input.password);
+    async login(input, context) {
+        return this.authService.userAuthService(input.email, input.password, context);
     }
 };
 exports.AuthResolver = AuthResolver;
@@ -30,9 +33,11 @@ __decorate([
     (0, graphql_1.Mutation)(() => {
         return auth_response_dto_1.AuthResponse;
     }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
     __param(0, (0, graphql_1.Args)('input')),
+    __param(1, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [loginInput_dto_1.LoginInput]),
+    __metadata("design:paramtypes", [loginInput_dto_1.LoginInput, authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], AuthResolver.prototype, "login", null);
 exports.AuthResolver = AuthResolver = __decorate([

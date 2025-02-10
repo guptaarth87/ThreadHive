@@ -33,6 +33,7 @@ let UserDao = class UserDao {
             };
             const newUser = await dist_1.db.insert(dist_1.users).values(dataObject); // .returning() returns inserted row(s)
             if (newUser[0].affectedRows !== 0) {
+                console.log(context.activityDone);
                 this.userActivityDao.addUserActivity(context.activityDone, context.userId, dataObject);
                 return 'ok done with status 200';
             }
@@ -52,7 +53,7 @@ let UserDao = class UserDao {
                 .where((0, drizzle_orm_1.eq)(dist_1.users.email, email))
                 .limit(1);
             console.log(user);
-            this.userActivityDao.addUserActivity(context.activityDone, context.userId, user[0]);
+            await this.userActivityDao.addUserActivity(context.activityDone, context.userId, user[0]);
             return user;
         }
         catch (error) {
@@ -63,7 +64,7 @@ let UserDao = class UserDao {
     async getUsersDao(context) {
         try {
             const response = (await dist_1.db.select().from(dist_1.users));
-            this.userActivityDao.addUserActivity(context.activityDone, context.userId, { "request": "success" });
+            await this.userActivityDao.addUserActivity(context.activityDone, context.userId, { "request": "success" });
             return response;
         }
         catch (error) {
@@ -77,7 +78,7 @@ let UserDao = class UserDao {
             .select({ channelId: dist_1.usersChannelMapping.channelId })
             .from(dist_1.usersChannelMapping)
             .where((0, drizzle_orm_1.eq)(dist_1.usersChannelMapping.userId, id));
-        const userBelongsToChannel = userChannel[0].channelId;
+        const userBelongsToChannel = userChannel[0]?.channelId;
         if (role === 'ADMIN' && !channels?.includes(userBelongsToChannel)) {
             throw new common_1.UnauthorizedException(`You dont have rights to this channel of id ${userBelongsToChannel}`);
         }
@@ -85,10 +86,12 @@ let UserDao = class UserDao {
             try {
                 const { id } = input;
                 const response = await dist_1.db.delete(dist_1.users).where((0, drizzle_orm_1.eq)(dist_1.users.id, id));
+                // const response = [{'affectedRows':1}]
+                console.log(input);
+                await this.userActivityDao.addUserActivity(context.activityDone, context.userId, { 'id': id.toString() });
                 console.log(response);
                 if (response[0].affectedRows !== 0) {
-                    this.userActivityDao.addUserActivity(context.activityDone, context.userId, input);
-                    return `user with if ${id} deleted successfully`;
+                    return `user with id ${id} deleted successfully`;
                 }
                 throw new Error(`user id not found -> ${id}`);
             }
@@ -132,7 +135,7 @@ let UserDao = class UserDao {
                 .set(updatedData)
                 .where((0, drizzle_orm_1.eq)(dist_1.users.id, id));
             if (response[0].affectedRows !== 0) {
-                this.userActivityDao.addUserActivity(context.activityDone, context.userId, input);
+                await this.userActivityDao.addUserActivity(context.activityDone, context.userId, { ...input, id: id.toString() });
                 return `user of id  ${input.id} updated successfully`;
             }
             throw new Error(`user of id ${id} not updated`);

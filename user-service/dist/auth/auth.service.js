@@ -16,8 +16,8 @@ let AuthService = class AuthService {
     constructor(authDao) {
         this.authDao = authDao;
     }
-    async userAuthService(email, password) {
-        return this.authDao.logUserIn(email, password);
+    async userAuthService(email, password, context) {
+        return this.authDao.logUserIn(email, password, context);
     }
 };
 exports.AuthService = AuthService;

@@ -1,18 +1,23 @@
+import { Injectable } from '@nestjs/common';
 import {
   comments,
   db,
   likes,
   posts,
   replies,
+  UserActivityDao,
   users,
 } from 'database-service/dist';
-import { SQL, and, asc, count, desc, eq, gte, lte } from 'drizzle-orm';
+import { and, asc, count, desc, eq, gte, lte,SQL } from 'drizzle-orm';
+
+import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
 import { StatsUserInput } from './dtos/statsInput.dto';
 import { StatsResponseDto } from './dtos/statsResponse.dto';
-import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
 
+@Injectable()
 export class userStatsDao {
-  async getUserPostStats (input: StatsUserInput,context: AuthGaurdContextDto) {
+  constructor (private readonly userActivityDao: UserActivityDao) {}
+  async getUserPostStats (input: StatsUserInput, context: AuthGaurdContextDto) {
     const { startDate, endDate, userId } = input;
 
     const conditions: SQL[] = [];
@@ -113,6 +118,11 @@ export class userStatsDao {
             return response[0]?.count || 0;
           });
 
+        this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          { request: 'success' }
+        );
         return {
           id: uid,
           postWithMaxLikes: postWithMaxLikes.post || undefined,

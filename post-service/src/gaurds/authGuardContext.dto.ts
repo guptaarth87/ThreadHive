@@ -1,6 +1,8 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { BigIntScalar } from 'database-service/dist';
 
+import { UserRole } from '../enums/user-roles.enum';
+
 @ObjectType()
 export class AuthGaurdContextDto {
   @Field(() => {
@@ -16,15 +18,14 @@ export class AuthGaurdContextDto {
 
   @Field({ nullable: true })
   activityDone!: string;
-  
+
   @Field({ nullable: true })
   email!: string;
 
   @Field({ nullable: true })
   role!: string;
 
-  @Field(()=> BigIntScalar ,
-  )
+  @Field(() => {return BigIntScalar;})
   userId!: bigint;
 
   @Field(
@@ -34,4 +35,18 @@ export class AuthGaurdContextDto {
     { nullable: true }
   )
   channelsAllowed!: bigint[];
+}
+
+@ObjectType()
+export class DecodedTokenDto {
+  @Field()
+  role!: UserRole;
+
+  @Field(() => {
+    return BigIntScalar;
+  })
+  sub!: bigint;
+
+  @Field()
+  email!: string;
 }

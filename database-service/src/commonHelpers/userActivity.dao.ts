@@ -1,16 +1,19 @@
-import { eq } from 'drizzle-orm';
-import { UserActivityResponseDto } from './activityResponse.dto';
 import { activities } from '../schema';
 import { db } from '../db';
+import { UserActivityResponseDto } from './activityResponse.dto';
+
 
 export class UserActivityDao {
-  async getUserActivity(userId: bigint): Promise<UserActivityResponseDto[]> {
+  async getUserActivity(): Promise<UserActivityResponseDto[]> {
     // Implement logic to fetch user activity based on userId
     try {
-      const response = await db
-        .select()
-        .from(activities)
-        .where(eq(activities.actionBy, userId));
+      let response = await db.select().from(activities);
+      response = response.map((activityObject) => ({
+        ...activityObject,
+        additionalData: JSON.stringify(activityObject.additionalData),
+      }));
+
+      console.log('activity data', response);
       return response as UserActivityResponseDto[];
     } catch (error) {
       console.log('error-->', error);
@@ -30,9 +33,9 @@ export class UserActivityDao {
         additionalData,
         createdAt: new Date(),
       };
-      console.log("activity object in my activity function",ActivityObject);
+      console.log('activity object in my activity function', ActivityObject);
       const newActivity = await db.insert(activities).values(ActivityObject);
-      console.log("new activity",newActivity);
+      console.log('new activity', newActivity);
       if (newActivity[0].affectedRows !== 0) {
         return true;
       } else {

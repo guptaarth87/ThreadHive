@@ -1,13 +1,18 @@
+import { Injectable } from '@nestjs/common';
+import { db, likes, UserActivityDao } from 'database-service/dist';
 import { and, eq } from 'drizzle-orm';
 
-import { Injectable } from '@nestjs/common';
-import { db, likes } from 'database-service/dist';
+import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
 import { LikeEventInput } from './dtos/likeEventInput.dto';
 import { LikeResponseDto } from './dtos/likeResponse.dto';
 
 @Injectable()
 export class LikesDao {
-  async likeToggleDao (input: LikeEventInput): Promise<string> {
+  constructor (private readonly userActivityDao: UserActivityDao) {}
+  async likeToggleDao (
+    input: LikeEventInput,
+    context: AuthGaurdContextDto
+  ): Promise<string> {
     console.log('in create block');
     try {
       const inputObject = {
@@ -44,11 +49,28 @@ export class LikesDao {
             )
           );
         console.log(deleteStatus);
+        await this.userActivityDao.addUserActivity('unliked', context.userId, {
+          type: input.type,
+          createdAt: new Date(),
+          typeId: input.typeId.toString(),
+          likedBy: input.likedBy.toString(),
+          channelId: input.channelId.toString(),
+          postId: input.postId.toString(),
+        });
         return `${inputObject.type} of id -> ${inputObject.typeId} unliked`;
       }
-      const likedStatus = await db.insert(likes).values(inputObject);
-      console.log(likedStatus);
-      return `liked ${inputObject.type}`;
+        const likedStatus = await db.insert(likes).values(inputObject);
+        console.log(likedStatus);
+        await this.userActivityDao.addUserActivity('liked', context.userId, {
+          type: input.type,
+          createdAt: new Date(),
+          typeId: input.typeId.toString(),
+          likedBy: input.likedBy.toString(),
+          channelId: input.channelId.toString(),
+          postId: input.postId.toString(),
+        });
+        return `liked ${inputObject.type}`;
+
     } catch (error) {
       console.log(error);
       throw new Error('Database error !');

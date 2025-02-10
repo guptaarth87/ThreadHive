@@ -1,10 +1,14 @@
 import { Field, InputType } from '@nestjs/graphql';
+
 import { BigIntScalar } from 'database-service/dist';
+
 import { UserRole } from '../enums/user-roles.enum';
 
 @InputType()
 export class UpdateUserInput {
-  @Field(() => BigIntScalar) // Assuming BigIntScalar is properly imported
+  @Field(() => {
+    return BigIntScalar;
+  }) // Assuming BigIntScalar is properly imported
   id!: bigint;
 
   @Field({ nullable: true })

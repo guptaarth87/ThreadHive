@@ -19,21 +19,24 @@ const deleteUserChannelInput_dto_1 = require("./dtos/deleteUserChannelInput.dto"
 const responseUserChannel_dto_1 = require("./dtos/responseUserChannel.dto");
 const updateUserChannelInput_dto_1 = require("./dtos/updateUserChannelInput.dto");
 const userChannel_service_1 = require("./userChannel.service");
+const common_1 = require("@nestjs/common");
+const authGaurd_gaurds_1 = require("../gaurds/authGaurd.gaurds");
+const authGuardContext_dto_1 = require("../gaurds/authGuardContext.dto");
 let UserChannelResolver = class UserChannelResolver {
     constructor(userChannelService) {
         this.userChannelService = userChannelService;
     }
-    async getUserChannelMapping() {
-        return this.userChannelService.getUserChannelMapping();
+    async getUserChannelMapping(context) {
+        return this.userChannelService.getUserChannelMapping(context);
     }
-    async createUserChannelMapping(input) {
-        return this.userChannelService.createUserChannelMapping(input);
+    async createUserChannelMapping(input, context) {
+        return this.userChannelService.createUserChannelMapping(input, context);
     }
-    async deleteUserChannelMapping(input) {
-        return this.userChannelService.deleteUserChannelMapping(input); // You can access `input.id` directly
+    async deleteUserChannelMapping(input, context) {
+        return this.userChannelService.deleteUserChannelMapping(input, context); // You can access `input.id` directly
     }
-    async updateUserChannelMapping(input) {
-        return this.userChannelService.updateUserChannelMapping(input); // You can access `input.id` directly
+    async updateUserChannelMapping(input, context) {
+        return this.userChannelService.updateUserChannelMapping(input, context); // You can access `input.id` directly
     }
 };
 exports.UserChannelResolver = UserChannelResolver;
@@ -41,35 +44,46 @@ __decorate([
     (0, graphql_1.Query)(() => {
         return [responseUserChannel_dto_1.UserChannelResponseDto];
     }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
+    __param(0, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], UserChannelResolver.prototype, "getUserChannelMapping", null);
 __decorate([
     (0, graphql_1.Mutation)(() => {
         return String;
     }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
     __param(0, (0, graphql_1.Args)('input')),
+    __param(1, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [createUserChannelInput_dto_1.CreateUserChannelInput]),
+    __metadata("design:paramtypes", [createUserChannelInput_dto_1.CreateUserChannelInput,
+        authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], UserChannelResolver.prototype, "createUserChannelMapping", null);
 __decorate([
     (0, graphql_1.Mutation)(() => {
         return String;
     }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
     __param(0, (0, graphql_1.Args)('input')),
+    __param(1, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [deleteUserChannelInput_dto_1.DeleteUserChannelInput]),
+    __metadata("design:paramtypes", [deleteUserChannelInput_dto_1.DeleteUserChannelInput,
+        authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], UserChannelResolver.prototype, "deleteUserChannelMapping", null);
 __decorate([
     (0, graphql_1.Mutation)(() => {
         return String;
     }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
     __param(0, (0, graphql_1.Args)('input')),
+    __param(1, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [updateUserChannelInput_dto_1.UpdateUserChannelInput]),
+    __metadata("design:paramtypes", [updateUserChannelInput_dto_1.UpdateUserChannelInput,
+        authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], UserChannelResolver.prototype, "updateUserChannelMapping", null);
 exports.UserChannelResolver = UserChannelResolver = __decorate([

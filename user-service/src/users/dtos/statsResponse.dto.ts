@@ -1,9 +1,13 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { BigIntScalar } from 'database-service/dist'; // Assuming you have a Post entity
+
+import { BigIntScalar } from 'database-service/dist';
+// Assuming you have a Post entity
 
 @ObjectType()
 export class PostDto {
-  @Field(() => BigIntScalar)
+  @Field(() => {
+    return BigIntScalar;
+  })
   id!: bigint;
 
   @Field()
@@ -12,13 +16,19 @@ export class PostDto {
   @Field()
   description!: string;
 
-  @Field(() => BigIntScalar)
+  @Field(() => {
+    return BigIntScalar;
+  })
   modifiedBy!: bigint;
 
-  @Field(() => BigIntScalar)
+  @Field(() => {
+    return BigIntScalar;
+  })
   createdBy!: bigint;
 
-  @Field(() => BigIntScalar)
+  @Field(() => {
+    return BigIntScalar;
+  })
   channelId!: bigint;
 
   @Field()
@@ -36,13 +46,25 @@ export class PostDto {
 
 @ObjectType()
 export class StatsResponseDto {
-  @Field(() =>  BigIntScalar)
+  @Field(() => {
+    return BigIntScalar;
+  })
   id!: bigint;
 
-  @Field(() => {return PostDto;}, { nullable: true })
+  @Field(
+    () => {
+      return PostDto;
+    },
+    { nullable: true }
+  )
   postWithMaxLikes?: PostDto | null;
 
-  @Field(() => {return PostDto;}, { nullable: true })
+  @Field(
+    () => {
+      return PostDto;
+    },
+    { nullable: true }
+  )
   postWithMinLikes?: PostDto | null;
 
   @Field()

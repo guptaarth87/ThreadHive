@@ -1,18 +1,29 @@
+import { Injectable } from '@nestjs/common';
+import { db, replies, UserActivityDao } from 'database-service/dist';
 import { eq } from 'drizzle-orm';
 
-import { Injectable } from '@nestjs/common';
-import { db, replies } from 'database-service/dist';
+import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
 import { DeleteReplyInput } from './dtos/deleteReply.dto';
 import { ReplyResponseDto } from './dtos/replyComment.dto';
 import { UpdateReplyInput } from './dtos/updateReply.dto';
 
 @Injectable()
 export class ReplyDao {
-  async createReplyDao (input: typeof replies.$inferInsert) {
+  constructor (private readonly userActivityDao: UserActivityDao) {} // Inject `UserDao`
+
+  async createReplyDao (
+    input: typeof replies.$inferInsert,
+    context: AuthGaurdContextDto
+  ) {
     console.log('in create block');
     try {
       const newReply = await db.insert(replies).values(input); // .returning() returns inserted row(s)
       if (newReply[0].affectedRows !== 0) {
+        await this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          input
+        );
         return 'ok done with status 200';
       }
       throw new Error('Check your data');
@@ -24,9 +35,16 @@ export class ReplyDao {
     }
   }
 
-  async getRepliesDao (): Promise<ReplyResponseDto[]> {
+  async getRepliesDao (
+    context: AuthGaurdContextDto
+  ): Promise<ReplyResponseDto[]> {
     try {
       const response = (await db.select().from(replies)) as ReplyResponseDto[];
+      await this.userActivityDao.addUserActivity(
+        context.activityDone,
+        context.userId,
+        { request: 'success' }
+      );
       return response;
     } catch (error) {
       console.log('error-->', error);
@@ -34,13 +52,21 @@ export class ReplyDao {
     }
   }
 
-  async deleteReplyDao (input: DeleteReplyInput): Promise<string> {
+  async deleteReplyDao (
+    input: DeleteReplyInput,
+    context: AuthGaurdContextDto
+  ): Promise<string> {
     try {
       const { id } = input;
       const response = await db.delete(replies).where(eq(replies.id, id));
-      console.log(response);
 
+      console.log(response);
       if (response[0].affectedRows !== 0) {
+        await this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          { id: id.toString() }
+        );
         return `Reply with if ${id} deleted successfully`;
       }
       throw new Error(`Reply id not found -> ${id}`);
@@ -49,7 +75,10 @@ export class ReplyDao {
     }
   }
 
-  async updateReply (input: UpdateReplyInput): Promise<string> {
+  async updateReply (
+    input: UpdateReplyInput,
+    context: AuthGaurdContextDto
+  ): Promise<string> {
     try {
       const { id, description, channelId, postId, modifiedBy } = input;
       const Reply = await db
@@ -80,12 +109,17 @@ export class ReplyDao {
         .update(replies)
         .set(updatedData)
         .where(eq(replies.id, id));
-      if (response[0].affectedRows != 0) {
+      if (response[0].affectedRows !== 0) {
+        await this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          { ...input, id: id.toString() }
+        );
         return `Reply of id  ${input.id} updated successfully`;
       }
       throw new Error(`Reply of id ${id} not updated`);
     } catch (error) {
-      throw new Error('database error');
+      throw new Error('database error : {error}');
     }
   }
 

@@ -1,9 +1,11 @@
 import { Field, InputType } from '@nestjs/graphql';
-// Assuming this is imported from a shared module
+import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 @InputType()
 export class CreateChannelInput {
   @Field()
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(1)
   name!: string;
-
 }

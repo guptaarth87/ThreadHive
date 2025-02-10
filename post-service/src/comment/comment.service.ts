@@ -1,4 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+
+import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
 import { CommentDao } from './comment.dao';
 import { CommentResponseDto } from './dtos/commentResponse.dto';
 import { CreateCommentInput } from './dtos/createCommentInput.dto';
@@ -9,7 +11,7 @@ import { UpdateCommentInput } from './dtos/updateComment.dto';
 export class CommentsService {
   constructor (private readonly commentDao: CommentDao) {} // Inject `UserDao`
 
-  async createComment (input: CreateCommentInput) {
+  async createComment (input: CreateCommentInput, context: AuthGaurdContextDto) {
     const dataObject = {
       description: input.description,
       createdBy: input.createdBy,
@@ -19,18 +21,19 @@ export class CommentsService {
       createdAt: new Date(),
       isDeleted: false,
     };
-    return this.commentDao.createCommentDao(dataObject);
+    return this.commentDao.createCommentDao(dataObject,context);
   }
 
-  async getComments (): Promise<CommentResponseDto[]> {
-    return this.commentDao.getCommentsDao();
+  async getComments (context: AuthGaurdContextDto): Promise<CommentResponseDto[]> {
+    return this.commentDao.getCommentsDao(context);
   }
 
   async deleteComment (
     input: DeleteCommentInput,
     channelsAllowed: bigint[],
     userId: bigint,
-    role: string
+    role: string,
+    context: AuthGaurdContextDto
   ): Promise<string> {
     if (
       await this.commentDao.canUserProceed(
@@ -38,9 +41,10 @@ export class CommentsService {
         channelsAllowed,
         userId,
         role
+
       )
     ) {
-      return this.commentDao.deleteCommentDao(input);
+      return this.commentDao.deleteCommentDao(input,context);
     }
     throw new UnauthorizedException('User not allowed to delete this post');
   }
@@ -49,7 +53,8 @@ export class CommentsService {
     input: UpdateCommentInput,
     channelsAllowed: bigint[],
     userId: bigint,
-    role: string
+    role: string,
+    context: AuthGaurdContextDto
   ): Promise<string> {
     if (
       await this.commentDao.canUserProceed(
@@ -59,7 +64,7 @@ export class CommentsService {
         role
       )
     ) {
-      return this.commentDao.updateComment(input);
+      return this.commentDao.updateComment(input, context);
     }
     throw new UnauthorizedException('User not allowed to delete this post');
   }

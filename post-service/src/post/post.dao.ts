@@ -1,18 +1,28 @@
-import { db, posts } from 'database-service/dist';
+import { Injectable } from '@nestjs/common';
+import { db, posts, UserActivityDao } from 'database-service/dist';
 import { eq } from 'drizzle-orm';
 
-import { Injectable } from '@nestjs/common';
+import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
 import { DeletePostInput } from './dtos/deletePostInput.dto';
 import { PostResponseDto } from './dtos/postResponse.dto';
 import { UpdatePostInput } from './dtos/updatePostInput.dto';
 
 @Injectable()
 export class PostDao {
-  async createPostDao (input: typeof posts.$inferInsert) {
+  constructor (private readonly userActivityDao: UserActivityDao) {}
+  async createPostDao (
+    input: typeof posts.$inferInsert,
+    context: AuthGaurdContextDto
+  ) {
     console.log('in create block');
     try {
       const newpost = await db.insert(posts).values(input); // .returning() returns inserted row(s)
       if (newpost[0].affectedRows !== 0) {
+        await this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          input
+        );
         return 'ok done with status 200';
       }
       throw new Error('Check your data');
@@ -24,9 +34,14 @@ export class PostDao {
     }
   }
 
-  async getPostsDao (): Promise<PostResponseDto[]> {
+  async getPostsDao (context: AuthGaurdContextDto): Promise<PostResponseDto[]> {
     try {
       const response = await db.select().from(posts);
+      await this.userActivityDao.addUserActivity(
+        context.activityDone,
+        context.userId,
+        { request: 'success' }
+      );
       return response as PostResponseDto[];
     } catch (error) {
       console.log('error-->', error);
@@ -34,13 +49,21 @@ export class PostDao {
     }
   }
 
-  async deletePostDao (input: DeletePostInput): Promise<string> {
+  async deletePostDao (
+    input: DeletePostInput,
+    context: AuthGaurdContextDto
+  ): Promise<string> {
     try {
       const { id } = input;
       const response = await db.delete(posts).where(eq(posts.id, id));
       console.log(response);
 
       if (response[0].affectedRows !== 0) {
+        await this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          { id: input.id.toString() }
+        );
         return `post with id ${id} deleted successfully`;
       }
       throw new Error(`post id not found -> ${id}`);
@@ -72,7 +95,10 @@ export class PostDao {
     return false;
   }
 
-  async updatePost (input: UpdatePostInput): Promise<string> {
+  async updatePost (
+    input: UpdatePostInput,
+    context: AuthGaurdContextDto
+  ): Promise<string> {
     try {
       const { id, title, description, channelId, modifiedBy } = input;
       const post = await db
@@ -104,11 +130,16 @@ export class PostDao {
         .set(updatedData)
         .where(eq(posts.id, id));
       if (response[0].affectedRows !== 0) {
+        await this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          { ...input, id: id.toString() }
+        );
         return `post of id  ${input.id} updated successfully`;
       }
       throw new Error(`post of id ${id} not updated`);
     } catch (error) {
-      throw new Error('database error');
+      throw new Error(`database error: ${error}`);
     }
   }
 }

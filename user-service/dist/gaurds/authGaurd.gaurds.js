@@ -26,6 +26,10 @@ let AuthGuard = class AuthGuard {
         const token = request.req.raw?.headers.authorization;
         const fieldName = context.getArgs()[3].fieldName;
         // Check if the token is provided
+        if (fieldName === 'login') {
+            request.activityDone = fieldName;
+            return true;
+        }
         if (!token) {
             throw new common_1.UnauthorizedException('No token provided');
         }
@@ -53,6 +57,7 @@ let AuthGuard = class AuthGuard {
                     return channelId;
                 });
             };
+            console.log(request.role);
             // write logic to extract list of channels he have accessed to admin
             if (role === 'ADMIN') {
                 const channelsAccess = await dist_1.db

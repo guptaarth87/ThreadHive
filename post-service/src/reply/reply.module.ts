@@ -1,6 +1,9 @@
+import 'dotenv/config';
+
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import 'dotenv/config';
+import { UserActivityDao } from 'database-service/dist';
+
 import { AuthGuard } from '../gaurds/authGaurd.gaurds';
 import { ReplyDao } from './reply.dao';
 import { RepliesResolver } from './reply.resolver';
@@ -14,7 +17,13 @@ import { RepliesService } from './reply.service';
       signOptions: { expiresIn: '24h' },
     }),
   ],
-  providers: [RepliesService, RepliesResolver, ReplyDao, AuthGuard], // Register BigIntScalar here if needed
+  providers: [
+    RepliesService,
+    RepliesResolver,
+    ReplyDao,
+    AuthGuard,
+    UserActivityDao,
+  ], // Register BigIntScalar here if needed
   exports: [RepliesService],
 })
 export class RepliesModule {}

@@ -26,24 +26,24 @@ let ChannelsResolver = class ChannelsResolver {
     constructor(channelsService) {
         this.channelsService = channelsService;
     }
-    async getChannels() {
-        return this.channelsService.getChannel();
+    async getChannels(context) {
+        return this.channelsService.getChannel(context);
     }
     async createChannel(input, context) {
         if (context.role === 'SUPERADMIN') {
-            return this.channelsService.createChannel(input);
+            return this.channelsService.createChannel(input, context);
         }
         throw new common_1.UnauthorizedException('you are not allowed you are not a super admin');
     }
     async deleteChannel(input, context) {
         if (context.role === 'SUPERADMIN') {
-            return this.channelsService.deleteChannel(input); // You can access `input.id` directly
+            return this.channelsService.deleteChannel(input, context); // You can access `input.id` directly
         }
         throw new common_1.UnauthorizedException('you are not allowed you are not a super admin');
     }
     async updateChannel(input, context) {
         if (context.role === 'SUPERADMIN') {
-            return this.channelsService.updateChannel(input); // You can access `input.id` directly
+            return this.channelsService.updateChannel(input, context); // You can access `input.id` directly
         }
         throw new common_1.UnauthorizedException('you are not allowed you are not a super admin');
     }
@@ -54,7 +54,7 @@ __decorate([
         return [channelResponse_dto_1.ChannelResponseDto];
     }),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], ChannelsResolver.prototype, "getChannels", null);
 __decorate([

@@ -6,14 +6,15 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier"
+    "prettier",
+    "plugin:import/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2021,
-
     "sourceType": "module",
-    "project": "./tsconfig.json"
+    "tsconfigRootDir": ".",
+    "project": ["./tsconfig.json"]
   },
 
   "plugins": [
@@ -23,17 +24,21 @@
     "unicorn",
     "sonarjs",
     "promise",
+    "simple-import-sort",
     "canonical"
   ],
   "root": true,
   "rules": {
-    "sort-imports": "error",
-    "@typescript-eslint/explicit-module-boundary-types": "error",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "warn",
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-    "@typescript-eslint/strict-boolean-expressions": "error",
-    "@typescript-eslint/explicit-member-accessibility": "error",
+    "@typescript-eslint/strict-boolean-expressions": "warn",
     "@typescript-eslint/no-empty-function": "error",
     "@typescript-eslint/no-magic-numbers": ["warn", { "ignore": [0, 1] }],
     "@typescript-eslint/no-namespace": "warn",
@@ -47,10 +52,9 @@
     "no-prototype-builtins": "error",
     "no-return-assign": ["error", "always"],
     "no-throw-literal": "error",
-    "no-useless-constructor": "error",
+    "no-useless-constructor": "warn",
     "no-void": "warn",
     "prefer-destructuring": ["error", { "object": true, "array": false }],
-    "require-await": "error",
     "valid-jsdoc": "error",
     "no-mixed-operators": "error",
     "consistent-return": "error",
@@ -116,7 +120,7 @@
   "@typescript-eslint/no-angle-bracket-type-assertion": "off",
   // Deprecated: Was used to disallow type assertions in the form of `<Type>value`. Use `as` syntax instead.
 
-  "@typescript-eslint/no-unnecessary-condition": "error",
+  "@typescript-eslint/no-unnecessary-condition": "warn",
   // Warn about conditions that are always truthy or falsy.
 
   "@typescript-eslint/no-confusing-non-null-assertion": "warn",
@@ -187,9 +191,9 @@
 
     // // 70. Requires the use of `import` statements for module loading.
     "import/no-commonjs": "error",
-
+    "import/no-unresolved": "off",
     // // 71. Requires an explicit return type for functions and methods.
-    "@typescript-eslint/explicit-function-return-type": "error",
+    // "@typescript-eslint/explicit-function-return-type": "error",
 
     // // 72. Disallows excessive usage of complex conditional expressions.
     "no-unneeded-ternary": "error",

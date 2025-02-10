@@ -1,5 +1,6 @@
 import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+
 import { AuthGuard } from '../gaurds/authGaurd.gaurds';
 import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
 import { CommentsService } from './comment.service';
@@ -15,8 +16,11 @@ export class CommentsResolver {
   @Query(() => {
     return [CommentResponseDto];
   })
-  async getComments (): Promise<CommentResponseDto[]> {
-    return this.commentsService.getComments();
+  @UseGuards(AuthGuard)
+  async getComments (
+    @Context() context: AuthGaurdContextDto
+  ): Promise<CommentResponseDto[]> {
+    return this.commentsService.getComments(context);
   }
 
   @Mutation(() => {
@@ -31,7 +35,7 @@ export class CommentsResolver {
       context.channelsAllowed.includes(input.channelId) &&
       context.userId === input.createdBy
     ) {
-      return this.commentsService.createComment(input);
+      return this.commentsService.createComment(input,context);
     }
     throw new UnauthorizedException(
       `you dont have access to this channel -> ${input.channelId}`
@@ -49,7 +53,8 @@ export class CommentsResolver {
       input,
       context.channelsAllowed,
       context.userId,
-      context.role
+      context.role,
+      context
     ); // You can access `input.id` directly
   }
 
@@ -64,7 +69,8 @@ export class CommentsResolver {
       input,
       context.channelsAllowed,
       context.userId,
-      context.role
+      context.role,
+      context
     ); // You can access `input.id` directly
   }
 }

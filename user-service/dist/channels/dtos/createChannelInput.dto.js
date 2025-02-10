@@ -11,12 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateChannelInput = void 0;
 const graphql_1 = require("@nestjs/graphql");
-// Assuming this is imported from a shared module
+const class_validator_1 = require("class-validator");
 let CreateChannelInput = class CreateChannelInput {
 };
 exports.CreateChannelInput = CreateChannelInput;
 __decorate([
     (0, graphql_1.Field)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(1),
     __metadata("design:type", String)
 ], CreateChannelInput.prototype, "name", void 0);
 exports.CreateChannelInput = CreateChannelInput = __decorate([

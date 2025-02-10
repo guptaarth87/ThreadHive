@@ -25,7 +25,6 @@ const statsResponse_dto_1 = require("./dtos/statsResponse.dto");
 const updateInput_dto_1 = require("./dtos/updateInput.dto");
 const user_service_1 = require("./user.service");
 const activityResponse_dto_1 = require("database-service/dist/commonHelpers/activityResponse.dto");
-const dist_1 = require("database-service/dist");
 let UsersResolver = class UsersResolver {
     constructor(usersService) {
         this.usersService = usersService;
@@ -36,9 +35,9 @@ let UsersResolver = class UsersResolver {
         }
         throw new common_1.UnauthorizedException('You dont have access to this request with role of user}');
     }
-    async getUserActivity(userId, context) {
+    async getUserActivity(context) {
         if (context.role === 'ADMIN' || context.role === 'SUPERADMIN') {
-            return this.usersService.getUserActivity(userId);
+            return this.usersService.getUserActivity();
         }
         throw new common_1.UnauthorizedException('You dont have access to this request with role of user}');
     }
@@ -65,7 +64,7 @@ let UsersResolver = class UsersResolver {
     }
     async deleteUser(input, context) {
         const { id } = input;
-        if (id === context.userId && context.role === 'USER') {
+        if ((id === context.userId && context.role === 'USER') || context.role === 'SUPERADMIN') {
             return this.usersService.deleteUser(input, context.role, context); // You can access `input.id` directly
         }
         else if (context.role === 'ADMIN') {
@@ -75,7 +74,7 @@ let UsersResolver = class UsersResolver {
     }
     async updateUser(input, context) {
         const { id } = input;
-        if (id === context.id) {
+        if (id === context.id || context.role === 'SUPERADMIN') {
             return this.usersService.updateUser(input, context); // You can access `input.id` directly
         }
         throw new common_1.UnauthorizedException(`You dont have rights to this to update user of id ${id}`);
@@ -97,10 +96,9 @@ __decorate([
         return [activityResponse_dto_1.UserActivityResponseDto];
     }),
     (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
-    __param(0, (0, graphql_1.Args)('userId', { type: () => dist_1.BigIntScalar })),
-    __param(1, (0, graphql_1.Context)()),
+    __param(0, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [BigInt, authGuardContext_dto_1.AuthGaurdContextDto]),
+    __metadata("design:paramtypes", [authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], UsersResolver.prototype, "getUserActivity", null);
 __decorate([
@@ -130,6 +128,7 @@ __decorate([
     (0, graphql_1.Mutation)(() => {
         return String;
     }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
     __param(0, (0, graphql_1.Args)('input')),
     __param(1, (0, graphql_1.Context)()),
     __metadata("design:type", Function),

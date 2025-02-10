@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChannelResponseDto = void 0;
 const graphql_1 = require("@nestjs/graphql");
 const dist_1 = require("database-service/dist");
+const class_validator_1 = require("class-validator");
 let ChannelResponseDto = class ChannelResponseDto {
 };
 exports.ChannelResponseDto = ChannelResponseDto;
@@ -21,6 +22,9 @@ __decorate([
 ], ChannelResponseDto.prototype, "id", void 0);
 __decorate([
     (0, graphql_1.Field)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(1),
     __metadata("design:type", String)
 ], ChannelResponseDto.prototype, "name", void 0);
 __decorate([

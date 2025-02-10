@@ -1,6 +1,6 @@
+import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../gaurds/authGaurd.gaurds';
 import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
 import { CreateReplyInput } from './dtos/createReply.dto';
@@ -16,8 +16,10 @@ export class RepliesResolver {
   @Query(() => {
     return [ReplyResponseDto];
   })
-  async getReplies (): Promise<ReplyResponseDto[]> {
-    return this.repliesService.getReplies();
+  async getReplies (
+    @Context() context: AuthGaurdContextDto
+  ): Promise<ReplyResponseDto[]> {
+    return this.repliesService.getReplies(context);
   }
 
   @Mutation(() => {
@@ -32,7 +34,7 @@ export class RepliesResolver {
       context.channelsAllowed.includes(input.channelId) &&
       context.userId === input.createdBy
     ) {
-      return this.repliesService.createReply(input);
+      return this.repliesService.createReply(input, context);
     }
     throw new UnauthorizedException(
       `you dont have access to this channel -> ${input.channelId}`
@@ -51,7 +53,8 @@ export class RepliesResolver {
       input,
       context.channelsAllowed,
       context.userId,
-      context.role
+      context.role,
+      context
     ); // You can access `input.id` directly
   }
 
@@ -67,7 +70,8 @@ export class RepliesResolver {
       input,
       context.channelsAllowed,
       context.userId,
-      context.role
+      context.role,
+      context
     ); // You can access `input.id` directly
   }
 }

@@ -1,19 +1,23 @@
-import {  Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
-import { db, UserActivityDao, users, usersChannelMapping } from 'database-service/dist'; // Ensure correct import
+import {
+  db,
+  UserActivityDao,
+  users,
+  usersChannelMapping,
+} from 'database-service/dist'; // Ensure correct import
 import { eq } from 'drizzle-orm';
+
+import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
 import { CreateUserInput } from './dtos/createInput.dto';
 import { DeleteUserInput } from './dtos/deleteInput.dto';
 import { UserResponseDto } from './dtos/response.dto';
 import { UpdateUserInput } from './dtos/updateInput.dto';
-import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
-
 
 @Injectable()
 export class UserDao {
-
-  constructor(private readonly userActivityDao: UserActivityDao) {}
-  async createUserDao (input: CreateUserInput,context: AuthGaurdContextDto) {
+  constructor (private readonly userActivityDao: UserActivityDao) {}
+  async createUserDao (input: CreateUserInput, context: AuthGaurdContextDto) {
     console.log('in create block');
     try {
       const hashedPassword = await bcrypt.hash(input.password, 10);
@@ -29,8 +33,12 @@ export class UserDao {
       };
       const newUser = await db.insert(users).values(dataObject); // .returning() returns inserted row(s)
       if (newUser[0].affectedRows !== 0) {
-        console.log(context.activityDone)
-        this.userActivityDao.addUserActivity(context.activityDone,context.userId,dataObject)
+        console.log(context.activityDone);
+        this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          dataObject
+        );
         return 'ok done with status 200';
       }
       throw new Error('Check your data');
@@ -42,7 +50,10 @@ export class UserDao {
     }
   }
 
-  async findUserByEmailDao (email: string,context: AuthGaurdContextDto): Promise<UserResponseDto[]> {
+  async findUserByEmailDao (
+    email: string,
+    context: AuthGaurdContextDto
+  ): Promise<UserResponseDto[]> {
     try {
       const user = await db
         .select()
@@ -50,18 +61,26 @@ export class UserDao {
         .where(eq(users.email, email))
         .limit(1);
       console.log(user);
-      await this.userActivityDao.addUserActivity(context.activityDone,context.userId,user[0])
+      await this.userActivityDao.addUserActivity(
+        context.activityDone,
+        context.userId,
+        user[0]
+      );
       return user as UserResponseDto[];
-     } catch (error) {
+    } catch (error) {
       console.log('error-->', error);
       throw new Error('Database error !');
     }
-  } 
+  }
 
   async getUsersDao (context: AuthGaurdContextDto): Promise<UserResponseDto[]> {
     try {
       const response = (await db.select().from(users)) as UserResponseDto[];
-      await this.userActivityDao.addUserActivity(context.activityDone,context.userId,{"request":"success"})
+      await this.userActivityDao.addUserActivity(
+        context.activityDone,
+        context.userId,
+        { request: 'success' }
+      );
       return response;
     } catch (error) {
       console.log('error-->', error);
@@ -87,15 +106,17 @@ export class UserDao {
       );
     } else {
       try {
-        const { id } = input;
         const response = await db.delete(users).where(eq(users.id, id));
         // const response = [{'affectedRows':1}]
-        console.log(input)
-        await this.userActivityDao.addUserActivity(context.activityDone,context.userId,{'id':id.toString()})
+        console.log(input);
+        await this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          { id: id.toString() }
+        );
         console.log(response);
 
         if (response[0].affectedRows !== 0) {
-         
           return `user with id ${id} deleted successfully`;
         }
         throw new Error(`user id not found -> ${id}`);
@@ -105,7 +126,10 @@ export class UserDao {
     }
   }
 
-  async updateUser (input: UpdateUserInput,context: AuthGaurdContextDto): Promise<string> {
+  async updateUser (
+    input: UpdateUserInput,
+    context: AuthGaurdContextDto
+  ): Promise<string> {
     try {
       const { id, name, email, password, role, dob } = input;
       const user = await db
@@ -142,7 +166,11 @@ export class UserDao {
         .set(updatedData)
         .where(eq(users.id, id));
       if (response[0].affectedRows !== 0) {
-        await this.userActivityDao.addUserActivity(context.activityDone,context.userId,{...input,id: id.toString()})
+        await this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          { ...input, id: id.toString() }
+        );
         return `user of id  ${input.id} updated successfully`;
       }
       throw new Error(`user of id ${id} not updated`);

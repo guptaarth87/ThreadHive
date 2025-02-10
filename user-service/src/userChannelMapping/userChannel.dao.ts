@@ -1,18 +1,25 @@
-import { db, UserActivityDao, usersChannelMapping } from 'database-service/dist';
+import { Injectable } from '@nestjs/common';
+import {
+  db,
+  UserActivityDao,
+  usersChannelMapping,
+} from 'database-service/dist';
 import { eq } from 'drizzle-orm';
+
 // Ensure correct import
+import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
 import { CreateUserChannelInput } from './dtos/createUserChannelInput.dto';
 import { DeleteUserChannelInput } from './dtos/deleteUserChannelInput.dto';
 import { UserChannelResponseDto } from './dtos/responseUserChannel.dto';
 import { UpdateUserChannelInput } from './dtos/updateUserChannelInput.dto';
-import { Injectable } from '@nestjs/common';
-import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
 
 @Injectable()
 export class UserChannelDao {
-
-  constructor (private readonly userActivityDao: UserActivityDao){};
-  async createUserChannelMapppingDao (input: CreateUserChannelInput,context : AuthGaurdContextDto ) {
+  constructor (private readonly userActivityDao: UserActivityDao) {}
+  async createUserChannelMapppingDao (
+    input: CreateUserChannelInput,
+    context: AuthGaurdContextDto
+  ): Promise<string> {
     try {
       const dataObject = {
         userId: input.userId,
@@ -20,7 +27,14 @@ export class UserChannelDao {
       };
       const newUser = await db.insert(usersChannelMapping).values(dataObject); // .returning() returns inserted row(s)
       if (newUser[0].affectedRows !== 0) {
-         await this.userActivityDao.addUserActivity(context.activityDone, context.userId,dataObject)
+        await this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          {
+            userId: dataObject.userId.toString(),
+            channelId: dataObject.channelId.toString(),
+          }
+        );
         return 'ok done with status 200';
       }
       throw new Error('Check your data');
@@ -32,11 +46,18 @@ export class UserChannelDao {
     }
   }
 
-  async getUsersChannelDao (context : AuthGaurdContextDto): Promise<UserChannelResponseDto[]> {
+  async getUsersChannelDao (
+    context: AuthGaurdContextDto
+  ): Promise<UserChannelResponseDto[]> {
     try {
       const response = (await db
         .select()
         .from(usersChannelMapping)) as UserChannelResponseDto[];
+      await this.userActivityDao.addUserActivity(
+        context.activityDone,
+        context.userId,
+        { request: 'success' }
+      );
       return response;
     } catch (error) {
       console.log('error-->', error);
@@ -44,7 +65,10 @@ export class UserChannelDao {
     }
   }
 
-  async deleteUserChannelDao (input: DeleteUserChannelInput,context : AuthGaurdContextDto): Promise<string> {
+  async deleteUserChannelDao (
+    input: DeleteUserChannelInput,
+    context: AuthGaurdContextDto
+  ): Promise<string> {
     try {
       const { id } = input;
       const response = await db
@@ -53,6 +77,11 @@ export class UserChannelDao {
       console.log(response);
 
       if (response[0].affectedRows !== 0) {
+        await this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          { id: id.toString() }
+        );
         return `user mapping with if ${id} deleted successfully`;
       }
       throw new Error(`user id not found -> ${id}`);
@@ -61,7 +90,10 @@ export class UserChannelDao {
     }
   }
 
-  async updateUserChannel (input: UpdateUserChannelInput,context : AuthGaurdContextDto): Promise<string> {
+  async updateUserChannel (
+    input: UpdateUserChannelInput,
+    context: AuthGaurdContextDto
+  ): Promise<string> {
     try {
       const { id, userId, channelId } = input;
       const user = await db
@@ -89,11 +121,16 @@ export class UserChannelDao {
         .set(updatedData)
         .where(eq(usersChannelMapping.id, id));
       if (response[0].affectedRows !== 0) {
+        await this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          { ...input, id: id.toString() }
+        );
         return `user mapping of id  ${input.id} updated successfully`;
       }
       throw new Error(`user of id ${id} not updated`);
     } catch (error) {
-      throw new Error('database error-> {error');
+      throw new Error(`database error->  ${error}`);
     }
   }
 }

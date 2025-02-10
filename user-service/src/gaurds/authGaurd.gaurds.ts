@@ -4,11 +4,11 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-
 import { JwtService } from '@nestjs/jwt';
 import { db, users, usersChannelMapping } from 'database-service/dist';
 import { and, eq } from 'drizzle-orm';
-import { AuthGaurdContextDto } from './authGuardContext.dto';
+
+import { AuthGaurdContextDto, DecodedTokenDto } from './authGuardContext.dto';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -23,11 +23,11 @@ export class AuthGuard implements CanActivate {
 
     console.log(request.req);
     const token = request.req.raw?.headers.authorization;
-    const fieldName = context.getArgs()[3].fieldName
+    const { fieldName } = context.getArgs()[3];
     // Check if the token is provided
-    if (fieldName === 'login'){
-      request.activityDone = fieldName
-      return true
+    if (fieldName === 'login') {
+      request.activityDone = fieldName;
+      return true;
     }
     if (!token) {
       throw new UnauthorizedException('No token provided');
@@ -36,8 +36,8 @@ export class AuthGuard implements CanActivate {
     try {
       // Extract the JWT payload (email and roles)
 
-      const decodedToken = this.jwtService.verify(token);
-
+      const decodedToken: DecodedTokenDto = this.jwtService.verify(token);
+      console.log('decoded token: ', decodedToken);
       const { email } = decodedToken;
       const { role } = decodedToken;
       const id: bigint = decodedToken.sub;
@@ -45,7 +45,7 @@ export class AuthGuard implements CanActivate {
       const user = await db
         .select()
         .from(users)
-        .where(and(eq(users.email, email), (users.role, role)));
+        .where(and(eq(users.email, email), eq(users.role, role)));
 
       if (!user) {
         throw new UnauthorizedException('Invalid email or roles');
@@ -55,14 +55,14 @@ export class AuthGuard implements CanActivate {
       request.email = email;
       request.role = role;
       request.userId = id;
-      request.activityDone = fieldName
+      request.activityDone = fieldName;
 
       const getChannelIds = (data: { channelId: bigint }[]) => {
         return data.map(({ channelId }) => {
           return channelId;
         });
       };
-      console.log(request.role)
+      console.log(request.role);
       // write logic to extract list of channels he have accessed to admin
       if (role === 'ADMIN') {
         const channelsAccess = await db

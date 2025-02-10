@@ -14,7 +14,12 @@ export class ConditionForStatsDto {
   @IsDate()
   endDate?: Date;
 
-  @Field(() =>  BigIntScalar,{ nullable: true })
+  @Field(
+    () => {
+      return BigIntScalar;
+    },
+    { nullable: true }
+  )
   @IsOptional()
   @IsNumber()
   userId?: bigint;

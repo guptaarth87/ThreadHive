@@ -3,6 +3,8 @@ import { BigIntScalar } from 'database-service/dist';
 
 @InputType()
 export class DeleteUserInput {
-  @Field(() => BigIntScalar)
+  @Field(() => {
+    return BigIntScalar;
+  })
   id!: bigint;
 }

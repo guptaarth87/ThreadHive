@@ -3,15 +3,16 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { db, UserActivityDao, users } from 'database-service/dist';
 import { eq } from 'drizzle-orm';
-import { AuthResponse, Payload } from './auth-response.dto';
-import { UserResponseDto } from '../users/dtos/response.dto';
+
 import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
+import { UserResponseDto } from '../users/dtos/response.dto';
+import { AuthResponse, Payload } from './auth-response.dto';
 
 @Injectable()
 export class AuthDao {
   constructor (
     private readonly jwtService: JwtService,
-    private readonly userActivityDao : UserActivityDao
+    private readonly userActivityDao: UserActivityDao
   ) {}
 
   async validateUser (
@@ -44,7 +45,11 @@ export class AuthDao {
     };
   }
 
-  async logUserIn (email: string, password: string, context: AuthGaurdContextDto): Promise<AuthResponse> {
+  async logUserIn (
+    email: string,
+    password: string,
+    context: AuthGaurdContextDto
+  ): Promise<AuthResponse> {
     try {
       const user = await this.validateUser(email, password);
       if (!user) {
@@ -52,8 +57,12 @@ export class AuthDao {
       }
       const response = await this.login(user);
       console.log(response);
-      console.log(context)
-      await this.userActivityDao.addUserActivity(context.activityDone, user.id , response)
+      console.log(context);
+      await this.userActivityDao.addUserActivity(
+        context.activityDone,
+        user.id,
+        response
+      );
 
       return response;
     } catch (error) {

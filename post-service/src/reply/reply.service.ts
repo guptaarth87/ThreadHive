@@ -1,4 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+
+import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
 import { CreateReplyInput } from './dtos/createReply.dto';
 import { DeleteReplyInput } from './dtos/deleteReply.dto';
 import { ReplyResponseDto } from './dtos/replyComment.dto';
@@ -9,7 +11,7 @@ import { ReplyDao } from './reply.dao';
 export class RepliesService {
   constructor (private readonly replyDao: ReplyDao) {} // Inject `UserDao`
 
-  async createReply (input: CreateReplyInput) {
+  async createReply (input: CreateReplyInput, context: AuthGaurdContextDto) {
     const dataObject = {
       description: input.description,
       createdBy: input.createdBy,
@@ -20,18 +22,19 @@ export class RepliesService {
       createdAt: new Date(),
       isDeleted: false,
     };
-    return this.replyDao.createReplyDao(dataObject);
+    return this.replyDao.createReplyDao(dataObject, context);
   }
 
-  async getReplies (): Promise<ReplyResponseDto[]> {
-    return this.replyDao.getRepliesDao();
+  async getReplies (context: AuthGaurdContextDto): Promise<ReplyResponseDto[]> {
+    return this.replyDao.getRepliesDao(context);
   }
 
   async deleteReply (
     input: DeleteReplyInput,
     channelsAllowed: bigint[],
     userId: bigint,
-    role: string
+    role: string,
+    context: AuthGaurdContextDto
   ): Promise<string> {
     if (
       await this.replyDao.canUserProceed(
@@ -41,7 +44,7 @@ export class RepliesService {
         role
       )
     ) {
-      return this.replyDao.deleteReplyDao(input);
+      return this.replyDao.deleteReplyDao(input, context);
     }
     throw new UnauthorizedException('User not allowed to delete this post');
   }
@@ -50,7 +53,8 @@ export class RepliesService {
     input: UpdateReplyInput,
     channelsAllowed: bigint[],
     userId: bigint,
-    role: string
+    role: string,
+    context: AuthGaurdContextDto
   ): Promise<string> {
     if (
       await this.replyDao.canUserProceed(
@@ -60,7 +64,7 @@ export class RepliesService {
         role
       )
     ) {
-      return this.replyDao.updateReply(input);
+      return this.replyDao.updateReply(input, context);
     }
     throw new UnauthorizedException('User not allowed to delete this post');
   }

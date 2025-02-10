@@ -3,12 +3,18 @@ import { BigIntScalar } from 'database-service/dist';
 
 @ObjectType()
 export class UserChannelResponseDto {
-  @Field(() => BigIntScalar)
+  @Field(() => {
+    return BigIntScalar;
+  })
   id!: bigint;
 
-  @Field(() => BigIntScalar)
+  @Field(() => {
+    return BigIntScalar;
+  })
   userId!: bigint;
 
-  @Field(() => BigIntScalar)
+  @Field(() => {
+    return BigIntScalar;
+  })
   channelId!: bigint;
 }

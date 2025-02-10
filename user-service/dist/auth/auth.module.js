@@ -13,6 +13,8 @@ const auth_dao_1 = require("./auth.dao");
 const auth_resolver_1 = require("./auth.resolver");
 const auth_service_1 = require("./auth.service");
 const user_module_1 = require("../users/user.module");
+const dist_1 = require("database-service/dist");
+require("dotenv/config");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -21,10 +23,10 @@ exports.AuthModule = AuthModule = __decorate([
         imports: [
             user_module_1.UsersModule,
             jwt_1.JwtModule.register({
-                secret: 'ufdeuwdhiu',
-                signOptions: { expiresIn: '1h' },
+                secret: process.env.JWTSECRET,
+                signOptions: { expiresIn: '24h' },
             }),
         ],
-        providers: [auth_service_1.AuthService, auth_resolver_1.AuthResolver, auth_dao_1.AuthDao],
+        providers: [auth_service_1.AuthService, auth_resolver_1.AuthResolver, auth_dao_1.AuthDao, dist_1.UserActivityDao],
     })
 ], AuthModule);

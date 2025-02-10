@@ -14,6 +14,8 @@ const channel_resolver_1 = require("./channel.resolver");
 const channel_service_1 = require("./channel.service");
 const authGaurd_gaurds_1 = require("../gaurds/authGaurd.gaurds");
 // import { BigIntScalar } from 'database-service/dist'; // Import BigIntScalar if using it here
+require("dotenv/config");
+const dist_1 = require("database-service/dist");
 let ChannelsModule = class ChannelsModule {
 };
 exports.ChannelsModule = ChannelsModule;
@@ -21,11 +23,11 @@ exports.ChannelsModule = ChannelsModule = __decorate([
     (0, common_1.Module)({
         imports: [
             jwt_1.JwtModule.register({
-                secret: 'ufdeuwdhiu',
-                signOptions: { expiresIn: '1h' },
+                secret: process.env.JWTSECRET,
+                signOptions: { expiresIn: '24h' },
             }),
         ],
-        providers: [channel_service_1.ChannelsService, channel_resolver_1.ChannelsResolver, channel_dao_1.ChannelDao, authGaurd_gaurds_1.AuthGuard], // Register BigIntScalar here if needed
+        providers: [channel_service_1.ChannelsService, channel_resolver_1.ChannelsResolver, channel_dao_1.ChannelDao, dist_1.UserActivityDao, authGaurd_gaurds_1.AuthGuard], // Register BigIntScalar here if needed
         exports: [channel_service_1.ChannelsService],
     })
 ], ChannelsModule);

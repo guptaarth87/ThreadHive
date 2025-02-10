@@ -11,13 +11,22 @@ const common_1 = require("@nestjs/common");
 const userChannel_dao_1 = require("./userChannel.dao");
 const userchannel_resolver_1 = require("./userchannel.resolver");
 const userChannel_service_1 = require("./userChannel.service");
+const jwt_1 = require("@nestjs/jwt");
+require("dotenv/config");
+const dist_1 = require("database-service/dist");
 // import { BigIntScalar } from 'database-service/dist'; // Import BigIntScalar if using it here
 let UserChannelMappingModule = class UserChannelMappingModule {
 };
 exports.UserChannelMappingModule = UserChannelMappingModule;
 exports.UserChannelMappingModule = UserChannelMappingModule = __decorate([
     (0, common_1.Module)({
-        providers: [userChannel_service_1.UserChannelService, userchannel_resolver_1.UserChannelResolver, userChannel_dao_1.UserChannelDao], // Register BigIntScalar here if needed
+        imports: [
+            jwt_1.JwtModule.register({
+                secret: process.env.JWTSECRET,
+                signOptions: { expiresIn: '24h' },
+            }),
+        ],
+        providers: [userChannel_service_1.UserChannelService, userchannel_resolver_1.UserChannelResolver, userChannel_dao_1.UserChannelDao, dist_1.UserActivityDao], // Register BigIntScalar here if needed
         exports: [userChannel_service_1.UserChannelService],
     })
 ], UserChannelMappingModule);

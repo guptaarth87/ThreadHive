@@ -1,5 +1,11 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { BigIntScalar } from 'database-service/dist';
+import {
+  IsNotEmpty,
+  IsString,
+  MinLength,
+
+} from 'class-validator';
 
 @InputType()
 export class UpdateReplyInput {
@@ -10,6 +16,9 @@ export class UpdateReplyInput {
   modifiedBy!: bigint;
 
   @Field()
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(10)
   description!: string;
 
   @Field(() => BigIntScalar)

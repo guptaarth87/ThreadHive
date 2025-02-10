@@ -42,7 +42,7 @@ __decorate([
     __metadata("design:type", Date)
 ], UpdateUserInput.prototype, "dob", void 0);
 __decorate([
-    (0, graphql_1.Field)(),
+    (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", Date)
 ], UpdateUserInput.prototype, "modifiedAt", void 0);
 exports.UpdateUserInput = UpdateUserInput = __decorate([

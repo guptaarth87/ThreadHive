@@ -16,17 +16,17 @@ let UserChannelService = class UserChannelService {
     constructor(userChannelDao) {
         this.userChannelDao = userChannelDao;
     } // Inject `UserChannelDao`
-    async createUserChannelMapping(input) {
-        return this.userChannelDao.createUserChannelMapppingDao(input);
+    async createUserChannelMapping(input, context) {
+        return this.userChannelDao.createUserChannelMapppingDao(input, context);
     }
-    async getUserChannelMapping() {
-        return this.userChannelDao.getUsersChannelDao();
+    async getUserChannelMapping(context) {
+        return this.userChannelDao.getUsersChannelDao(context);
     }
-    async deleteUserChannelMapping(input) {
-        return this.userChannelDao.deleteUserChannelDao(input);
+    async deleteUserChannelMapping(input, context) {
+        return this.userChannelDao.deleteUserChannelDao(input, context);
     }
-    async updateUserChannelMapping(input) {
-        return this.userChannelDao.updateUserChannel(input);
+    async updateUserChannelMapping(input, context) {
+        return this.userChannelDao.updateUserChannel(input, context);
     }
 };
 exports.UserChannelService = UserChannelService;

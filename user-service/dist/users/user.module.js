@@ -15,7 +15,7 @@ const user_service_1 = require("./user.service");
 const userStats_dao_1 = require("./userStats.dao");
 const authGaurd_gaurds_1 = require("../gaurds/authGaurd.gaurds");
 const dist_1 = require("database-service/dist");
-// import { BigIntScalar } from 'database-service/dist'; // Import BigIntScalar if using it here
+require("dotenv/config");
 let UsersModule = class UsersModule {
 };
 exports.UsersModule = UsersModule;
@@ -23,8 +23,8 @@ exports.UsersModule = UsersModule = __decorate([
     (0, common_1.Module)({
         imports: [
             jwt_1.JwtModule.register({
-                secret: 'ufdeuwdhiu',
-                signOptions: { expiresIn: '1h' },
+                secret: process.env.JWTSECRET,
+                signOptions: { expiresIn: '24h' },
             }),
         ],
         providers: [
@@ -33,7 +33,7 @@ exports.UsersModule = UsersModule = __decorate([
             user_dao_1.UserDao,
             userStats_dao_1.userStatsDao,
             dist_1.UserActivityDao,
-            authGaurd_gaurds_1.AuthGuard, // Apply the guard to only users
+            authGaurd_gaurds_1.AuthGuard // Apply the guard to only users
         ], // Register BigIntScalar here if needed
         exports: [user_service_1.UsersService],
     })

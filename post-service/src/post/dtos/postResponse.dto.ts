@@ -1,5 +1,11 @@
 import { ObjectType, Field, ID, InputType } from '@nestjs/graphql';
 import { BigIntScalar } from 'database-service/dist';
+import {
+  IsNotEmpty,
+  IsString,
+  MinLength,
+
+} from 'class-validator';
 
 @ObjectType()
 export class PostResponseDto {
@@ -7,9 +13,15 @@ export class PostResponseDto {
   id!: bigint;
 
   @Field()
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(2)
   title!: string;
 
   @Field()
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(10)
   description!: string;
 
   @Field(()=> BigIntScalar)

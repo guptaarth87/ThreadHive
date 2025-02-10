@@ -4,7 +4,9 @@ import { BigIntScalar } from 'database-service/dist';
 // @Directive('@key(fields: "id")')
 @ObjectType()
 export class UserResponseDto {
-  @Field(() => BigIntScalar)
+  @Field(() => {
+    return BigIntScalar;
+  })
   id!: bigint;
 
   @Field()
@@ -25,12 +27,27 @@ export class UserResponseDto {
   @Field()
   createdAt!: Date;
 
-  @Field(()=> Date,{ nullable: true })
+  @Field(
+    () => {
+      return Date;
+    },
+    { nullable: true }
+  )
   modifiedAt?: Date | null;
 
-  @Field(()=> Date,{ nullable: true })
-  deletedAt?: Date | null ;
+  @Field(
+    () => {
+      return Date;
+    },
+    { nullable: true }
+  )
+  deletedAt?: Date | null;
 
-  @Field(()=> Boolean,{ nullable: true })
+  @Field(
+    () => {
+      return Boolean;
+    },
+    { nullable: true }
+  )
   isDeleted!: boolean | null;
 }

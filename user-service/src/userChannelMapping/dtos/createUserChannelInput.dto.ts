@@ -3,9 +3,13 @@ import { BigIntScalar } from 'database-service/dist';
 
 @InputType()
 export class CreateUserChannelInput {
-  @Field(() =>  BigIntScalar)
+  @Field(() => {
+    return BigIntScalar;
+  })
   userId!: bigint;
 
-  @Field(() =>  BigIntScalar)
+  @Field(() => {
+    return BigIntScalar;
+  })
   channelId!: bigint;
 }

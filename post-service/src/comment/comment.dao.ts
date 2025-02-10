@@ -1,17 +1,25 @@
-import { eq } from 'drizzle-orm';
 import { Injectable } from '@nestjs/common';
-import { comments, db } from 'database-service/dist';
+import { comments, db, UserActivityDao } from 'database-service/dist';
+import { eq } from 'drizzle-orm';
+
+import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
 import { CommentResponseDto } from './dtos/commentResponse.dto';
 import { DeleteCommentInput } from './dtos/deleteCommentInput.dto';
 import { UpdateCommentInput } from './dtos/updateComment.dto';
 
 @Injectable()
 export class CommentDao {
-  async createCommentDao(input: typeof comments.$inferInsert) {
+  constructor (private readonly userActivityDao: UserActivityDao) {}
+  async createCommentDao (input: typeof comments.$inferInsert,context: AuthGaurdContextDto) {
     console.log('in create block');
     try {
       const newComment = await db.insert(comments).values(input); // .returning() returns inserted row(s)
       if (newComment[0].affectedRows !== 0) {
+        await this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          input
+        );
         return 'ok done with status 200';
       }
       throw new Error('Check your data');
@@ -23,10 +31,15 @@ export class CommentDao {
     }
   }
 
-  async getCommentsDao(): Promise<CommentResponseDto[]> {
+  async getCommentsDao (context: AuthGaurdContextDto): Promise<CommentResponseDto[]> {
     try {
       const response =
         (await db.query.comments.findMany()) as CommentResponseDto[];
+        await this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          { 'request': 'success' }
+        );
       return response;
     } catch (error) {
       console.log('error-->', error);
@@ -34,13 +47,18 @@ export class CommentDao {
     }
   }
 
-  async deleteCommentDao(input: DeleteCommentInput): Promise<string> {
+  async deleteCommentDao (input: DeleteCommentInput,context: AuthGaurdContextDto): Promise<string> {
     try {
       const { id } = input;
       const response = await db.delete(comments).where(eq(comments.id, id));
       console.log(response);
 
       if (response[0].affectedRows !== 0) {
+        await this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          { 'id':id.toString() }
+        );
         return `Comment with if ${id} deleted successfully`;
       }
       throw new Error(`Comment id not found -> ${id}`);
@@ -49,7 +67,7 @@ export class CommentDao {
     }
   }
 
-  async updateComment(input: UpdateCommentInput): Promise<string> {
+  async updateComment (input: UpdateCommentInput,context: AuthGaurdContextDto): Promise<string> {
     try {
       const { id, description, channelId, postId, modifiedBy } = input;
       const Comment = await db
@@ -81,15 +99,20 @@ export class CommentDao {
         .set(updatedData)
         .where(eq(comments.id, id));
       if (response[0].affectedRows !== 0) {
+        await this.userActivityDao.addUserActivity(
+          context.activityDone,
+          context.userId,
+          { ...input, id: id.toString() }
+        );
         return `Comment of id  ${input.id} updated successfully`;
       }
       throw new Error(`Comment of id ${id} not updated`);
     } catch (error) {
-      throw new Error('database error');
+      throw new Error(`database error: : ${error}`);
     }
   }
 
-  async canUserProceed(
+  async canUserProceed (
     entityId: bigint,
     channelsAllowed: bigint[],
     userId: bigint,

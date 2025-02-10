@@ -20,7 +20,7 @@ async function bootstrap() {
         console.log(`Users service is running on: ${await app.getUrl()}`);
     }
     catch (err) {
-        console.info('errror', err);
+        console.info('error', err);
     }
 }
 bootstrap();

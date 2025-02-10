@@ -1,4 +1,4 @@
-import { IntrospectAndCompose } from '@apollo/gateway';
+import { IntrospectAndCompose, RemoteGraphQLDataSource } from '@apollo/gateway';
 import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -15,6 +15,17 @@ import { GraphQLModule } from '@nestjs/graphql';
             { name: 'posts', url: 'http://127.0.0.1:4000/graphql' }, // Replace with your post service URL
           ],
         }),
+        buildService: ({ url }) => {
+          return new RemoteGraphQLDataSource({
+            url,
+            willSendRequest({ request, context }) {
+              // Forward the Authorization header to the subgraphs
+              if (context.req && context.req.headers) {
+                request.http?.headers.set('Authorization', context.req.headers.authorization);
+              }
+            },
+          });
+        },
       },
       // // Enable subscriptions if necessary
       // subscriptions: false,
