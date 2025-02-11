@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { db, users, usersChannelMapping } from 'database-service/dist';
+import { db, users, usersChannelMapping } from 'database-service-arth/dist';
 import { and, eq } from 'drizzle-orm';
 
 import { AuthGaurdContextDto, DecodedTokenDto } from './authGuardContext.dto';

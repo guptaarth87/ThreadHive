@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DeleteCommentInput = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const dist_1 = require("database-service/dist");
+const dist_1 = require("database-service-arth/dist");
 let DeleteCommentInput = class DeleteCommentInput {
 };
 exports.DeleteCommentInput = DeleteCommentInput;

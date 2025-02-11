@@ -1,7 +1,8 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsNotEmpty, IsString, Matches, MinLength } from 'class-validator';
+import { USERROLE } from 'database-service-arth/dist';
 
-import { UserRole } from '../enums/user-roles.enum'; // Assuming this is imported from a shared module
+
 
 @InputType()
 export class CreateUserInput {
@@ -25,10 +26,10 @@ export class CreateUserInput {
   password!: string;
 
   @Field(() => {
-    return UserRole;
-  }) // Referencing the UserRole enum
+    return USERROLE;
+  }) // Referencing the USERROLE enum
   @IsNotEmpty()
-  role!: UserRole;
+  role!: USERROLE;
 
   @Field()
   @IsNotEmpty()

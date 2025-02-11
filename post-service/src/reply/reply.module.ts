@@ -2,7 +2,7 @@ import 'dotenv/config';
 
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { UserActivityDao } from 'database-service/dist';
+import { UserActivityDao } from 'database-service-arth/dist';
 
 import { AuthGuard } from '../gaurds/authGaurd.gaurds';
 import { ReplyDao } from './reply.dao';

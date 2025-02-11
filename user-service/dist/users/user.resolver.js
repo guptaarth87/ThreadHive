@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersResolver = void 0;
 const common_1 = require("@nestjs/common");
 const graphql_1 = require("@nestjs/graphql");
+const activityResponse_dto_1 = require("database-service-arth/dist/commonHelpers/activityResponse.dto");
 const authGaurd_gaurds_1 = require("../gaurds/authGaurd.gaurds");
 const authGuardContext_dto_1 = require("../gaurds/authGuardContext.dto");
 const createInput_dto_1 = require("./dtos/createInput.dto");
@@ -24,7 +25,6 @@ const statsInput_dto_1 = require("./dtos/statsInput.dto");
 const statsResponse_dto_1 = require("./dtos/statsResponse.dto");
 const updateInput_dto_1 = require("./dtos/updateInput.dto");
 const user_service_1 = require("./user.service");
-const activityResponse_dto_1 = require("database-service/dist/commonHelpers/activityResponse.dto");
 let UsersResolver = class UsersResolver {
     constructor(usersService) {
         this.usersService = usersService;
@@ -64,7 +64,8 @@ let UsersResolver = class UsersResolver {
     }
     async deleteUser(input, context) {
         const { id } = input;
-        if ((id === context.userId && context.role === 'USER') || context.role === 'SUPERADMIN') {
+        if ((id === context.userId && context.role === 'USER') ||
+            context.role === 'SUPERADMIN') {
             return this.usersService.deleteUser(input, context.role, context); // You can access `input.id` directly
         }
         else if (context.role === 'ADMIN') {
@@ -74,7 +75,7 @@ let UsersResolver = class UsersResolver {
     }
     async updateUser(input, context) {
         const { id } = input;
-        if (id === context.id || context.role === 'SUPERADMIN') {
+        if (id === context.userId || context.role === 'SUPERADMIN') {
             return this.usersService.updateUser(input, context); // You can access `input.id` directly
         }
         throw new common_1.UnauthorizedException(`You dont have rights to this to update user of id ${id}`);
@@ -156,7 +157,8 @@ __decorate([
     __param(0, (0, graphql_1.Args)('input')),
     __param(1, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [updateInput_dto_1.UpdateUserInput, Object]),
+    __metadata("design:paramtypes", [updateInput_dto_1.UpdateUserInput,
+        authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], UsersResolver.prototype, "updateUser", null);
 exports.UsersResolver = UsersResolver = __decorate([

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { UserActivityDao } from 'database-service/dist';
-import { UserActivityResponseDto } from 'database-service/dist/commonHelpers/activityResponse.dto';
+import { UserActivityDao } from 'database-service-arth/dist';
+import { UserActivityResponseDto } from 'database-service-arth/dist/commonHelpers/activityResponse.dto';
 
 import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
 import { CreateUserInput } from './dtos/createInput.dto';

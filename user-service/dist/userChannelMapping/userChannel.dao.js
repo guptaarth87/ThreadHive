@@ -10,9 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserChannelDao = void 0;
-const dist_1 = require("database-service/dist");
-const drizzle_orm_1 = require("drizzle-orm");
 const common_1 = require("@nestjs/common");
+const dist_1 = require("database-service-arth/dist");
+const drizzle_orm_1 = require("drizzle-orm");
 let UserChannelDao = class UserChannelDao {
     constructor(userActivityDao) {
         this.userActivityDao = userActivityDao;
@@ -60,7 +60,7 @@ let UserChannelDao = class UserChannelDao {
                 .where((0, drizzle_orm_1.eq)(dist_1.usersChannelMapping.id, id));
             console.log(response);
             if (response[0].affectedRows !== 0) {
-                await this.userActivityDao.addUserActivity(context.activityDone, context.userId, { 'id': id.toString() });
+                await this.userActivityDao.addUserActivity(context.activityDone, context.userId, { id: id.toString() });
                 return `user mapping with if ${id} deleted successfully`;
             }
             throw new Error(`user id not found -> ${id}`);
@@ -101,7 +101,7 @@ let UserChannelDao = class UserChannelDao {
             throw new Error(`user of id ${id} not updated`);
         }
         catch (error) {
-            throw new Error('database error-> {error');
+            throw new Error(`database error->  ${error}`);
         }
     }
 };

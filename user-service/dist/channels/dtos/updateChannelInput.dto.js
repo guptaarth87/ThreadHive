@@ -11,12 +11,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateChannelInput = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const dist_1 = require("database-service/dist");
+const dist_1 = require("database-service-arth/dist");
 let UpdateChannelInput = class UpdateChannelInput {
 };
 exports.UpdateChannelInput = UpdateChannelInput;
 __decorate([
-    (0, graphql_1.Field)(() => { return dist_1.BigIntScalar; }) // Assuming BigIntScalar is properly imported
+    (0, graphql_1.Field)(() => {
+        return dist_1.BigIntScalar;
+    }) // Assuming BigIntScalar is properly imported
     ,
     __metadata("design:type", BigInt)
 ], UpdateChannelInput.prototype, "id", void 0);

@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserDao = void 0;
 const common_1 = require("@nestjs/common");
 const bcrypt = require("bcryptjs");
-const dist_1 = require("database-service/dist"); // Ensure correct import
+const dist_1 = require("database-service-arth/dist"); // Ensure correct import
 const drizzle_orm_1 = require("drizzle-orm");
 let UserDao = class UserDao {
     constructor(userActivityDao) {
@@ -64,7 +64,7 @@ let UserDao = class UserDao {
     async getUsersDao(context) {
         try {
             const response = (await dist_1.db.select().from(dist_1.users));
-            await this.userActivityDao.addUserActivity(context.activityDone, context.userId, { "request": "success" });
+            await this.userActivityDao.addUserActivity(context.activityDone, context.userId, { request: 'success' });
             return response;
         }
         catch (error) {
@@ -84,11 +84,10 @@ let UserDao = class UserDao {
         }
         else {
             try {
-                const { id } = input;
                 const response = await dist_1.db.delete(dist_1.users).where((0, drizzle_orm_1.eq)(dist_1.users.id, id));
                 // const response = [{'affectedRows':1}]
                 console.log(input);
-                await this.userActivityDao.addUserActivity(context.activityDone, context.userId, { 'id': id.toString() });
+                await this.userActivityDao.addUserActivity(context.activityDone, context.userId, { id: id.toString() });
                 console.log(response);
                 if (response[0].affectedRows !== 0) {
                     return `user with id ${id} deleted successfully`;

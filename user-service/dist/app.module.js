@@ -10,12 +10,12 @@ exports.AppModule = void 0;
 const apollo_1 = require("@nestjs/apollo");
 const common_1 = require("@nestjs/common");
 const graphql_1 = require("@nestjs/graphql");
-const dist_1 = require("database-service/dist");
+const dist_1 = require("database-service-arth/dist");
 const auth_module_1 = require("./auth/auth.module");
 const channel_module_1 = require("./channels/channel.module");
 const userChannel_module_1 = require("./userChannelMapping/userChannel.module");
 const user_module_1 = require("./users/user.module");
-const graphql_type_json_1 = require("graphql-type-json");
+// import { GraphQLJSON } from 'graphql-type-json';
 // import { db } from 'database-service/dist'; // Adjust the import path
 let AppModule = class AppModule {
 };
@@ -26,7 +26,7 @@ exports.AppModule = AppModule = __decorate([
             graphql_1.GraphQLModule.forRoot({
                 driver: apollo_1.ApolloFederationDriver,
                 autoSchemaFile: true,
-                resolvers: { JSON: graphql_type_json_1.GraphQLJSON }
+                // resolvers: { JSON: GraphQLJSON }
             }),
             channel_module_1.ChannelsModule,
             userChannel_module_1.UserChannelMappingModule,

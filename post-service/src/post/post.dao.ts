@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { db, posts, UserActivityDao } from 'database-service/dist';
+import { db, posts, UserActivityDao } from 'database-service-arth/dist';
 import { eq } from 'drizzle-orm';
 
 import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';
@@ -9,7 +9,9 @@ import { UpdatePostInput } from './dtos/updatePostInput.dto';
 
 @Injectable()
 export class PostDao {
-  constructor (private readonly userActivityDao: UserActivityDao) {}
+  constructor (
+    
+    private readonly userActivityDao: UserActivityDao) {}
   async createPostDao (
     input: typeof posts.$inferInsert,
     context: AuthGaurdContextDto

@@ -13,7 +13,7 @@ exports.AuthDao = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const bcrypt = require("bcryptjs");
-const dist_1 = require("database-service/dist");
+const dist_1 = require("database-service-arth/dist");
 const drizzle_orm_1 = require("drizzle-orm");
 let AuthDao = class AuthDao {
     constructor(jwtService, userActivityDao) {

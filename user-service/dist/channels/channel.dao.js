@@ -10,9 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChannelDao = void 0;
-const dist_1 = require("database-service/dist");
-const drizzle_orm_1 = require("drizzle-orm");
 const common_1 = require("@nestjs/common");
+const dist_1 = require("database-service-arth/dist");
+const drizzle_orm_1 = require("drizzle-orm");
 let ChannelDao = class ChannelDao {
     constructor(userActivityDao) {
         this.userActivityDao = userActivityDao;
@@ -48,7 +48,7 @@ let ChannelDao = class ChannelDao {
             const response = (await dist_1.db
                 .select()
                 .from(dist_1.channels));
-            await this.userActivityDao.addUserActivity(context.activityDone, context.userId, { "request": "success" });
+            await this.userActivityDao.addUserActivity(context.activityDone, context.userId, { request: 'success' });
             return response;
         }
         catch (error) {
@@ -62,7 +62,7 @@ let ChannelDao = class ChannelDao {
             const response = await dist_1.db.delete(dist_1.channels).where((0, drizzle_orm_1.eq)(dist_1.channels.id, id));
             console.log(response);
             if (response[0].affectedRows !== 0) {
-                await this.userActivityDao.addUserActivity(context.activityDone, context.userId, { 'id': id.toString() });
+                await this.userActivityDao.addUserActivity(context.activityDone, context.userId, { id: id.toString() });
                 return `channel with id ${id} deleted successfully`;
             }
             throw new Error(`channel id not found -> ${id}`);

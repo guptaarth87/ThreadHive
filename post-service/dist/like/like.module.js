@@ -7,17 +7,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LikesModule = void 0;
+require("dotenv/config");
 const common_1 = require("@nestjs/common");
-const like_service_1 = require("./like.service");
-const like_resolver_1 = require("./like.resolver");
+const jwt_1 = require("@nestjs/jwt");
+const dist_1 = require("database-service-arth/dist");
 const like_dao_1 = require("./like.dao");
+const like_resolver_1 = require("./like.resolver");
+const like_service_1 = require("./like.service");
 // import { BigIntScalar } from 'database-service/dist'; // Import BigIntScalar if using it here
 let LikesModule = class LikesModule {
 };
 exports.LikesModule = LikesModule;
 exports.LikesModule = LikesModule = __decorate([
     (0, common_1.Module)({
-        providers: [like_service_1.LikesService, like_resolver_1.LikesResolver, like_dao_1.LikesDao], // Register BigIntScalar here if needed
+        imports: [
+            jwt_1.JwtModule.register({
+                secret: process.env.JWTSECRET,
+                signOptions: { expiresIn: '24h' },
+            }),
+        ],
+        providers: [like_service_1.LikesService, like_resolver_1.LikesResolver, like_dao_1.LikesDao, dist_1.UserActivityDao], // Register BigIntScalar here if needed
         exports: [like_service_1.LikesService],
     })
 ], LikesModule);

@@ -1,12 +1,12 @@
 import { InputType, Field } from '@nestjs/graphql';
-import  {BigIntScalar} from 'database-service/dist'
-import { LikeType } from '../enums/like-type.enum';
+import  {BigIntScalar, LIKETYPE} from 'database-service-arth/dist'
+
 
 @InputType()
 export class LikeEventInput {
 
-  @Field(() =>LikeType )
-  type!: LikeType;
+  @Field(() =>LIKETYPE )
+  type!: LIKETYPE;
 
   @Field(() => BigIntScalar)
   typeId!: bigint;

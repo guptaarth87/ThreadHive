@@ -7,7 +7,7 @@ import {
   replies,
   UserActivityDao,
   users,
-} from 'database-service/dist';
+} from 'database-service-arth/dist';
 import { and, asc, count, desc, eq, gte, lte,SQL } from 'drizzle-orm';
 
 import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';

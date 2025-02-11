@@ -5,7 +5,7 @@ import {
   UserActivityDao,
   users,
   usersChannelMapping,
-} from 'database-service/dist'; // Ensure correct import
+} from 'database-service-arth/dist'; // Ensure correct import
 import { eq } from 'drizzle-orm';
 
 import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';

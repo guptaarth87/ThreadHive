@@ -1,0 +1,1 @@
+ALTER TABLE `users_channel_mapping` ADD `modified_at` timestamp;

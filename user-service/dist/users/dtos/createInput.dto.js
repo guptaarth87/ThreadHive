@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateUserInput = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const user_roles_enum_1 = require("../enums/user-roles.enum"); // Assuming this is imported from a shared module
 const class_validator_1 = require("class-validator");
+const dist_1 = require("database-service-arth/dist");
 let CreateUserInput = class CreateUserInput {
 };
 exports.CreateUserInput = CreateUserInput;
@@ -40,8 +40,8 @@ __decorate([
 ], CreateUserInput.prototype, "password", void 0);
 __decorate([
     (0, graphql_1.Field)(() => {
-        return user_roles_enum_1.UserRole;
-    }) // Referencing the UserRole enum
+        return dist_1.USERROLE;
+    }) // Referencing the USERROLE enum
     ,
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)

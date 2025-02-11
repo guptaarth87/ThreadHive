@@ -1,0 +1,1 @@
+ALTER TABLE `likes` ADD CONSTRAINT `unique_like` UNIQUE(`post_id`,`type`,`type_id`,`liked_by`,`channel_id`);

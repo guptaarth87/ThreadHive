@@ -1,0 +1,1 @@
+ALTER TABLE `likes` MODIFY COLUMN `created_at` timestamp NOT NULL DEFAULT (now());

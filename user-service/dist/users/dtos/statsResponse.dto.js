@@ -11,12 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StatsResponseDto = exports.PostDto = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const dist_1 = require("database-service/dist"); // Assuming you have a Post entity
+const dist_1 = require("database-service-arth/dist");
+// Assuming you have a Post entity
 let PostDto = class PostDto {
 };
 exports.PostDto = PostDto;
 __decorate([
-    (0, graphql_1.Field)(() => dist_1.BigIntScalar),
+    (0, graphql_1.Field)(() => {
+        return dist_1.BigIntScalar;
+    }),
     __metadata("design:type", BigInt)
 ], PostDto.prototype, "id", void 0);
 __decorate([
@@ -28,15 +31,21 @@ __decorate([
     __metadata("design:type", String)
 ], PostDto.prototype, "description", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => dist_1.BigIntScalar),
+    (0, graphql_1.Field)(() => {
+        return dist_1.BigIntScalar;
+    }),
     __metadata("design:type", BigInt)
 ], PostDto.prototype, "modifiedBy", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => dist_1.BigIntScalar),
+    (0, graphql_1.Field)(() => {
+        return dist_1.BigIntScalar;
+    }),
     __metadata("design:type", BigInt)
 ], PostDto.prototype, "createdBy", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => dist_1.BigIntScalar),
+    (0, graphql_1.Field)(() => {
+        return dist_1.BigIntScalar;
+    }),
     __metadata("design:type", BigInt)
 ], PostDto.prototype, "channelId", void 0);
 __decorate([
@@ -62,15 +71,21 @@ let StatsResponseDto = class StatsResponseDto {
 };
 exports.StatsResponseDto = StatsResponseDto;
 __decorate([
-    (0, graphql_1.Field)(() => dist_1.BigIntScalar),
+    (0, graphql_1.Field)(() => {
+        return dist_1.BigIntScalar;
+    }),
     __metadata("design:type", BigInt)
 ], StatsResponseDto.prototype, "id", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => { return PostDto; }, { nullable: true }),
+    (0, graphql_1.Field)(() => {
+        return PostDto;
+    }, { nullable: true }),
     __metadata("design:type", Object)
 ], StatsResponseDto.prototype, "postWithMaxLikes", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => { return PostDto; }, { nullable: true }),
+    (0, graphql_1.Field)(() => {
+        return PostDto;
+    }, { nullable: true }),
     __metadata("design:type", Object)
 ], StatsResponseDto.prototype, "postWithMinLikes", void 0);
 __decorate([

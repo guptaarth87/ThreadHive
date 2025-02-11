@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
-import { db, UserActivityDao, users } from 'database-service/dist';
+import { db, UserActivityDao, users } from 'database-service-arth/dist';
 import { eq } from 'drizzle-orm';
 
 import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';

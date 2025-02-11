@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConditionForStatsDto = void 0;
 const graphql_1 = require("@nestjs/graphql");
 const class_validator_1 = require("class-validator");
-const dist_1 = require("database-service/dist");
+const dist_1 = require("database-service-arth/dist");
 let ConditionForStatsDto = class ConditionForStatsDto {
 };
 exports.ConditionForStatsDto = ConditionForStatsDto;
@@ -29,7 +29,9 @@ __decorate([
     __metadata("design:type", Date)
 ], ConditionForStatsDto.prototype, "endDate", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => dist_1.BigIntScalar, { nullable: true }),
+    (0, graphql_1.Field)(() => {
+        return dist_1.BigIntScalar;
+    }, { nullable: true }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", BigInt)

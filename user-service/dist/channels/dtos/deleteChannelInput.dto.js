@@ -11,12 +11,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DeleteChannelInput = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const dist_1 = require("database-service/dist");
+const dist_1 = require("database-service-arth/dist");
 let DeleteChannelInput = class DeleteChannelInput {
 };
 exports.DeleteChannelInput = DeleteChannelInput;
 __decorate([
-    (0, graphql_1.Field)(() => { return dist_1.BigIntScalar; }),
+    (0, graphql_1.Field)(() => {
+        return dist_1.BigIntScalar;
+    }),
     __metadata("design:type", BigInt)
 ], DeleteChannelInput.prototype, "id", void 0);
 exports.DeleteChannelInput = DeleteChannelInput = __decorate([

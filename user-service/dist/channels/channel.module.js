@@ -7,15 +7,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChannelsModule = void 0;
+// import { BigIntScalar } from 'database-service/dist'; // Import BigIntScalar if using it here
+require("dotenv/config");
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
+const dist_1 = require("database-service-arth/dist");
+const authGaurd_gaurds_1 = require("../gaurds/authGaurd.gaurds");
 const channel_dao_1 = require("./channel.dao");
 const channel_resolver_1 = require("./channel.resolver");
 const channel_service_1 = require("./channel.service");
-const authGaurd_gaurds_1 = require("../gaurds/authGaurd.gaurds");
-// import { BigIntScalar } from 'database-service/dist'; // Import BigIntScalar if using it here
-require("dotenv/config");
-const dist_1 = require("database-service/dist");
 let ChannelsModule = class ChannelsModule {
 };
 exports.ChannelsModule = ChannelsModule;
@@ -27,7 +27,13 @@ exports.ChannelsModule = ChannelsModule = __decorate([
                 signOptions: { expiresIn: '24h' },
             }),
         ],
-        providers: [channel_service_1.ChannelsService, channel_resolver_1.ChannelsResolver, channel_dao_1.ChannelDao, dist_1.UserActivityDao, authGaurd_gaurds_1.AuthGuard], // Register BigIntScalar here if needed
+        providers: [
+            channel_service_1.ChannelsService,
+            channel_resolver_1.ChannelsResolver,
+            channel_dao_1.ChannelDao,
+            dist_1.UserActivityDao,
+            authGaurd_gaurds_1.AuthGuard,
+        ], // Register BigIntScalar here if needed
         exports: [channel_service_1.ChannelsService],
     })
 ], ChannelsModule);

@@ -11,16 +11,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreatePostInput = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const dist_1 = require("database-service/dist");
+const dist_1 = require("database-service-arth/dist");
+const class_validator_1 = require("class-validator");
 let CreatePostInput = class CreatePostInput {
 };
 exports.CreatePostInput = CreatePostInput;
 __decorate([
     (0, graphql_1.Field)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(2),
     __metadata("design:type", String)
 ], CreatePostInput.prototype, "title", void 0);
 __decorate([
     (0, graphql_1.Field)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(10),
     __metadata("design:type", String)
 ], CreatePostInput.prototype, "description", void 0);
 __decorate([

@@ -1,8 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
-import { BigIntScalar } from 'database-service/dist';
+import { BigIntScalar, USERROLE } from 'database-service-arth/dist';
 
-import { UserRole } from '../enums/user-roles.enum';
 
 @InputType()
 export class UpdateUserInput {
@@ -21,7 +20,7 @@ export class UpdateUserInput {
   password?: string;
 
   @Field({ nullable: true })
-  role?: UserRole; // The role is optional here
+  role?: USERROLE; // The role is optional here
 
   @Field({ nullable: true })
   dob?: Date;

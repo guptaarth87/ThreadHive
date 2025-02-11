@@ -13,55 +13,82 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostsResolver = void 0;
+const common_1 = require("@nestjs/common");
 const graphql_1 = require("@nestjs/graphql");
-const post_service_1 = require("./post.service");
-const postResponse_dto_1 = require("./dtos/postResponse.dto");
+const authGaurd_gaurds_1 = require("../gaurds/authGaurd.gaurds");
+const authGuardContext_dto_1 = require("../gaurds/authGuardContext.dto");
 const createPostInput_dto_1 = require("./dtos/createPostInput.dto");
 const deletePostInput_dto_1 = require("./dtos/deletePostInput.dto");
+const postResponse_dto_1 = require("./dtos/postResponse.dto");
 const updatePostInput_dto_1 = require("./dtos/updatePostInput.dto");
+const post_service_1 = require("./post.service");
 let PostsResolver = class PostsResolver {
     constructor(postsService) {
         this.postsService = postsService;
     }
-    async getPosts() {
-        return this.postsService.getPosts();
+    async getPosts(context) {
+        return this.postsService.getPosts(context);
     }
-    async createpost(input) {
-        return this.postsService.createPost(input);
+    async createpost(input, context) {
+        console.log(context);
+        if (context.channelsAllowed.includes(input.channelId) &&
+            context.userId === input.createdBy) {
+            return this.postsService.createPost(input, context);
+        }
+        throw new common_1.UnauthorizedException(`you dont have access to this channel -> ${input.channelId}`);
     }
-    async deletepost(input) {
-        return this.postsService.deletePost(input); // You can access `input.id` directly
+    async deletepost(input, context) {
+        return this.postsService.deletePost(input, context.channelsAllowed, context.userId, context.role, context); // You can access `input.id` directly
     }
-    async updatepost(input) {
-        return this.postsService.updatePost(input); // You can access `input.id` directly
+    async updatepost(input, context) {
+        return this.postsService.updatePost(input, context.channelsAllowed, context.userId, context.role, context); // You can access `input.id` directly
     }
 };
 exports.PostsResolver = PostsResolver;
 __decorate([
-    (0, graphql_1.Query)(() => [postResponse_dto_1.PostResponseDto]),
+    (0, graphql_1.Query)(() => {
+        return [postResponse_dto_1.PostResponseDto];
+    }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
+    __param(0, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], PostsResolver.prototype, "getPosts", null);
 __decorate([
-    (0, graphql_1.Mutation)(() => String),
+    (0, graphql_1.Mutation)(() => {
+        return String;
+    }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
     __param(0, (0, graphql_1.Args)('input')),
+    __param(1, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [createPostInput_dto_1.CreatePostInput]),
+    __metadata("design:paramtypes", [createPostInput_dto_1.CreatePostInput,
+        authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], PostsResolver.prototype, "createpost", null);
 __decorate([
-    (0, graphql_1.Mutation)(() => String),
+    (0, graphql_1.Mutation)(() => {
+        return String;
+    }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
     __param(0, (0, graphql_1.Args)('input')),
+    __param(1, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [deletePostInput_dto_1.DeletePostInput]),
+    __metadata("design:paramtypes", [deletePostInput_dto_1.DeletePostInput,
+        authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], PostsResolver.prototype, "deletepost", null);
 __decorate([
-    (0, graphql_1.Mutation)(() => String),
+    (0, graphql_1.Mutation)(() => {
+        return String;
+    }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
     __param(0, (0, graphql_1.Args)('input')),
+    __param(1, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [updatePostInput_dto_1.UpdatePostInput]),
+    __metadata("design:paramtypes", [updatePostInput_dto_1.UpdatePostInput,
+        authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], PostsResolver.prototype, "updatepost", null);
 exports.PostsResolver = PostsResolver = __decorate([

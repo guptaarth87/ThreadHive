@@ -11,13 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserResponseDto = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const dist_1 = require("database-service/dist");
+const dist_1 = require("database-service-arth/dist");
 // @Directive('@key(fields: "id")')
 let UserResponseDto = class UserResponseDto {
 };
 exports.UserResponseDto = UserResponseDto;
 __decorate([
-    (0, graphql_1.Field)(() => dist_1.BigIntScalar),
+    (0, graphql_1.Field)(() => {
+        return dist_1.BigIntScalar;
+    }),
     __metadata("design:type", BigInt)
 ], UserResponseDto.prototype, "id", void 0);
 __decorate([
@@ -45,15 +47,21 @@ __decorate([
     __metadata("design:type", Date)
 ], UserResponseDto.prototype, "createdAt", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => Date, { nullable: true }),
+    (0, graphql_1.Field)(() => {
+        return Date;
+    }, { nullable: true }),
     __metadata("design:type", Object)
 ], UserResponseDto.prototype, "modifiedAt", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => Date, { nullable: true }),
+    (0, graphql_1.Field)(() => {
+        return Date;
+    }, { nullable: true }),
     __metadata("design:type", Object)
 ], UserResponseDto.prototype, "deletedAt", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => Boolean, { nullable: true }),
+    (0, graphql_1.Field)(() => {
+        return Boolean;
+    }, { nullable: true }),
     __metadata("design:type", Object)
 ], UserResponseDto.prototype, "isDeleted", void 0);
 exports.UserResponseDto = UserResponseDto = __decorate([

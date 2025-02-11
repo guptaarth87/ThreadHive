@@ -11,13 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LikeEventInput = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const dist_1 = require("database-service/dist");
-const like_type_enum_1 = require("../enums/like-type.enum");
+const dist_1 = require("database-service-arth/dist");
 let LikeEventInput = class LikeEventInput {
 };
 exports.LikeEventInput = LikeEventInput;
 __decorate([
-    (0, graphql_1.Field)(() => like_type_enum_1.LikeType),
+    (0, graphql_1.Field)(() => dist_1.LIKETYPE),
     __metadata("design:type", String)
 ], LikeEventInput.prototype, "type", void 0);
 __decorate([

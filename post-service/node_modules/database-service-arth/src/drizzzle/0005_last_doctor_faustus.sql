@@ -1,0 +1,1 @@
+ALTER TABLE `likes` ADD `created_at` timestamp NOT NULL;

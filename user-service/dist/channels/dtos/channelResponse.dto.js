@@ -11,13 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChannelResponseDto = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const dist_1 = require("database-service/dist");
 const class_validator_1 = require("class-validator");
+const dist_1 = require("database-service-arth/dist");
 let ChannelResponseDto = class ChannelResponseDto {
 };
 exports.ChannelResponseDto = ChannelResponseDto;
 __decorate([
-    (0, graphql_1.Field)(() => { return dist_1.BigIntScalar; }),
+    (0, graphql_1.Field)(() => {
+        return dist_1.BigIntScalar;
+    }),
     __metadata("design:type", BigInt)
 ], ChannelResponseDto.prototype, "id", void 0);
 __decorate([

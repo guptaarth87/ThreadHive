@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsDate, IsNumber, IsOptional } from 'class-validator';
-import { BigIntScalar } from 'database-service/dist';
+import { BigIntScalar } from 'database-service-arth/dist';
 
 @InputType()
 export class ConditionForStatsDto {

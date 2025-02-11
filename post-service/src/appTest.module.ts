@@ -1,7 +1,7 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { BigIntScalar } from 'database-service/dist';
+import { BigIntScalar } from 'database-service-arth/dist';
 import { CommentsModule } from './comment/comment.module';
 import { LikesModule } from './like/like.module';
 import { PostsModule } from './post/post.module';

@@ -11,8 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LikeResponseDto = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const dist_1 = require("database-service/dist");
-const like_type_enum_1 = require("../enums/like-type.enum");
+const dist_1 = require("database-service-arth/dist");
 let LikeResponseDto = class LikeResponseDto {
 };
 exports.LikeResponseDto = LikeResponseDto;
@@ -21,7 +20,7 @@ __decorate([
     __metadata("design:type", BigInt)
 ], LikeResponseDto.prototype, "id", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => like_type_enum_1.LikeType),
+    (0, graphql_1.Field)(() => dist_1.LIKETYPE),
     __metadata("design:type", String)
 ], LikeResponseDto.prototype, "type", void 0);
 __decorate([

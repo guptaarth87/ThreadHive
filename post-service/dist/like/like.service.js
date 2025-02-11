@@ -16,8 +16,8 @@ let LikesService = class LikesService {
     constructor(likeDao) {
         this.likeDao = likeDao;
     } // Inject `UserDao`
-    async toggleLike(input) {
-        return this.likeDao.likeToggleDao(input);
+    async toggleLike(input, context) {
+        return this.likeDao.likeToggleDao(input, context);
     }
     async getLikes() {
         return this.likeDao.getLikesDao();

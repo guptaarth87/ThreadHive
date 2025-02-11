@@ -11,16 +11,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateUserChannelInput = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const dist_1 = require("database-service/dist");
+const dist_1 = require("database-service-arth/dist");
 let CreateUserChannelInput = class CreateUserChannelInput {
 };
 exports.CreateUserChannelInput = CreateUserChannelInput;
 __decorate([
-    (0, graphql_1.Field)(() => dist_1.BigIntScalar),
+    (0, graphql_1.Field)(() => {
+        return dist_1.BigIntScalar;
+    }),
     __metadata("design:type", BigInt)
 ], CreateUserChannelInput.prototype, "userId", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => dist_1.BigIntScalar),
+    (0, graphql_1.Field)(() => {
+        return dist_1.BigIntScalar;
+    }),
     __metadata("design:type", BigInt)
 ], CreateUserChannelInput.prototype, "channelId", void 0);
 exports.CreateUserChannelInput = CreateUserChannelInput = __decorate([

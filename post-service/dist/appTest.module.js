@@ -7,14 +7,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
+const apollo_1 = require("@nestjs/apollo");
 const common_1 = require("@nestjs/common");
 const graphql_1 = require("@nestjs/graphql");
-const apollo_1 = require("@nestjs/apollo");
-const dist_1 = require("database-service/dist");
-const post_module_1 = require("./post/post.module");
+const dist_1 = require("database-service-arth/dist");
 const comment_module_1 = require("./comment/comment.module");
-const reply_module_1 = require("./reply/reply.module");
 const like_module_1 = require("./like/like.module");
+const post_module_1 = require("./post/post.module");
+const reply_module_1 = require("./reply/reply.module");
 // import { db } from 'database-service/dist'; // Adjust the import path
 let AppModule = class AppModule {
 };
@@ -29,7 +29,7 @@ exports.AppModule = AppModule = __decorate([
             like_module_1.LikesModule,
             post_module_1.PostsModule,
             comment_module_1.CommentsModule,
-            reply_module_1.RepliesModule
+            reply_module_1.RepliesModule,
         ], // Export the db object so it can be used in other modules
         providers: [dist_1.BigIntScalar],
     })

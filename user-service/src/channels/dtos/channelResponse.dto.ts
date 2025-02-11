@@ -1,6 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { IsNotEmpty, IsString, MinLength } from 'class-validator';
-import { BigIntScalar } from 'database-service/dist';
+import { BigIntScalar } from 'database-service-arth/dist';
 
 @ObjectType()
 export class ChannelResponseDto {

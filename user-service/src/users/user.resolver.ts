@@ -1,6 +1,6 @@
 import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { UserActivityResponseDto } from 'database-service/dist/commonHelpers/activityResponse.dto';
+import { UserActivityResponseDto } from 'database-service-arth/dist/commonHelpers/activityResponse.dto';
 
 import { AuthGuard } from '../gaurds/authGaurd.gaurds';
 import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';

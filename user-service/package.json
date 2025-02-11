@@ -1,5 +1,5 @@
 {
-  "name": "user-service",
+  "name": "user-service-arth",
   "version": "1.0.0",
   "author": "Arth Gupta",
   "main": "main.js",
@@ -33,6 +33,7 @@
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "database-service-arth": "^1.0.0",
     "dotenv": "^16.4.7",
     "fastify": "^5.2.1",
     "fastify-plugin": "^5.0.1",

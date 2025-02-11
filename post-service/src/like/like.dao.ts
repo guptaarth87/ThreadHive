@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { db, likes, UserActivityDao } from 'database-service/dist';
+import { db, likes, UserActivityDao } from 'database-service-arth/dist';
 import { and, eq } from 'drizzle-orm';
 
 import { AuthGaurdContextDto } from '../gaurds/authGuardContext.dto';

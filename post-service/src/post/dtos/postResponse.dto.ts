@@ -1,5 +1,5 @@
 import { ObjectType, Field, ID, InputType } from '@nestjs/graphql';
-import { BigIntScalar } from 'database-service/dist';
+import { BigIntScalar } from 'database-service-arth/dist';
 import {
   IsNotEmpty,
   IsString,

@@ -16,17 +16,33 @@ let RepliesService = class RepliesService {
     constructor(replyDao) {
         this.replyDao = replyDao;
     } // Inject `UserDao`
-    async createReply(input) {
-        return this.replyDao.createReplyDao(input);
+    async createReply(input, context) {
+        const dataObject = {
+            description: input.description,
+            createdBy: input.createdBy,
+            modifiedBy: input.createdBy,
+            commentId: input.commentId,
+            postId: input.postId,
+            channelId: input.channelId,
+            createdAt: new Date(),
+            isDeleted: false,
+        };
+        return this.replyDao.createReplyDao(dataObject, context);
     }
-    async getReplys() {
-        return this.replyDao.getReplysDao();
+    async getReplies(context) {
+        return this.replyDao.getRepliesDao(context);
     }
-    async deleteReply(input) {
-        return this.replyDao.deleteReplyDao(input);
+    async deleteReply(input, channelsAllowed, userId, role, context) {
+        if (await this.replyDao.canUserProceed(input.id, channelsAllowed, userId, role)) {
+            return this.replyDao.deleteReplyDao(input, context);
+        }
+        throw new common_1.UnauthorizedException('User not allowed to delete this post');
     }
-    async updateReply(input) {
-        return this.replyDao.updateReply(input);
+    async updateReply(input, channelsAllowed, userId, role, context) {
+        if (await this.replyDao.canUserProceed(input.id, channelsAllowed, userId, role)) {
+            return this.replyDao.updateReply(input, context);
+        }
+        throw new common_1.UnauthorizedException('User not allowed to delete this post');
     }
 };
 exports.RepliesService = RepliesService;

@@ -13,10 +13,13 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LikesResolver = void 0;
+const common_1 = require("@nestjs/common");
 const graphql_1 = require("@nestjs/graphql");
-const like_service_1 = require("./like.service");
-const likeResponse_dto_1 = require("./dtos/likeResponse.dto");
+const authGaurd_gaurds_1 = require("../gaurds/authGaurd.gaurds");
+const authGuardContext_dto_1 = require("../gaurds/authGuardContext.dto");
 const likeEventInput_dto_1 = require("./dtos/likeEventInput.dto");
+const likeResponse_dto_1 = require("./dtos/likeResponse.dto");
+const like_service_1 = require("./like.service");
 let LikesResolver = class LikesResolver {
     constructor(likesService) {
         this.likesService = likesService;
@@ -24,22 +27,33 @@ let LikesResolver = class LikesResolver {
     async getLikes() {
         return this.likesService.getLikes();
     }
-    async toggleLike(input) {
-        return this.likesService.toggleLike(input);
+    async toggleLike(input, context) {
+        if (context.channelsAllowed.includes(input.channelId) ||
+            context.role === 'SUPERADMIN') {
+            return this.likesService.toggleLike(input, context);
+        }
+        throw new common_1.UnauthorizedException(`You are not allowed to make changes in this channel of id -> ${input.channelId}`);
     }
 };
 exports.LikesResolver = LikesResolver;
 __decorate([
-    (0, graphql_1.Query)(() => [likeResponse_dto_1.LikeResponseDto]),
+    (0, graphql_1.Query)(() => {
+        return [likeResponse_dto_1.LikeResponseDto];
+    }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], LikesResolver.prototype, "getLikes", null);
 __decorate([
-    (0, graphql_1.Mutation)(() => String),
+    (0, graphql_1.Mutation)(() => {
+        return String;
+    }),
+    (0, common_1.UseGuards)(authGaurd_gaurds_1.AuthGuard),
     __param(0, (0, graphql_1.Args)('input')),
+    __param(1, (0, graphql_1.Context)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [likeEventInput_dto_1.LikeEventInput]),
+    __metadata("design:paramtypes", [likeEventInput_dto_1.LikeEventInput,
+        authGuardContext_dto_1.AuthGaurdContextDto]),
     __metadata("design:returntype", Promise)
 ], LikesResolver.prototype, "toggleLike", null);
 exports.LikesResolver = LikesResolver = __decorate([

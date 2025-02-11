@@ -1,14 +1,13 @@
 import { ObjectType, Field, ID, InputType } from '@nestjs/graphql';
-import { BigIntScalar } from 'database-service/dist';
-import { LikeType } from '../enums/like-type.enum';
+import { BigIntScalar, LIKETYPE } from 'database-service-arth/dist';
 
 @ObjectType()
 export class LikeResponseDto {
   @Field(() =>  BigIntScalar)
   id!: bigint;
 
-  @Field(()=>LikeType)
-  type!: LikeType
+  @Field(()=>LIKETYPE)
+  type!: LIKETYPE
 
   @Field(() => BigIntScalar)
   typeId!: bigint;

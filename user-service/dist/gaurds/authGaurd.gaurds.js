@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthGuard = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
-const dist_1 = require("database-service/dist");
+const dist_1 = require("database-service-arth/dist");
 const drizzle_orm_1 = require("drizzle-orm");
 let AuthGuard = class AuthGuard {
     constructor(jwtService // Inject JwtService to verify token
@@ -24,7 +24,7 @@ let AuthGuard = class AuthGuard {
         const request = context.getArgs()[2];
         console.log(request.req);
         const token = request.req.raw?.headers.authorization;
-        const fieldName = context.getArgs()[3].fieldName;
+        const { fieldName } = context.getArgs()[3];
         // Check if the token is provided
         if (fieldName === 'login') {
             request.activityDone = fieldName;
@@ -36,6 +36,7 @@ let AuthGuard = class AuthGuard {
         try {
             // Extract the JWT payload (email and roles)
             const decodedToken = this.jwtService.verify(token);
+            console.log('decoded token: ', decodedToken);
             const { email } = decodedToken;
             const { role } = decodedToken;
             const id = decodedToken.sub;
@@ -43,7 +44,7 @@ let AuthGuard = class AuthGuard {
             const user = await dist_1.db
                 .select()
                 .from(dist_1.users)
-                .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(dist_1.users.email, email), (dist_1.users.role, role)));
+                .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(dist_1.users.email, email), (0, drizzle_orm_1.eq)(dist_1.users.role, role)));
             if (!user) {
                 throw new common_1.UnauthorizedException('Invalid email or roles');
             }

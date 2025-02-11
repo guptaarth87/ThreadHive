@@ -3,7 +3,7 @@ import {
   db,
   UserActivityDao,
   usersChannelMapping,
-} from 'database-service/dist';
+} from 'database-service-arth/dist';
 import { eq } from 'drizzle-orm';
 
 // Ensure correct import

@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StatsUserInput = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const dist_1 = require("database-service/dist");
+const dist_1 = require("database-service-arth/dist");
 let StatsUserInput = class StatsUserInput {
 };
 exports.StatsUserInput = StatsUserInput;
@@ -24,7 +24,9 @@ __decorate([
     __metadata("design:type", Date)
 ], StatsUserInput.prototype, "endDate", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => dist_1.BigIntScalar, { nullable: true }) // Assuming BigIntScalar is properly imported
+    (0, graphql_1.Field)(() => {
+        return dist_1.BigIntScalar;
+    }, { nullable: true }) // Assuming BigIntScalar is properly imported
     ,
     __metadata("design:type", BigInt)
 ], StatsUserInput.prototype, "userId", void 0);

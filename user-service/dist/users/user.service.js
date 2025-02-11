@@ -11,9 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
+const dist_1 = require("database-service-arth/dist");
 const user_dao_1 = require("./user.dao");
 const userStats_dao_1 = require("./userStats.dao");
-const dist_1 = require("database-service/dist");
 let UsersService = class UsersService {
     constructor(userDao, userStatsDao, userActivityDao) {
         this.userDao = userDao;

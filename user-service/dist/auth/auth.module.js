@@ -7,14 +7,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthModule = void 0;
+require("dotenv/config");
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
+const dist_1 = require("database-service-arth/dist");
+const user_module_1 = require("../users/user.module");
 const auth_dao_1 = require("./auth.dao");
 const auth_resolver_1 = require("./auth.resolver");
 const auth_service_1 = require("./auth.service");
-const user_module_1 = require("../users/user.module");
-const dist_1 = require("database-service/dist");
-require("dotenv/config");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;

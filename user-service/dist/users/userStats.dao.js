@@ -1,9 +1,22 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userStatsDao = void 0;
-const dist_1 = require("database-service/dist");
+const common_1 = require("@nestjs/common");
+const dist_1 = require("database-service-arth/dist");
 const drizzle_orm_1 = require("drizzle-orm");
-class userStatsDao {
+let userStatsDao = class userStatsDao {
+    constructor(userActivityDao) {
+        this.userActivityDao = userActivityDao;
+    }
     async getUserPostStats(input, context) {
         const { startDate, endDate, userId } = input;
         const conditions = [];
@@ -83,6 +96,7 @@ class userStatsDao {
                 .then((response) => {
                 return response[0]?.count || 0;
             });
+            this.userActivityDao.addUserActivity(context.activityDone, context.userId, { request: 'success' });
             return {
                 id: uid,
                 postWithMaxLikes: postWithMaxLikes.post || undefined,
@@ -96,5 +110,9 @@ class userStatsDao {
         }));
         return result;
     }
-}
+};
 exports.userStatsDao = userStatsDao;
+exports.userStatsDao = userStatsDao = __decorate([
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [dist_1.UserActivityDao])
+], userStatsDao);

@@ -4,7 +4,7 @@ import {
 } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { BigIntScalar } from 'database-service/dist';
+import { BigIntScalar } from 'database-service-arth/dist';
 
 import { AuthModule } from './auth/auth.module';
 import { ChannelsModule } from './channels/channel.module';

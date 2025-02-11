@@ -16,17 +16,32 @@ let CommentsService = class CommentsService {
     constructor(commentDao) {
         this.commentDao = commentDao;
     } // Inject `UserDao`
-    async createComment(input) {
-        return this.commentDao.createCommentDao(input);
+    async createComment(input, context) {
+        const dataObject = {
+            description: input.description,
+            createdBy: input.createdBy,
+            modifiedBy: input.createdBy,
+            postId: input.postId,
+            channelId: input.channelId,
+            createdAt: new Date(),
+            isDeleted: false,
+        };
+        return this.commentDao.createCommentDao(dataObject, context);
     }
-    async getComments() {
-        return this.commentDao.getCommentsDao();
+    async getComments(context) {
+        return this.commentDao.getCommentsDao(context);
     }
-    async deleteComment(input) {
-        return this.commentDao.deleteCommentDao(input);
+    async deleteComment(input, channelsAllowed, userId, role, context) {
+        if (await this.commentDao.canUserProceed(input.id, channelsAllowed, userId, role)) {
+            return this.commentDao.deleteCommentDao(input, context);
+        }
+        throw new common_1.UnauthorizedException('User not allowed to delete this post');
     }
-    async updateComment(input) {
-        return this.commentDao.updateComment(input);
+    async updateComment(input, channelsAllowed, userId, role, context) {
+        if (await this.commentDao.canUserProceed(input.id, channelsAllowed, userId, role)) {
+            return this.commentDao.updateComment(input, context);
+        }
+        throw new common_1.UnauthorizedException('User not allowed to delete this post');
     }
 };
 exports.CommentsService = CommentsService;
