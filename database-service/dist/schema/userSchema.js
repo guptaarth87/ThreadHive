@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.usersRelations = exports.users = void 0;
 const drizzle_orm_1 = require("drizzle-orm");
 const mysql_core_1 = require("drizzle-orm/mysql-core");
-const roleEnum_1 = require("../enums/roleEnum");
 const activitySchema_1 = require("./activitySchema");
 const commentSchema_1 = require("./commentSchema");
 const postSchema_1 = require("./postSchema");
@@ -14,7 +13,7 @@ exports.users = (0, mysql_core_1.mysqlTable)('users', {
     name: (0, mysql_core_1.varchar)('name', { length: 100 }).notNull(),
     email: (0, mysql_core_1.varchar)('email', { length: 100 }).notNull(),
     password: (0, mysql_core_1.varchar)('password', { length: 500 }).notNull(),
-    role: (0, mysql_core_1.mysqlEnum)('role', Object.values(roleEnum_1.ROLES)).notNull(),
+    role: (0, mysql_core_1.mysqlEnum)(['ADMIN', 'SUPERADMIN', 'USER']).notNull(),
     createdAt: (0, mysql_core_1.timestamp)('created_at').notNull(),
     dob: (0, mysql_core_1.date)('dob').notNull(),
     modifiedAt: (0, mysql_core_1.timestamp)('modified_at'),

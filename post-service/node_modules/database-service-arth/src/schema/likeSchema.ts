@@ -6,14 +6,16 @@ import {
   timestamp,
   uniqueIndex,
 } from 'drizzle-orm/mysql-core';
-import { LIKETYPE } from '../enums/likeTypeEnum';
+
 import { channels } from './channelSchema';
 import { posts } from './postSchema';
 import { users } from './userSchema';
 
+
 export const likes = mysqlTable('likes', {
   id: bigint('id', { mode: 'bigint' }).primaryKey().autoincrement(),
-  type: mysqlEnum('type', Object.values(LIKETYPE) as [string]).notNull(),
+  // type: mysqlEnum('type', Object.values(LIKETYPE) as [string]).notNull(),
+  type: mysqlEnum(['POST','COMMENT','REPLY']).notNull(),
   typeId: bigint('type_id', { mode: 'bigint' }).notNull(),
   likedBy: bigint('liked_by', { mode: 'bigint' })
     .references(

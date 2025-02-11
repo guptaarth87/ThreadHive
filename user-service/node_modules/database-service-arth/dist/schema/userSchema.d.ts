@@ -75,14 +75,14 @@ export declare const users: import("drizzle-orm/mysql-core").MySqlTableWithColum
             tableName: "users";
             dataType: "string";
             columnType: "MySqlEnumColumn";
-            data: string;
+            data: "ADMIN" | "SUPERADMIN" | "USER";
             driverParam: string;
             notNull: true;
             hasDefault: false;
             isPrimaryKey: false;
             isAutoincrement: false;
             hasRuntimeDefault: false;
-            enumValues: [string];
+            enumValues: ["ADMIN", "SUPERADMIN", "USER"];
             baseColumn: never;
             identity: undefined;
             generated: undefined;

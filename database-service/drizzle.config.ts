@@ -11,7 +11,8 @@ export default defineConfig({
     user: "root",
     password: "12345",
     database: "threadhive",
+    
   },
   verbose: true
-
+  
 })

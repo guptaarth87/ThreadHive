@@ -17,11 +17,7 @@
     "forceConsistentCasingInFileNames": false,
     "skipLibCheck": true,
     "noFallthroughCasesInSwitch": false,
-    "lib": ["ESNext"],
-    "types": ["node"],
-    "moduleResolution": "node",
     
-
   },
   "exclude": ["node_modules", "test", "dist", "**/*spec.ts"],
   "include": ["src/**/*"]

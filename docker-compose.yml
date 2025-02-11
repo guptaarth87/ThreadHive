@@ -1,19 +1,4 @@
-
 services:
-  database:
-    image: mysql:latest
-    container_name: mysql_db
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: threadhive
-      MYSQL_USER: arth
-      MYSQL_PASSWORD: 12345
-    ports:
-      - "3309:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-
   redis:
     image: redis:latest
     container_name: redis_cache
@@ -24,10 +9,8 @@ services:
   database-service:
     build: ./database-service
     container_name: database-service
-    depends_on:
-      - database
     environment:
-      DATABASE_URL: mysql://root:12345@mysql_db:3306/mydb
+      DATABASE_URL: mysql://root:12345@localhost:3306/threadhive  # Use localhost since MySQL is inside this container
 
   post-service:
     build: ./post-service
@@ -40,9 +23,8 @@ services:
       - ./post-service:/app
       - /app/node_modules
     command: ["node", "dist/main.js"]
-
     environment:
-      DATABASE_URL: mysql://root:12345@mysql_db:3306/mydb
+      DATABASE_URL: mysql://root:12345@database-service:3306/threadhive  # Use database-service
       REDIS_URL: redis://redis_cache:6379
 
   user-service:
@@ -57,7 +39,7 @@ services:
       - /app/node_modules
     command: ["node", "dist/main.js"]
     environment:
-      DATABASE_URL: mysql://root:12345@mysql_db:3306/mydb
+      DATABASE_URL: mysql://root:12345@database-service:3306/threadhive  # Use database-service
       REDIS_URL: redis://redis_cache:6379
 
   gateway:
@@ -72,10 +54,8 @@ services:
       - ./gateway:/app  # Ensure the latest code is used
       - /app/node_modules  # Prevent conflicts with host node_modules
     command: ["node", "dist/main.js"]  # Run compiled JavaScript
-
     environment:
-      POST_SERVICE_URL: http://post-service:3000/graphql
-      USER_SERVICE_URL: http://user-service:4000/graphql
+      POST_SERVICE_URL: http://post-service:4000/graphql
+      USER_SERVICE_URL: http://user-service:3000/graphql
 
-volumes:
-  mysql_data:
+volumes: {}
