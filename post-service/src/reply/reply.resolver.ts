@@ -32,7 +32,7 @@ export class RepliesResolver {
   ): Promise<string> {
     if (
       context.channelsAllowed.includes(input.channelId) &&
-      context.userId === input.createdBy
+      context.userId.toString() === input.createdBy.toString()
     ) {
       return this.repliesService.createReply(input, context);
     }

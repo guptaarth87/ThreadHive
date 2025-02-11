@@ -31,10 +31,10 @@ export class PostsResolver {
     @Args('input') input: CreatePostInput,
     @Context() context: AuthGaurdContextDto
   ): Promise<string> {
-    console.log(context);
+   
     if (
       context.channelsAllowed.includes(input.channelId) &&
-      context.userId === input.createdBy
+      context.userId.toString() === input.createdBy.toString()
     ) {
       return this.postsService.createPost(input, context);
     }

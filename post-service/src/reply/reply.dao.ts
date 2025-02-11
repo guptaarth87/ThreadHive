@@ -22,7 +22,14 @@ export class ReplyDao {
         await this.userActivityDao.addUserActivity(
           context.activityDone,
           context.userId,
-          input
+          {
+            ...input,
+            commentId : input.channelId.toString(),
+            createdBy: input.createdBy.toString(),
+            modifiedBy: input.modifiedBy.toString(),
+            channelId: input.channelId.toString(),
+            postId: input.postId.toString(),
+          }
         );
         return 'ok done with status 200';
       }
@@ -141,7 +148,7 @@ export class ReplyDao {
       if (role === 'ADMIN') {
         return channelsAllowed.includes(record.channelId);
       }
-      return record.createdBy === userId;
+      return record.createdBy.toString() === userId.toString();
     }
     return false;
   }

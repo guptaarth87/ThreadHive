@@ -19,7 +19,7 @@ export class userStatsDao {
   constructor (private readonly userActivityDao: UserActivityDao) {}
   async getUserPostStats (input: StatsUserInput, context: AuthGaurdContextDto) {
     const { startDate, endDate, userId } = input;
-
+    console.log(startDate, endDate, userId)
     const conditions: SQL[] = [];
 
     if (startDate) {

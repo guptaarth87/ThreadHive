@@ -18,7 +18,14 @@ export class CommentDao {
         await this.userActivityDao.addUserActivity(
           context.activityDone,
           context.userId,
-          input
+          {
+            ...input,
+            createdBy: input.createdBy.toString(),
+            postId: input.postId.toString(),
+            modifiedBy: input.modifiedBy.toString(),
+            channelId: input.channelId.toString(),
+            
+          }
         );
         return 'ok done with status 200';
       }
@@ -130,7 +137,7 @@ export class CommentDao {
       if (role === 'ADMIN') {
         return channelsAllowed.includes(record.channelId);
       }
-      return record.createdBy === userId;
+      return record.createdBy.toString() === userId.toString();
     }
     return false;
   }

@@ -33,7 +33,7 @@ export class CommentsResolver {
   ): Promise<string> {
     if (
       context.channelsAllowed.includes(input.channelId) &&
-      context.userId === input.createdBy
+      context.userId.toString() === input.createdBy.toString()
     ) {
       return this.commentsService.createComment(input,context);
     }
